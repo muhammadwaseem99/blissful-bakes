@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blissful Bakes | Luxury Patisserie</title>
+    <title>Blissful Bakes | Delight in Every Bite</title>
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap');
 
         :root {
-            --dark-bg: #121212;
-            --dark-card: #1e1e1e;
+            --bg-color: #0c0b0a;
+            --card-bg: #161412;
             --gold: #D4AF37;
             --gold-light: #F3E5AB;
-            --text-light: #E0E0E0;
-            --text-muted: #B0B0B0;
+            --text-light: #F5F1EB;
+            --text-muted: #C5BCB3;
+            --accent-pink: #E8C5C8;
             --smooth-radius: 12px;
             --transition: all 0.4s ease;
         }
@@ -29,15 +30,14 @@
 
         body {
             font-family: 'Lato', sans-serif;
-            background-color: var(--dark-bg);
+            background-color: var(--bg-color);
             color: var(--text-light);
             line-height: 1.6;
             overflow-x: hidden;
         }
 
-        h1, h2, h3, .logo {
+        h1, h2, h3, .logo-text {
             font-family: 'Playfair Display', serif;
-            font-weight: 600;
         }
 
         /* --- Navbar --- */
@@ -45,8 +45,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 25px 8%;
-            background: rgba(18, 18, 18, 0.95);
+            padding: 20px 6%;
+            background: rgba(12, 11, 10, 0.95);
             backdrop-filter: blur(10px);
             position: fixed;
             width: 100%;
@@ -55,24 +55,38 @@
             border-bottom: 1px solid rgba(212, 175, 55, 0.2);
         }
 
-        .logo {
-            font-size: 28px;
-            color: var(--gold);
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
             text-decoration: none;
-            letter-spacing: 2px;
+        }
+
+        .nav-brand img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 1px solid var(--gold);
+        }
+
+        .nav-brand span {
+            color: var(--gold);
+            font-size: 20px;
+            letter-spacing: 1px;
+            font-weight: 600;
         }
 
         .nav-links {
             list-style: none;
             display: flex;
-            gap: 30px;
+            gap: 25px;
         }
 
         .nav-links a {
             color: var(--text-light);
             text-decoration: none;
+            font-size: 13px;
             text-transform: uppercase;
-            font-size: 14px;
             letter-spacing: 1px;
             transition: var(--transition);
         }
@@ -81,414 +95,727 @@
             color: var(--gold);
         }
 
+        .btn-nav-whatsapp {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 13px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .btn-nav-whatsapp:hover {
+            background: var(--gold);
+            color: var(--bg-color);
+        }
+
         /* --- Hero Section --- */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: center;
-            text-align: center;
-            background: linear-gradient(rgba(18, 18, 18, 0.85), rgba(18, 18, 18, 0.95)), url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=2560&q=100') center/cover;
-            padding: 140px 20px 80px 20px;
+            justify-content: space-between;
+            padding: 140px 8% 80px 8%;
+            background: linear-gradient(rgba(12, 11, 10, 0.9), rgba(12, 11, 10, 0.95)), url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=2560&q=100') center/cover;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 600px;
+        }
+
+        .hero-content h4 {
+            color: var(--gold);
+            font-style: italic;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
         }
 
         .hero-content h1 {
-            font-size: 4.5rem;
-            color: var(--gold);
-            margin-bottom: 20px;
-            animation: fadeInDown 1.2s ease;
+            font-size: 3.8rem;
+            color: var(--text-light);
+            line-height: 1.2;
+            margin-bottom: 15px;
         }
 
         .hero-content p {
-            font-size: 1.15rem;
             color: var(--text-muted);
-            max-width: 800px;
-            margin: 0 auto 30px;
-            animation: fadeInUp 1.2s ease;
-            line-height: 1.8;
+            font-size: 1.05rem;
+            margin-bottom: 30px;
         }
 
-        .btn-gold {
-            display: inline-block;
-            padding: 15px 40px;
-            border: 1px solid var(--gold);
-            color: var(--gold);
+        .btn-gold-fill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            background: var(--gold);
+            color: var(--bg-color);
             text-decoration: none;
+            font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             border-radius: 30px;
             transition: var(--transition);
-            background: transparent;
-            animation: fadeInUp 1.5s ease;
         }
 
-        .btn-gold:hover {
-            background: var(--gold);
-            color: var(--dark-bg);
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        .btn-gold-fill:hover {
+            background: var(--gold-light);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
         }
 
-        /* --- Products Section --- */
-        .section {
-            padding: 100px 8%;
+        .hero-badge-img {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            border: 3px solid var(--gold);
+            object-fit: cover;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+            animation: float 4s ease-in-out infinite;
         }
 
-        .section-title {
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* --- Specialties Icons Section --- */
+        .specialties {
+            padding: 50px 8%;
+            background: #12100e;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .section-header {
             text-align: center;
-            font-size: 3rem;
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
             color: var(--gold);
-            margin-bottom: 60px;
+            letter-spacing: 2px;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+
+        .spec-item {
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: var(--smooth-radius);
+            border: 1px solid rgba(255,255,255,0.03);
+            transition: var(--transition);
+        }
+
+        .spec-item:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+        }
+
+        .spec-item i {
+            font-size: 2.2rem;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+
+        .spec-item span {
+            display: block;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+        }
+
+        /* --- Menu Section --- */
+        .menu-section {
+            padding: 90px 8%;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
         }
 
         .card {
-            background: var(--dark-card);
+            background: var(--card-bg);
             border-radius: var(--smooth-radius);
             overflow: hidden;
-            transition: var(--transition);
             border: 1px solid rgba(255,255,255,0.05);
+            transition: var(--transition);
             display: flex;
             flex-direction: column;
         }
 
         .card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(212, 175, 55, 0.3);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+            transform: translateY(-8px);
+            border-color: rgba(212, 175, 55, 0.4);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.6);
         }
 
         .card img {
             width: 100%;
-            height: 300px;
+            height: 260px;
             object-fit: cover;
-            transition: var(--transition);
         }
 
-        .card:hover img {
-            transform: scale(1.05);
-        }
-
-        .card-content {
-            padding: 25px;
+        .card-body {
+            padding: 22px;
             text-align: center;
             display: flex;
             flex-direction: column;
             flex-grow: 1;
         }
 
-        .card-content h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
+        .card-body h3 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
             color: var(--text-light);
-        }
-
-        .card-content p {
-            margin-bottom: auto;
-            color: var(--text-muted);
         }
 
         .price {
             color: var(--gold);
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: bold;
-            margin-top: 15px;
+            margin: 12px 0;
             display: block;
         }
 
-        /* WhatsApp Button Styling */
-        .btn-whatsapp {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 20px;
+        .btn-whatsapp-card {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: auto;
+            padding: 10px 18px;
             background-color: #25D366;
             color: white;
             text-decoration: none;
             border-radius: 30px;
-            font-weight: bold;
-            font-size: 1rem;
+            font-weight: 600;
+            font-size: 0.9rem;
             transition: var(--transition);
         }
 
-        .btn-whatsapp i {
-            margin-right: 8px;
-            font-size: 1.2rem;
-        }
-
-        .btn-whatsapp:hover {
+        .btn-whatsapp-card:hover {
             background-color: #128C7E;
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+            transform: scale(1.03);
         }
 
-        /* --- Google Maps Store Gallery Section --- */
-        .gallery-section {
-            padding: 80px 8%;
-            background: #151515;
-            border-top: 1px solid rgba(212, 175, 55, 0.1);
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: var(--smooth-radius);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            height: 250px;
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition);
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.1);
-        }
-
-        /* --- About Store Section --- */
+        /* --- About Section --- */
         .about-section {
-            padding: 100px 8%;
-            background: #171717;
+            padding: 90px 8%;
+            background: #141210;
             border-top: 1px solid rgba(212, 175, 55, 0.1);
             border-bottom: 1px solid rgba(212, 175, 55, 0.1);
         }
 
-        .about-container {
-            max-width: 900px;
-            margin: 0 auto;
-            text-align: center;
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 50px;
+            align-items: center;
         }
 
-        .about-container h2 {
-            font-size: 3rem;
+        .about-img img {
+            width: 100%;
+            border-radius: var(--smooth-radius);
+            border: 2px solid var(--gold);
+            height: 380px;
+            object-fit: cover;
+        }
+
+        .about-text h2 {
+            font-size: 2.8rem;
             color: var(--gold);
-            margin-bottom: 25px;
+            margin-bottom: 15px;
         }
 
-        .about-container p {
-            font-size: 1.15rem;
+        .about-text p {
             color: var(--text-muted);
-            line-height: 1.8;
+            margin-bottom: 25px;
+            font-size: 1.05srem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .feature-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .feature-box i {
+            font-size: 1.8rem;
+            color: var(--gold);
+            background: var(--card-bg);
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .feature-box h4 {
+            font-size: 1rem;
+            color: var(--text-light);
+            margin-bottom: 4px;
+        }
+
+        .feature-box p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* --- Gallery & Reviews & Map Section --- */
+        .bottom-grid-section {
+            padding: 90px 8%;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+        }
+
+        .box-container {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--smooth-radius);
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .box-container h3 {
+            color: var(--gold);
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        /* Gallery Grid inside container */
+        .mini-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
             margin-bottom: 20px;
         }
 
-        /* Animations */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
+        .mini-gallery img {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
         }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        /* Testimonial */
+        .testimonial-box {
+            text-align: center;
+            margin: auto 0;
+        }
+
+        .testimonial-box i {
+            color: var(--gold);
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .testimonial-box p {
+            color: var(--text-muted);
+            font-style: italic;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .stars {
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+
+        .client-name {
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        /* Map Box */
+        .map-preview {
+            width: 100%;
+            height: 180px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            margin-bottom: 15px;
+        }
+
+        .map-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .btn-outline-gold {
+            display: block;
+            text-align: center;
+            padding: 10px;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: var(--transition);
+        }
+
+        .btn-outline-gold:hover {
+            background: var(--gold);
+            color: var(--bg-color);
         }
 
         /* --- Footer --- */
         footer {
-            text-align: center;
-            padding: 50px 20px;
+            background: #060504;
+            padding: 60px 8% 30px 8%;
             border-top: 1px solid rgba(212, 175, 55, 0.2);
-            background: #0a0a0a;
         }
 
-        footer p {
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+            align-items: center;
+            text-align: center;
+        }
+
+        .footer-col p {
             color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-        }
-        
-        .contact-info {
-            color: var(--gold);
-            font-weight: bold;
-            margin-bottom: 20px;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
         }
 
-        .btn-map {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 12px 30px;
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-icons a {
+            width: 40px;
+            height: 40px;
+            background: var(--card-bg);
             border: 1px solid var(--gold);
             color: var(--gold);
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
             transition: var(--transition);
-            background: transparent;
-            font-size: 0.9rem;
+            text-decoration: none;
         }
 
-        .btn-map:hover {
+        .social-icons a:hover {
             background: var(--gold);
-            color: var(--dark-bg);
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+            color: var(--bg-color);
+        }
+
+        .copyright {
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 20px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive Design */
+        @media(max-width: 900px) {
+            .hero { flex-direction: column; text-align: center; gap: 40px; padding-top: 120px; }
+            .hero-content { max-width: 100%; }
+            .about-grid { grid-template-columns: 1fr; }
+            .bottom-grid-section { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Navbar -->
     <nav>
-        <a href="#" class="logo">Blissful Bakes</a>
+        <a href="#" class="nav-brand">
+            <img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWkvP6K2-GtcJmx-oxpmvdWpefYGtyersJk-aBHcw9M2d6fZyq8VnWA2QEMdmv1bo2gVKy-Zvf-8X_2rjPXl_yc5cOjXz17uR1op69hKbkzTvmuZschAvvSuCRbZPq-gWtCv9Kla3SD1-DEH=w129-h86-k-no" alt="Logo">
+            <span>Blissful Bakes</span>
+        </a>
         <ul class="nav-links">
             <li><a href="#home">Home</a></li>
             <li><a href="#menu">Our Menu</a></li>
-            <li><a href="#gallery">Store Gallery</a></li>
             <li><a href="#about">About</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#contact">Contact</a></li>
         </ul>
+        <a href="https://wa.me/923714079790?text=Assalam-o-Alaikum!%20Mujhe%20order%20dena%20hai." class="btn-nav-whatsapp" target="_blank">
+            <i class="fa-brands fa-whatsapp"></i> Order on WhatsApp
+        </a>
     </nav>
 
+    <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="hero-content">
-            <h1>Delight in Every Bite</h1>
-            <p>Blissful Bakes is a Home Based Bakery Offering Freshly Baked, Soft and Hygienic Customized Cakes made with Premium Ingredients. We Specialize in Birthday Cakes, Anniversary Cakes, Bento Cakes, Customized Theme Cakes and Cupcakes.🧁🎂 All Prepared with Love and Attention to Detail.❤️ Every Order is Baked Fresh to Ensure Best Taste and Quality.😋😋 We Focus on Neat Finishing, Balanced Sweetness and Soft Sponge to make Your Celebrations Extra Special.☺️😊</p>
-            <a href="#menu" class="btn-gold">Explore Menu</a>
+            <h4>Welcome to</h4>
+            <h1>BLISSFUL BAKES</h1>
+            <p style="color: var(--gold); font-size: 1.2rem; margin-bottom: 15px;"><i class="fa-solid fa-heart"></i> Delight in Every Bite <i class="fa-solid fa-heart"></i></p>
+            <p>Indulge in handcrafted cakes, cupcakes, brownies and desserts made with love and the finest ingredients.</p>
+            <a href="https://wa.me/923714079790?text=Assalam-o-Alaikum!%20Mujhe%20order%20dena%20hai." class="btn-gold-fill" target="_blank">
+                <i class="fa-brands fa-whatsapp"></i> Order Now on WhatsApp
+            </a>
+        </div>
+        <div>
+            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80" alt="Featured Cake" class="hero-badge-img">
+        </div>
+    </section>
+
+    <!-- Specialties Icons -->
+    <section class="specialties">
+        <div class="section-header">
+            <h2>OUR SPECIALTIES</h2>
+        </div>
+        <div class="specs-grid">
+            <div class="spec-item">
+                <i class="fa-solid fa-cake-candles"></i>
+                <span>Cakes</span>
+            </div>
+            <div class="spec-item">
+                <i class="fa-solid fa-cookie"></i>
+                <span>Cupcakes</span>
+            </div>
+            <div class="spec-item">
+                <i class="fa-solid fa-square"></i>
+                <span>Brownies</span>
+            </div>
+            <div class="spec-item">
+                <i class="fa-solid fa-ice-cream"></i>
+                <span>Desserts</span>
+            </div>
+            <div class="spec-item">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>Custom Orders</span>
+            </div>
         </div>
     </section>
 
     <!-- Menu Section -->
-    <section class="section" id="menu">
-        <h2 class="section-title">Our Signature Menu</h2>
+    <section class="menu-section" id="menu">
+        <div class="section-header">
+            <h2>OUR MENU</h2>
+        </div>
         <div class="grid">
-            
-            <!-- Item 1: Bento Cake -->
+            <!-- Item 1 -->
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=1920&q=100" alt="Bento Cake">
-                <div class="card-content">
-                    <h3>Custom Bento Cake</h3>
-                    <p>Mini lunchbox cake perfect for small celebrations and surprises</p>
-                    <span class="price">Rs. 1,500</span>
-                    <a href="https://wa.me/923714079790?text=Assalam-o-Alaikum!%20Mujhe%20Custom%20Bento%20Cake%20ka%20order%20dena%20hai." class="btn-whatsapp" target="_blank">
+                <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80" alt="Chocolate Cake">
+                <div class="card-body">
+                    <h3>Chocolate Cake</h3>
+                    <p style="color:var(--text-muted); font-size:0.9rem;">Rich layered chocolate fudge cake</p>
+                    <span class="price">Rs. 2,500</span>
+                    <a href="https://wa.me/923714079790?text=Assalam-o-Alaikum!%20Mujhe%20Chocolate%20Cake%20ka%20order%20dena%20hai." class="btn-whatsapp-card" target="_blank">
                         <i class="fa-brands fa-whatsapp"></i> Order on WhatsApp
                     </a>
                 </div>
             </div>
 
-            <!-- Item 2: Birthday Cake -->
+            <!-- Item 2 -->
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1920&q=100" alt="Birthday Cake">
-                <div class="card-content">
-                    <h3>Custom Birthday Cake</h3>
-                    <p>Fully customized theme cakes designed to make birthdays unforgettable</p>
-                    <span class="price">Rs. 1,500</span>
-                    <a href="https://wa.me/923714079790?text=Assalam-o-Alaikum!%20Mujhe%20Custom%20Birthday%20Cake%20ka%20order%20dena%20hai." class="btn-whatsapp" target="_blank">
+                <img src="https://images.unsplash.com/photo-1586788680341-c866d74f9cf2?auto=format&fit=crop&w=800&q=80" alt="Red Velvet Cake">
+                <div class="card-body">
+                    <h3>Red Velvet Cake</h3>
+                    <p style="color:var(--text-muted); font-size:0.9rem;">Classic soft sponge with cream cheese</p>
+                    <span class="price">Rs. 2,800</span>
+                    <a href="https://wa.me/923714079790?text=Assalam-o-Alaikum!%20Mujhe%20Red%20Velvet%20Cake%20ka%20order%20dena%20hai." class="btn-whatsapp-card" target="_blank">
                         <i class="fa-brands fa-whatsapp"></i> Order on WhatsApp
                     </a>
                 </div>
             </div>
 
-            <!-- Item 3: Anniversary Cake -->
+            <!-- Item 3 -->
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=1920&q=100" alt="Anniversary Cake">
-                <div class="card-content">
-                    <h3>Luxury Anniversary Cake</h3>
-                    <p>Elegant designs with delicate details for your special milestones</p>
-                    <span class="price">Rs. 4,000</span>
-                    <a href="https://wa.me/923714079790?text=Assalam-o-Alaikum!%20Mujhe%20Luxury%20Anniversary%20Cake%20ka%20order%20dena%20hai." class="btn-whatsapp" target="_blank">
+                <img src="https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?auto=format&fit=crop&w=800&q=80" alt="Chocolate Cupcake">
+                <div class="card-body">
+                    <h3>Chocolate Cupcake</h3>
+                    <p style="color:var(--text-muted); font-size:0.9rem;">Fluffy cupcake with chocolate frosting</p>
+                    <span class="price">Rs. 250</span>
+                    <a href="https://wa.me/923714079790?text=Assalam-o-Alaikum!%20Mujhe%20Chocolate%20Cupcake%20ka%20order%20dena%20hai." class="btn-whatsapp-card" target="_blank">
                         <i class="fa-brands fa-whatsapp"></i> Order on WhatsApp
                     </a>
                 </div>
             </div>
 
-            <!-- Item 4: Cupcakes -->
+            <!-- Item 4 -->
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=1920&q=100" alt="Cupcakes">
-                <div class="card-content">
-                    <h3>Assorted Cupcakes (Box of 6)</h3>
-                    <p>Soft, fluffy cupcakes topped with creamy frosting in various flavors</p>
-                    <span class="price">Rs. 1,800</span>
-                    <a href="https://wa.me/923714079790?text=Assalam-o-Alaikum!%20Mujhe%20Assorted%20Cupcakes%20ka%20order%20dena%20hai." class="btn-whatsapp" target="_blank">
+                <img src="https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=800&q=80" alt="Vanilla Cupcake">
+                <div class="card-body">
+                    <h3>Vanilla Cupcake</h3>
+                    <p style="color:var(--text-muted); font-size:0.9rem;">Soft vanilla sponge with pastel frosting</p>
+                    <span class="price">Rs. 250</span>
+                    <a href="https://wa.me/923714079790?text=Assalam-o-Alaikum!%20Mujhe%20Vanilla%20Cupcake%20ka%20order%20dena%20hai." class="btn-whatsapp-card" target="_blank">
                         <i class="fa-brands fa-whatsapp"></i> Order on WhatsApp
                     </a>
                 </div>
             </div>
 
-            <!-- Item 5: Chocolate Truffle -->
+            <!-- Item 5 -->
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?auto=format&fit=crop&w=1920&q=100" alt="Chocolate Truffle">
-                <div class="card-content">
-                    <h3>Dark Truffle Magic</h3>
-                    <p>Rich Belgian chocolate with a fudgy core and neat finishing</p>
-                    <span class="price">Rs. 4,200</span>
-                    <a href="https://wa.me/923714079790?text=Assalam-o-Alaikum!%20Mujhe%20Dark%20Truffle%20Magic%20Cake%20ka%20order%20dena%20hai." class="btn-whatsapp" target="_blank">
+                <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=800&q=80" alt="Fudgy Brownie">
+                <div class="card-body">
+                    <h3>Fudgy Brownie</h3>
+                    <p style="color:var(--text-muted); font-size:0.9rem;">Rich chocolate brownie square</p>
+                    <span class="price">Rs. 350</span>
+                    <a href="https://wa.me/923714079790?text=Assalam-o-Alaikum!%20Mujhe%20Fudgy%20Brownie%20ka%20order%20dena%20hai." class="btn-whatsapp-card" target="_blank">
                         <i class="fa-brands fa-whatsapp"></i> Order on WhatsApp
                     </a>
                 </div>
             </div>
 
-            <!-- Item 6: Velvet Strawberry -->
+            <!-- Item 6 -->
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1571115177098-24ec42ed204d?auto=format&fit=crop&w=1920&q=100" alt="Strawberry Cake">
-                <div class="card-content">
-                    <h3>Velvet Strawberry</h3>
-                    <p>Classic soft sponge layered with fresh organic strawberries and cream</p>
-                    <span class="price">Rs. 3,800</span>
-                    <a href="https://wa.me/923714079790?text=Assalam-o-Alaikum!%20Mujhe%20Velvet%20Strawberry%20Cake%20ka%20order%20dena%20hai." class="btn-whatsapp" target="_blank">
+                <img src="https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?auto=format&fit=crop&w=800&q=80" alt="Chocolate Truffles">
+                <div class="card-body">
+                    <h3>Chocolate Truffles</h3>
+                    <p style="color:var(--text-muted); font-size:0.9rem;">Box of handmade chocolate truffles</p>
+                    <span class="price">Rs. 500 (Box)</span>
+                    <a href="https://wa.me/923714079790?text=Assalam-o-Alaikum!%20Mujhe%20Chocolate%20Truffles%20ka%20order%20dena%20hai." class="btn-whatsapp-card" target="_blank">
                         <i class="fa-brands fa-whatsapp"></i> Order on WhatsApp
                     </a>
                 </div>
-            </div>
-
-            <!-- Item 7: New Item Example (Aap yahan price ya naam tabdeel kar sakte hain) -->
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=1920&q=100" alt="Special Pastry">
-                <div class="card-content">
-                    <h3>Special Cream Pastry</h3>
-                    <p>Fresh layered pastry topped with glazed seasonal fruits</p>
-                    <span class="price">Rs. 500</span>
-                    <a href="https://wa.me/923714079790?text=Assalam-o-Alaikum!%20Mujhe%20Special%20Cream%20Pastry%20ka%20order%20dena%20hai." class="card-content btn-whatsapp" style="margin-top:20px; padding:12px 20px; background-color:#25D366; color:white; border-radius:30px; text-decoration:none; font-weight:bold;" target="_blank">
-                        <i class="fa-brands fa-whatsapp"></i> Order on WhatsApp
-                    </a>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- Google Maps Store Gallery Section -->
-    <section class="gallery-section" id="gallery">
-        <h2 class="section-title">Store & Kitchen Gallery</h2>
-        <div class="gallery-grid">
-            <div class="gallery-item">
-                <img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWkvP6K2-GtcJmx-oxpmvdWpefYGtyersJk-aBHcw9M2d6fZyq8VnWA2QEMdmv1bo2gVKy-Zvf-8X_2rjPXl_yc5cOjXz17uR1op69hKbkzTvmuZschAvvSuCRbZPq-gWtCv9Kla3SD1-DEH=w600-h400-k-no" alt="Blissful Bakes Store View 1">
-            </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80" alt="Fresh Bakery Products">
-            </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=80" alt="Baking Process">
             </div>
         </div>
     </section>
 
-    <!-- About Store Section -->
+    <!-- About Section -->
     <section class="about-section" id="about">
-        <div class="about-container">
-            <h2>About Our Store</h2>
-            <p>Welcome to <strong>Blissful Bakes</strong>! We are a passionate home-based bakery located in Lahore, dedicated to turning your sweet moments into unforgettable memories. Our kitchen is built on strict standards of hygiene, premium ingredients, and boundless creativity.</p>
-            <p>Whether you want to visit our verified store location or order right from the comfort of your home, we ensure every single cake is crafted fresh to order. You can find our official store on Google Maps to check customer reviews, directions, or connect instantly via WhatsApp!</p>
-            <a href="https://www.google.com/maps/place/Blissful+Bakes%F0%9F%8E%82+Home+Baker+%F0%9F%8D%AE/@31.5921468,74.3733316,3a,75y/data=!3m8!1e2!3m6!1sCIABIhDwG7v_xcKrv7fe5cSywD5j!2e10!3e12!6shttps:%2F%2Flh3.googleusercontent.com%2Fgps-cs-s%2FAHRPTWkvP6K2-GtcJmx-oxpmvdWpefYGtyersJk-aBHcw9M2d6fZyq8VnWA2QEMdmv1bo2gVKy-Zvf-8X_2rjPXl_yc5cOjXz17uR1op69hKbkzTvmuZschAvvSuCRbZPq-gWtCv9Kla3SD1-DEH%3Dw129-h86-k-no!7i1536!8i1024!4m11!1m2!2m1!1sblissful+bakes+near+me+lahore!3m7!1s0x39191bcf874a17e9:0xdb3da5e3f770a0a0!8m2!3d31.5921426!4d74.3733378!10e5!15sCh1ibGlzc2Z1bCBiYWtlcyBuZWFyIG1lIGxhaG9yZVofIh1ibGlzc2Z1bCBiYWtlcyBuZWFyIG1lIGxhaG9yZZIBBmJha2VyeZoBRENpOURRVWxSUVVOdlpFTm9kSGxqUmpsdlQyNUtUbU5ZUm5kamFrcDFVbFZSTWxvd1NqTmpSVXBLVEZSb1IxcFZSUkFC4AEA-gEECAAQJg!16s%2Fg%2F11yzsfj7lf?entry=ttu&g_ep=EgoyMDI2MDgxOS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn-map">
-                <i class="fa-solid fa-location-dot"></i> View Store on Google Maps
+        <div class="about-grid">
+            <div class="about-img">
+                <img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWkvP6K2-GtcJmx-oxpmvdWpefYGtyersJk-aBHcw9M2d6fZyq8VnWA2QEMdmv1bo2gVKy-Zvf-8X_2rjPXl_yc5cOjXz17uR1op69hKbkzTvmuZschAvvSuCRbZPq-gWtCv9Kla3SD1-DEH=w600-h400-k-no" alt="Store">
+            </div>
+            <div class="about-text">
+                <h2>Baked with Passion,<br>Made for Happiness</h2>
+                <p>At Blissful Bakes, every treat is a piece of art. We use premium ingredients and pour our heart into every creation to make your moments unforgettable.</p>
+                <div class="features-grid">
+                    <div class="feature-box">
+                        <i class="fa-solid fa-seedling"></i>
+                        <div>
+                            <h4>Premium Ingredients</h4>
+                            <p>We use only the finest ingredients.</p>
+                        </div>
+                    </div>
+                    <div class="feature-box">
+                        <i class="fa-solid fa-heart"></i>
+                        <div>
+                            <h4>Handcrafted with Love</h4>
+                            <p>Every item is handmade with care.</p>
+                        </div>
+                    </div>
+                    <div class="feature-box">
+                        <i class="fa-solid fa-cake-candles"></i>
+                        <div>
+                            <h4>Custom Made</h4>
+                            <p>Custom cakes for your celebrations.</p>
+                        </div>
+                    </div>
+                    <div class="feature-box">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <div>
+                            <h4>Hygienic & Fresh</h4>
+                            <p>100% hygiene and freshly baked.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom 3 Boxes: Gallery, Reviews, Find Us -->
+    <section class="bottom-grid-section" id="gallery">
+        <!-- Gallery Box -->
+        <div class="box-container">
+            <h3>GALLERY</h3>
+            <div class="mini-gallery">
+                <img src="https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=400&q=80" alt="Gallery 1">
+                <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=400&q=80" alt="Gallery 2">
+                <img src="https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=400&q=80" alt="Gallery 3">
+                <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=400&q=80" alt="Gallery 4">
+                <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=400&q=80" alt="Gallery 5">
+                <img src="https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?auto=format&fit=crop&w=400&q=80" alt="Gallery 6">
+            </div>
+            <a href="#menu" class="btn-outline-gold" style="margin-top: auto;">View All Photos</a>
+        </div>
+
+        <!-- Customer Reviews Box -->
+        <div class="box-container">
+            <h3>CUSTOMER REVIEWS</h3>
+            <div class="testimonial-box">
+                <i class="fa-solid fa-quote-left"></i>
+                <p>"The cake was beyond amazing! Super soft, fresh and beautifully designed. Highly recommended!"</p>
+                <div class="stars">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <div class="client-name">- Ayesha Khan</div>
+            </div>
+        </div>
+
+        <!-- Find Us Box -->
+        <div class="box-container" id="contact">
+            <h3>FIND US</h3>
+            <div class="map-preview">
+                <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=600&q=80" alt="Map Location">
+            </div>
+            <a href="https://www.google.com/maps/place/Blissful+Bakes%F0%9F%8E%82+Home+Baker+%F0%9F%8D%AE/@31.5921468,74.3733316,3a,75y/data=!3m8!1e2!3m6!1sCIABIhDwG7v_xcKrv7fe5cSywD5j!2e10!3e12!6shttps:%2F%2Flh3.googleusercontent.com%2Fgps-cs-s%2FAHRPTWkvP6K2-GtcJmx-oxpmvdWpefYGtyersJk-aBHcw9M2d6fZyq8VnWA2QEMdmv1bo2gVKy-Zvf-8X_2rjPXl_yc5cOjXz17uR1op69hKbkzTvmuZschAvvSuCRbZPq-gWtCv9Kla3SD1-DEH%3Dw129-h86-k-no!7i1536!8i1024!4m11!1m2!2m1!1sblissful+bakes+near+me+lahore!3m7!1s0x39191bcf874a17e9:0xdb3da5e3f770a0a0!8m2!3d31.5921426!4d74.3733378!10e5!15sCh1ibGlzc2Z1bCBiYWtlcyBuZWFyIG1lIGxhaG9yZVofIh1ibGlzc2Z1bCBiYWtlcyBuZWFyIG1lIGxhaG9yZZIBBmJha2VyeZoBRENpOURRVWxSUVVOdlpFTm9kSGxqUmpsdlQyNUtUbU5ZUm5kamFrcDFVbFZSTWxvd1NqTmpSVXBLVEZSb1IxcFZSUkFC4AEA-gEECAAQJg!16s%2Fg%2F11yzsfj7lf?entry=ttu&g_ep=EgoyMDI2MDgxOS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn-outline-gold" style="margin-top: auto;">
+                <i class="fa-solid fa-location-dot"></i> View on Google Maps
             </a>
         </div>
     </section>
 
+    <!-- Footer -->
     <footer>
-        <p class="contact-info"><i class="fa-brands fa-whatsapp"></i> +92 371 4079790</p>
-        <p>&copy; 2026 Blissful Bakes. All Rights Reserved.</p>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <p><i class="fa-brands fa-whatsapp" style="color:var(--gold); font-size:1.2rem;"></i> <strong>ORDER ON WHATSAPP</strong></p>
+                <p style="color:var(--gold); font-size:1.1rem; margin-top:5px;">+92 371 4079790</p>
+                <p style="font-size:0.85rem; margin-top:5px;">Place your order easily on WhatsApp</p>
+            </div>
+            <div class="footer-col">
+                <p><strong>FOLLOW US</strong></p>
+                <div class="social-icons">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <p><strong>OPENING HOURS</strong></p>
+                <p style="margin-top:5px;">Monday – Sunday<br>10:00 AM – 10:00 PM</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Blissful Bakes. All Rights Reserved. | Made with ❤️ for our lovely customers</p>
+        </div>
     </footer>
 
 </body>
