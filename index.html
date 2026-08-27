@@ -608,134 +608,41 @@
             }
         }
     
-/* ===== BLISSFUL BAKES — DARK + LIGHT PINK + GOLD THEME ===== */
-:root{
- --bg-color:#100e0d;
- --card-bg:#1a1715;
- --gold:#c99a3e;
- --gold-light:#f1d48a;
- --text-light:#fff7f2;
- --text-muted:#d6c9c2;
- --accent-pink:#f3dfe0;
- --pink-deep:#e8c7c7;
- --light-bg:#fff8f5;
- --light-card:#fffdfb;
- --light-text:#2d2420;
- --light-muted:#766965;
- --border-color:rgba(201,154,62,.30);
-}
-body{background:var(--light-bg);color:var(--light-text)}
-header{background:rgba(16,14,13,.96);border-bottom:1px solid rgba(201,154,62,.38)}
-.logo-text h1{color:var(--gold-light)}
-.logo-text p{color:#eadfd8}
-nav a{color:#fff8f2}
-nav a:hover{color:var(--gold-light)}
-.whatsapp-btn-header{border-color:var(--gold);color:var(--gold-light)}
-
-/* HERO stays rich and dark */
+/* --- Blissful Bakes: curved gold/pink divider under Home --- */
 #home{
- background:
-   radial-gradient(circle at 78% 40%,rgba(201,154,62,.10),transparent 28%),
-   linear-gradient(135deg,#211a17 0%,#100e0d 58%,#090807 100%);
- border-bottom:0;
- overflow:visible;
- z-index:2;
+    position:relative;
+    overflow:visible;
+    z-index:2;
 }
 #home::after{
- content:"";
- position:absolute;
- z-index:3;
- left:-5%;
- bottom:-48px;
- width:110%;
- height:96px;
- background:linear-gradient(135deg,#fffaf7 0%,#f5e2e1 52%,#fff8f5 100%);
- border-top:3px solid var(--gold);
- border-radius:50% 50% 0 0 / 100% 100% 0 0;
- box-shadow:0 -8px 20px rgba(0,0,0,.10);
+    content:"";
+    position:absolute;
+    z-index:5;
+    left:-5%;
+    bottom:-1px;
+    width:110%;
+    height:105px;
+    background:var(--bg-color);
+    border-top:4px solid var(--gold);
+    border-radius:50% 50% 0 0 / 100% 100% 0 0;
+    transform:translateY(55%);
+    pointer-events:none;
 }
-.hero-content h2{color:var(--gold-light)}
-.hero-content h1{color:#fff4ee}
-.hero-content .tagline{color:#f0d38d}
-.primary-btn{background:linear-gradient(135deg,#edcb72,#b98227);color:#1a120b;box-shadow:0 8px 20px rgba(201,154,62,.18)}
-.primary-btn:hover{background:#f6dfa0}
-.hero-main-cake{border-color:var(--gold);box-shadow:0 15px 40px rgba(0,0,0,.65)}
-
-/* Light pink specialty/menu area */
-.section-title{
- background:linear-gradient(135deg,#fffaf7 0%,#f5e3e2 100%);
- margin:0;
- padding:68px 5% 34px;
+#home::before{
+    content:"";
+    position:absolute;
+    z-index:6;
+    left:-5%;
+    bottom:-4px;
+    width:110%;
+    height:98px;
+    border-top:2px solid var(--gold-light);
+    border-radius:50% 50% 0 0 / 100% 100% 0 0;
+    transform:translateY(55%);
+    pointer-events:none;
 }
-.section-title h2{color:#30241f}
-.fancy-divider{color:var(--gold)}
-.fancy-divider::before,.fancy-divider::after{background:linear-gradient(90deg,transparent,var(--gold))}
-.fancy-divider::after{background:linear-gradient(90deg,var(--gold),transparent)}
-.specialties-grid{
- max-width:1100px;
- padding:8px 5% 58px;
- background:linear-gradient(135deg,#fffaf7 0%,#f5e3e2 100%);
-}
-.specialty-card{
- background:rgba(255,255,255,.70);
- border-color:#dfc9c3;
- box-shadow:0 7px 20px rgba(83,54,43,.07);
-}
-.specialty-card i{color:#8c632c}
-.specialty-card h3{color:#30241f}
-
-/* Menu */
-.menu-grid{
- background:linear-gradient(135deg,#fffaf7,#f7e7e5);
- max-width:none;
- padding:8px 5% 70px;
-}
-.menu-card{background:var(--light-card);border-color:#e5cec6;box-shadow:0 8px 25px rgba(77,50,41,.10)}
-.menu-card-body h3{color:#30241f}
-.menu-card-body .price{color:#875d35}
-.whatsapp-order-btn{background:#25d366;box-shadow:0 4px 12px rgba(37,211,102,.14)}
-
-/* About */
-#about{
- background:linear-gradient(135deg,#f3dfe0 0%,#fff8f5 65%,#f7e8e5 100%);
- border-color:#dfc5bd;
- box-shadow:0 12px 35px rgba(68,43,35,.09);
-}
-.about-content h2{color:#332620}
-.about-content p{color:#6d605b}
-.feature-item i{color:#a8782d;background:rgba(201,154,62,.10);border-color:#dfc7b9}
-.feature-item h4{color:#332620}
-.feature-item p{color:#776a65}
-.about-image img{border-color:var(--gold);box-shadow:0 12px 28px rgba(53,32,26,.18)}
-
-/* Gallery gets the dark luxury contrast */
-#gallery + .section-title, #gallery{ }
-.gallery-grid{background:#11100f;padding-top:5px;padding-bottom:65px}
-.gallery-item img{border-color:rgba(201,154,62,.32)}
-
-/* Reviews + map */
-#reviews{background:linear-gradient(135deg,#fffaf7,#f4e2e0)}
-.reviews-box-small,.map-box-small{background:rgba(255,255,255,.72);border-color:#dfc9c1;box-shadow:0 8px 25px rgba(76,48,39,.08)}
-.reviews-box-small p{color:#4d403b}
-.reviewer-name{color:#786b65}
-.map-iframe-container{border-color:var(--gold)}
-.map-btn-small{background:linear-gradient(135deg,#e5c16b,#b67d24);color:#17110d}
-.map-btn-small:hover{background:#f0d894}
-
-footer{background:#0a0908;border-top-color:rgba(201,154,62,.40)}
-.footer-info h3{color:var(--gold-light)}
-.social-icons a{background:#171412;border-color:rgba(201,154,62,.35);color:var(--gold-light)}
-.footer-bottom{border-top-color:rgba(255,255,255,.09)}
-
-/* Mobile wave remains smooth */
 @media(max-width:900px){
- #home::after{height:70px;bottom:-34px}
- .section-title{padding-top:58px}
-}
-@media(max-width:600px){
- #home::after{height:55px;bottom:-27px}
- .specialties-grid{padding-bottom:45px}
- .menu-grid{padding-bottom:50px}
+  #home::after,#home::before{height:75px;transform:translateY(48%);}
 }
 
     </style>
@@ -936,7 +843,7 @@ footer{background:#0a0908;border-top-color:rgba(201,154,62,.40)}
         <div class="gallery-item"><img src="https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?auto=format&fit=crop&w=300&q=80" alt="Gallery 3"></div>
         <div class="gallery-item"><img src="https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?auto=format&fit=crop&w=300&q=80" alt="Gallery 4"></div>
         <div class="gallery-item"><img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=300&q=80" alt="Gallery 5"></div>
-        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=300&q=80" alt="Gallery 6"></div>
+        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1571115177098-24ec42ed204d?auto=format&fit=crop&w=300&q=90" alt="Gallery 6"></div>
     </div>
 
     <!-- Customer Reviews & Location Section (Updated Google Map Link) -->
@@ -999,6 +906,17 @@ footer{background:#0a0908;border-top-color:rgba(201,154,62,.40)}
             <p>&copy; 2026 Blissful Bakes. All Rights Reserved. &nbsp;|&nbsp; Made with <i class="fas fa-heart" style="color: var(--gold);"></i> for our lovely customers</p>
         </div>
     </footer>
+
+
+<script>
+document.querySelectorAll('.gallery-item img').forEach(function(img){
+  img.addEventListener('error',function(){
+    if(this.src.indexOf('photo-1578985545062') === -1){
+      this.src='https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=85';
+    }
+  });
+});
+</script>
 
 </body>
 </html>
