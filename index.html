@@ -121,7 +121,7 @@
             color: var(--bg-color);
         }
 
-        /* Hero Section Updated */
+        /* Hero Section */
         #home {
             min-height: 105vh;
             padding: 150px 6% 140px 6%;
@@ -222,13 +222,12 @@
             box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
         }
 
-        /* Hero Visuals - Logo Removed & Cake Shifted Forward */
         .hero-visuals {
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 2;
-            margin-right: 40px; /* Cake ko mazeed agay/center ki taraf shift kiya gaya hai */
+            margin-right: 40px;
         }
 
         .hero-main-cake {
@@ -240,7 +239,6 @@
             box-shadow: 0 20px 45px rgba(0,0,0,0.7);
         }
 
-        /* Wavy Golden Bottom Border Transition */
         .home-bottom-transition {
             position: absolute;
             bottom: 0;
@@ -594,66 +592,185 @@
             opacity: 0.9;
         }
 
-        /* Footer */
+        /* EXACT MATCH LUXURY FOOTER STYLING */
         footer {
-            background: #080706;
+            background: #0c0b0a;
             border-top: 1px solid rgba(212, 175, 55, 0.25);
-            padding: 60px 8% 30px 8%;
+            padding: 50px 6% 30px 6%;
+            color: var(--text-light);
+            position: relative;
         }
 
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
+        .footer-top-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 40px;
-            margin-bottom: 40px;
+            text-align: center;
+            padding-bottom: 40px;
+            position: relative;
         }
 
-        .footer-info h3 {
+        /* Vertical dividers matching the reference */
+        .footer-top-grid > div:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 15%;
+            height: 70%;
+            width: 1px;
+            background: rgba(212, 175, 55, 0.25);
+        }
+
+        .footer-col {
+            position: relative;
+            padding: 0 15px;
+        }
+
+        .footer-col h4 {
             font-family: 'Playfair Display', serif;
-            color: var(--gold);
-            margin-bottom: 10px;
-        }
-
-        .footer-info p {
-            color: var(--text-muted);
             font-size: 0.95rem;
+            letter-spacing: 1.5px;
+            color: var(--gold-light);
+            margin-bottom: 8px;
         }
 
-        .social-icons {
+        .footer-col p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .footer-col .phone-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            color: var(--gold);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .footer-whatsapp-icon {
+            font-size: 2.2rem;
+            color: var(--gold);
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+
+        .footer-social-icons {
             display: flex;
-            gap: 15px;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 10px;
         }
 
-        .social-icons a {
-            width: 40px;
-            height: 40px;
-            background: #161412;
-            border: 1px solid rgba(212, 175, 55, 0.25);
+        .footer-social-icons a {
+            width: 36px;
+            height: 36px;
+            background: #1a1714;
+            border: 1px solid rgba(212, 175, 55, 0.3);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--gold);
+            color: #fff;
             text-decoration: none;
-            transition: background 0.3s ease, color 0.3s ease;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
         }
 
-        .social-icons a:hover {
+        .footer-social-icons a:hover {
             background: var(--gold);
             color: var(--bg-color);
         }
 
-        .footer-bottom {
-            text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            padding-top: 25px;
-            color: var(--text-muted);
-            font-size: 0.85rem;
+        .footer-clock-icon {
+            font-size: 2.1rem;
+            color: var(--gold);
+            margin-bottom: 8px;
+            display: inline-block;
         }
 
-        @media (max-width: 1050px) {
+        /* Decorative flourishes on sides of footer top grid */
+        .footer-top-grid::before, .footer-top-grid::after {
+            content: "❦";
+            position: absolute;
+            color: var(--gold);
+            font-size: 1.2rem;
+            opacity: 0.7;
+            top: 40%;
+        }
+        .footer-top-grid::before { left: 10px; }
+        .footer-top-grid::after { right: 10px; }
+
+        .footer-golden-divider {
+            height: 1px;
+            width: 100%;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin-bottom: 30px;
+            opacity: 0.5;
+        }
+
+        .footer-bottom-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .footer-logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-logo-area img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 1px solid var(--gold);
+            object-fit: cover;
+        }
+
+        .footer-logo-area h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            color: var(--gold-light);
+            margin-bottom: 2px;
+        }
+
+        .footer-logo-area p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .footer-bottom-flex .love-text {
+            color: var(--gold-light);
+        }
+
+        .footer-bottom-flex .love-text i {
+            color: var(--brand-pink);
+            margin: 0 3px;
+        }
+
+        @media (max-width: 950px) {
+            .footer-top-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .footer-top-grid > div:not(:last-child)::after {
+                display: none;
+            }
+            .footer-bottom-flex {
+                flex-direction: column;
+                text-align: center;
+            }
+            .footer-logo-area {
+                justify-content: center;
+            }
             #home {
                 flex-direction: column;
                 text-align: center;
@@ -717,7 +834,7 @@
         </a>
     </header>
 
-    <!-- Home Section (Logo Removed & Cake Shifted) -->
+    <!-- Home Section -->
     <section id="home">
         <div class="hero-content">
             <h2>Welcome to</h2>
@@ -941,21 +1058,54 @@
 
     </div>
 
-    <!-- Footer -->
+    <!-- Exact Reference Match Footer -->
     <footer>
-        <div class="footer-content">
-            <div class="footer-info">
-                <h3>Blissful Bakes</h3>
-                <p>Delight in Every Bite. Handcrafted with passion.</p>
+        <div class="footer-top-grid">
+            <!-- Col 1: WhatsApp -->
+            <div class="footer-col">
+                <i class="fab fa-whatsapp footer-whatsapp-icon"></i>
+                <h4>ORDER ON WHATSAPP</h4>
+                <p>Place your order easily on WhatsApp</p>
+                <a href="https://wa.me/923714079790" target="_blank" class="phone-number">+92 371 4079790</a>
             </div>
-            <div class="social-icons">
-                <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a href="https://wa.me/923714079790" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+            <!-- Col 2: Follow Us -->
+            <div class="footer-col">
+                <i class="fas fa-share-alt footer-whatsapp-icon" style="font-size: 1.8rem; margin-bottom: 12px;"></i>
+                <h4>FOLLOW US</h4>
+                <div class="footer-social-icons">
+                    <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <!-- Col 3: Opening Hours -->
+            <div class="footer-col">
+                <i class="far fa-clock footer-clock-icon"></i>
+                <h4>OPENING HOURS</h4>
+                <p>Monday – Sunday</p>
+                <p style="color: var(--gold-light); font-weight: 600;">10:00 AM – 10:00 PM</p>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 Blissful Bakes. All rights reserved.</p>
+
+        <div class="footer-golden-divider"></div>
+
+        <div class="footer-bottom-flex">
+            <div class="footer-logo-area">
+                <img src="logo.png" alt="Blissful Bakes Logo">
+                <div>
+                    <h3>Blissful Bakes</h3>
+                    <p>Delight in Every Bite ♥</p>
+                </div>
+            </div>
+            <div>
+                <p>&copy; 2026 Blissful Bakes. All Rights Reserved.</p>
+            </div>
+            <div class="love-text">
+                <p>Made with <i class="fas fa-heart"></i> for our lovely customers</p>
+            </div>
         </div>
     </footer>
 
