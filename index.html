@@ -11,16 +11,13 @@
 
         :root {
             --bg-color: #0c0b0a;
-            --card-bg: #fff9f6;
-            --gold: #c89a32;
-            --gold-light: #f0d58a;
-            --text-light: #241b18;
-            --text-muted: #6f625c;
-            --accent-pink: #f3dfe0;
-            --border-color: rgba(200, 154, 50, 0.35);
-            --light-bg: #fff7f3;
-            --light-bg-2: #f8e8e5;
-            --dark-text: #201916;
+            --card-bg: #161412;
+            --gold: #D4AF37;
+            --gold-light: #F3E5AB;
+            --text-light: #F5F1EB;
+            --text-muted: #D1CBC1;
+            --accent-pink: #d4838b;
+            --border-color: rgba(212, 175, 55, 0.25);
         }
 
         * {
@@ -122,9 +119,7 @@
         #home {
             min-height: 100vh;
             padding: 140px 8% 80px 8%;
-            background:
-                linear-gradient(90deg, rgba(10,8,7,.94) 0%, rgba(10,8,7,.82) 42%, rgba(10,8,7,.38) 72%, rgba(10,8,7,.68) 100%),
-                url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=2200&q=90') center/cover no-repeat;
+            background: linear-gradient(135deg, #161412 0%, #0c0b0a 100%);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -612,115 +607,6 @@
                 display: none;
             }
         }
-    
-        /* ===== Blissful Bakes Dark + Light Pink + Gold refresh ===== */
-        body { background: var(--light-bg); color: var(--dark-text); }
-        #home { 
-            min-height: 720px;
-            padding-bottom: 115px;
-            border-bottom: 0;
-            overflow: visible;
-        }
-        #home::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: -1px;
-            height: 82px;
-            background: var(--light-bg-2);
-            clip-path: ellipse(76% 100% at 50% 100%);
-            z-index: 0;
-        }
-        #home > * { position: relative; z-index: 2; }
-        .hero-image-container { z-index: 3; }
-        .hero-main-cake { box-shadow: 0 15px 35px rgba(0,0,0,.65); }
-
-        /* The curved divider: shallow, elegant, double gold line */
-        .hero-curve {
-            height: 62px;
-            margin-top: -1px;
-            background: var(--light-bg-2);
-            position: relative;
-            z-index: 4;
-            overflow: hidden;
-        }
-        .hero-curve svg { position:absolute; width:100%; height:100%; left:0; top:0; display:block; }
-        .hero-curve .curve-fill { fill: var(--light-bg-2); }
-        .hero-curve .curve-gold { fill:none; stroke:var(--gold); stroke-width:3; }
-        .hero-curve .curve-gold-thin { fill:none; stroke:#f4d98e; stroke-width:1.4; }
-
-        .section-title {
-            background: var(--light-bg-2);
-            margin: 0;
-            padding: 35px 0 22px;
-        }
-        .section-title h2 { color: var(--dark-text); }
-        .fancy-divider { color: var(--gold); }
-        .specialties-grid {
-            max-width: 100%;
-            padding: 10px 7% 48px;
-            background: var(--light-bg-2);
-        }
-        .specialty-card {
-            background: rgba(255,255,255,.72);
-            border: 1px solid rgba(200,154,50,.28);
-            box-shadow: 0 6px 20px rgba(100,65,45,.06);
-        }
-        .specialty-card h3 { color: var(--dark-text); }
-        .specialty-card i { color: var(--gold); }
-
-        #menu, .menu-grid {
-            background: var(--light-bg);
-        }
-        .menu-grid { max-width: 1200px; padding-bottom: 55px; }
-        .menu-card {
-            background: #fff;
-            border: 1px solid #ead7cf;
-            box-shadow: 0 8px 24px rgba(94,61,44,.09);
-        }
-        .menu-card-body h3 { color: var(--dark-text); }
-        .menu-card-body .price { color: #8b6432; }
-
-        #about {
-            background: linear-gradient(135deg, #fff8f5, #f5e1df);
-            border: 1px solid #ead2c8;
-            box-shadow: 0 8px 30px rgba(88,57,43,.07);
-        }
-        .about-content h2 { color: #30231e; }
-        .about-content p, .feature-item p { color: #756862; }
-        .feature-item h4 { color: #352823; }
-        .feature-item i { color: var(--gold); background: rgba(200,154,50,.09); }
-
-        #gallery { background: var(--light-bg-2); }
-        .gallery-grid { background: var(--light-bg-2); padding-bottom: 60px; }
-        .gallery-item img {
-            height: 175px;
-            background: #eee;
-            border-color: #dfc7b8;
-            box-shadow: 0 5px 16px rgba(85,55,42,.08);
-        }
-
-        #reviews { background: var(--light-bg); }
-        .interactive-grid { background: var(--light-bg); padding-bottom: 65px; }
-        .reviews-box-small, .location-box {
-            background: #fff;
-            border-color: #ead7cf;
-            box-shadow: 0 8px 24px rgba(94,61,44,.07);
-        }
-        .reviewer-name { color: #765a49 !important; }
-
-        /* Keep only header, hero and footer dark */
-        header, footer { color: #fff; }
-
-        @media (max-width: 768px) {
-            #home { min-height: 650px; padding-bottom: 85px; }
-            #home::after { height: 55px; }
-            .hero-curve { height: 48px; }
-            .specialties-grid { padding-left: 5%; padding-right: 5%; }
-            .gallery-item img { height: 150px; }
-        }
-
     </style>
 </head>
 <body>
@@ -766,15 +652,6 @@
             <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80" alt="Delicious Cake" class="hero-main-cake">
         </div>
     </section>
-
-    <!-- Elegant curved gold divider -->
-    <div class="hero-curve" aria-hidden="true">
-        <svg viewBox="0 0 1920 90" preserveAspectRatio="none">
-            <path class="curve-fill" d="M0,76 C330,25 690,7 1000,18 C1320,30 1610,48 1920,76 L1920,90 L0,90 Z"></path>
-            <path class="curve-gold" d="M0,76 C330,25 690,7 1000,18 C1320,30 1610,48 1920,76"></path>
-            <path class="curve-gold-thin" d="M0,81 C330,30 690,12 1000,23 C1320,35 1610,53 1920,81"></path>
-        </svg>
-    </div>
 
     <!-- Our Specialties Section (Custom Orders Removed) -->
     <div class="section-title">
@@ -923,12 +800,12 @@
     </div>
 
     <div class="gallery-grid">
-        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=300&q=80" alt="Gallery 1" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=85';"></div>
-        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?auto=format&fit=crop&w=300&q=80" alt="Gallery 2" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=85';"></div>
-        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?auto=format&fit=crop&w=300&q=80" alt="Gallery 3" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=85';"></div>
-        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?auto=format&fit=crop&w=300&q=80" alt="Gallery 4" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=85';"></div>
-        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=300&q=80" alt="Gallery 5" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=85';"></div>
-        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=300&q=80" alt="Gallery 6" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=85';"></div>
+        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=300&q=80" alt="Gallery 1"></div>
+        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?auto=format&fit=crop&w=300&q=80" alt="Gallery 2"></div>
+        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?auto=format&fit=crop&w=300&q=80" alt="Gallery 3"></div>
+        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?auto=format&fit=crop&w=300&q=80" alt="Gallery 4"></div>
+        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=300&q=80" alt="Gallery 5"></div>
+        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=300&q=80" alt="Gallery 6"></div>
     </div>
 
     <!-- Customer Reviews & Location Section (Updated Google Map Link) -->
