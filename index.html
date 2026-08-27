@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blissful Bakes | Delight in Every Bite</title>
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Firebase SDKs (Auth & Firestore) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
@@ -389,28 +391,31 @@
             border: 2px solid var(--brand-pink);
         }
 
-        /* Admin Edit Overlay */
-        .editable-img-wrapper {
+        /* Admin Edit Overlays */
+        .editable-wrapper {
             position: relative;
             display: inline-block;
             width: 100%;
-            height: 100%;
+        }
+        .editable-text-wrapper {
+            position: relative;
+            display: inline-block;
         }
         .admin-edit-btn {
             display: none;
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 5px;
+            right: 5px;
             background: var(--gold);
             color: #000;
             border: none;
-            padding: 6px 12px;
-            border-radius: 20px;
+            padding: 4px 10px;
+            border-radius: 15px;
             font-weight: bold;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             cursor: pointer;
             z-index: 100;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
         }
         body.logged-in .admin-edit-btn {
             display: inline-block;
@@ -517,9 +522,10 @@
 </head>
 <body>
 
+    <!-- Header -->
     <header>
         <a href="#home" class="logo-container">
-            <div class="editable-img-wrapper" style="width: 52px; height: 52px;">
+            <div class="editable-wrapper" style="width: 52px; height: 52px;">
                 <img src="logo.png" alt="Logo" id="headerLogoImg" style="width:52px; height:52px; border-radius:50%; border:2px solid var(--gold);">
                 <button class="admin-edit-btn" onclick="triggerImageUpload('headerLogoImg', 'headerLogo')">Edit</button>
             </div>
@@ -543,24 +549,34 @@
         </a>
     </header>
 
+    <!-- Home Section -->
     <section id="home">
         <div class="hero-content">
-            <h2>Welcome to</h2>
-            <h1>BLISSFUL BAKES</h1>
+            <div class="editable-text-wrapper">
+                <h2 id="heroSubText">Welcome to</h2>
+                <button class="admin-edit-btn" onclick="triggerTextEdit('heroSubText', 'heroSubTextKey')">Edit</button>
+            </div>
+            <div class="editable-text-wrapper" style="display:block;">
+                <h1 id="heroMainTitle">BLISSFUL BAKES</h1>
+                <button class="admin-edit-btn" onclick="triggerTextEdit('heroMainTitle', 'heroMainTitleKey')">Edit</button>
+            </div>
             <div class="tagline">
                 <i class="fas fa-heart"></i> Delight in Every Bite <i class="fas fa-heart"></i>
             </div>
             <div class="custom-divider-line">
                 <i class="fas fa-birthday-cake" style="font-size: 0.8rem;"></i>
             </div>
-            <p>Indulge in handcrafted cakes, cupcakes, brownies and desserts made with love and the finest ingredients.</p>
+            <div class="editable-text-wrapper" style="display:block; margin-bottom:30px;">
+                <p id="heroDesc">Indulge in handcrafted cakes, cupcakes, brownies and desserts made with love and the finest ingredients.</p>
+                <button class="admin-edit-btn" onclick="triggerTextEdit('heroDesc', 'heroDescKey')">Edit</button>
+            </div>
             <a href="https://wa.me/923714079790?text=Hello%20Blissful%20Bakes,%20I%20want%20to%20place%20an%20order!" target="_blank" class="primary-btn">
                 ORDER NOW ON WHATSAPP <i class="fab fa-whatsapp"></i>
             </a>
         </div>
 
         <div class="hero-visuals">
-            <div class="editable-img-wrapper" style="width: 420px; height: 420px; border-radius: 50%;">
+            <div class="editable-wrapper" style="width: 420px; height: 420px; border-radius: 50%;">
                 <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80" alt="Cake" id="homeCakeImg" class="hero-main-cake">
                 <button class="admin-edit-btn" onclick="triggerImageUpload('homeCakeImg', 'homeCake')">Edit</button>
             </div>
@@ -574,6 +590,7 @@
         </div>
     </section>
 
+    <!-- Light Theme Wrapper -->
     <div class="light-theme-section">
         <div class="section-title">
             <h2>OUR SPECIALTIES</h2>
@@ -591,14 +608,22 @@
             <div class="fancy-divider"><i class="fas fa-heart" style="font-size: 0.7rem;"></i></div>
         </div>
         <div class="menu-grid">
+            <!-- Menu Item 1 -->
             <div class="menu-card">
-                <div class="editable-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=500&q=80" alt="Cake" id="menuItem1">
-                    <button class="admin-edit-btn" onclick="triggerImageUpload('menuItem1', 'menu1')">Edit</button>
+                <div class="editable-wrapper">
+                    <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=500&q=80" alt="Cake" id="menuItem1Img">
+                    <button class="admin-edit-btn" onclick="triggerImageUpload('menuItem1Img', 'menu1ImgKey')">Edit</button>
                 </div>
                 <div class="menu-card-body">
-                    <h3>Chocolate Cake</h3>
-                    <div class="price">Rs. 2,500</div>
+                    <div class="editable-text-wrapper" style="display:block;">
+                        <h3 id="menu1Title">Chocolate Cake</h3>
+                        <button class="admin-edit-btn" onclick="triggerTextEdit('menu1Title', 'menu1TitleKey')">Edit</button>
+                    </div>
+                    <div class="editable-text-wrapper" style="display:block; margin: 10px 0;">
+                        <div class="price" id="menu1Price">Rs. 2,500</div>
+                        <button class="admin-edit-btn" onclick="triggerTextEdit('menu1Price', 'menu1PriceKey')">Edit</button>
+                    </div>
+                    <br>
                     <a href="https://wa.me/923714079790?text=Order%20Chocolate%20Cake" target="_blank" class="whatsapp-order-btn">
                         <i class="fab fa-whatsapp"></i> Order on WhatsApp
                     </a>
@@ -608,18 +633,25 @@
 
         <section id="about">
             <div class="about-image">
-                <div class="editable-img-wrapper" style="width: 360px; height: 360px; border-radius: 15px;">
+                <div class="editable-wrapper" style="width: 360px; height: 360px; border-radius: 15px;">
                     <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=500&q=80" alt="About" id="aboutImg" style="width:360px; height:360px; border-radius:15px; border:2px solid var(--brand-pink);">
-                    <button class="admin-edit-btn" onclick="triggerImageUpload('aboutImg', 'aboutImage')">Edit</button>
+                    <button class="admin-edit-btn" onclick="triggerImageUpload('aboutImg', 'aboutImageKey')">Edit</button>
                 </div>
             </div>
             <div class="about-content">
-                <h2>Baked with Passion, Made for Happiness</h2>
-                <p>At Blissful Bakes, every treat is a piece of art. We use premium ingredients and pour our heart into every creation.</p>
+                <div class="editable-text-wrapper" style="display:block;">
+                    <h2 id="aboutTitle">Baked with Passion, Made for Happiness</h2>
+                    <button class="admin-edit-btn" onclick="triggerTextEdit('aboutTitle', 'aboutTitleKey')">Edit</button>
+                </div>
+                <div class="editable-text-wrapper" style="display:block; margin-top: 15px;">
+                    <p id="aboutDesc">At Blissful Bakes, every treat is a piece of art. We use premium ingredients and pour our heart into every creation.</p>
+                    <button class="admin-edit-btn" onclick="triggerTextEdit('aboutDesc', 'aboutDescKey')">Edit</button>
+                </div>
             </div>
         </section>
     </div>
 
+    <!-- Footer -->
     <footer>
         <div class="footer-top-grid">
             <div class="footer-col">
@@ -665,6 +697,7 @@
         </div>
     </footer>
 
+    <!-- Hidden file input for images -->
     <input type="file" id="hiddenImageInput" accept="image/*" style="display: none;" onchange="uploadImageToFirestore(event)">
 
     <script>
@@ -686,14 +719,26 @@
         let activeImageId = null;
         let activeDocKey = null;
 
-        // Load saved images from Firestore on page load
+        // Load saved images & texts from Firestore on page load
         window.addEventListener('DOMContentLoaded', () => {
+            // Load Images
             db.collection("websiteImages").get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
                     const imgElement = document.getElementById(data.imgElementId);
                     if (imgElement && data.imageUrl) {
                         imgElement.src = data.imageUrl;
+                    }
+                });
+            });
+
+            // Load Texts
+            db.collection("websiteTexts").get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const textElement = document.getElementById(data.textElementId);
+                    if (textElement && data.textContent) {
+                        textElement.innerText = data.textContent;
                     }
                 });
             });
@@ -715,7 +760,7 @@
                     .then(() => {
                         document.body.classList.add('logged-in');
                         document.getElementById('adminAuthToggle').innerText = 'Logout Admin';
-                        alert('Login Successful! You can now edit images.');
+                        alert('Login Successful! You can now edit images and texts.');
                     })
                     .catch((error) => {
                         alert("Login failed: " + error.message);
@@ -734,6 +779,7 @@
             }
         });
 
+        // Image Upload Logic
         function triggerImageUpload(imgId, docKey) {
             if (!auth.currentUser) {
                 alert('Please login as Admin first using the button at the bottom right.');
@@ -744,7 +790,6 @@
             document.getElementById('hiddenImageInput').click();
         }
 
-        // Convert image and save to Firestore Database
         function uploadImageToFirestore(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -767,6 +812,32 @@
                 });
             };
             reader.readAsDataURL(file);
+        }
+
+        // Text Edit Logic
+        function triggerTextEdit(textElementId, docKey) {
+            if (!auth.currentUser) {
+                alert('Please login as Admin first using the button at the bottom right.');
+                return;
+            }
+
+            const currentText = document.getElementById(textElementId).innerText;
+            const newText = prompt("Enter new text:", currentText);
+
+            if (newText !== null && newText.trim() !== "") {
+                db.collection("websiteTexts").doc(docKey).set({
+                    textElementId: textElementId,
+                    textContent: newText,
+                    updatedAt: new Date()
+                })
+                .then(() => {
+                    document.getElementById(textElementId).innerText = newText;
+                    alert('Text updated successfully and saved to Firestore!');
+                })
+                .catch((error) => {
+                    alert('Error saving text: ' + error.message);
+                });
+            }
         }
     </script>
 </body>
