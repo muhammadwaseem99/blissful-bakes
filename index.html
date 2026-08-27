@@ -17,7 +17,7 @@
             --text-light: #F5F1EB;
             --text-muted: #D1CBC1;
             
-            /* Light Theme Variables for Specialties, Menu & Beyond */
+            /* Light Theme Variables for Menu & Beyond */
             --light-bg: #FAF5F2;
             --light-card-bg: #FFFFFF;
             --light-text: #2C221E;
@@ -121,36 +121,40 @@
             color: var(--bg-color);
         }
 
-        /* Hero Section Matching the Exact Image Layout */
+        /* Hero Section (Logo removed, new background image applied) */
         #home {
             min-height: 105vh;
             padding: 150px 6% 140px 6%;
-            background: linear-gradient(135deg, rgba(12, 11, 10, 0.82) 0%, rgba(12, 11, 10, 0.92) 100%), 
-                        url('https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=1800&q=80');
+            background: linear-gradient(135deg, rgba(12, 11, 10, 0.85) 0%, rgba(12, 11, 10, 0.92) 100%), 
+                        url('https://images.unsplash.com/photo-1517433670267-08bbd4be890f?auto=format&fit=crop&w=1800&q=80');
             background-size: cover;
             background-position: center;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
+            text-align: center;
             position: relative;
         }
 
         .hero-content {
-            max-width: 580px;
+            max-width: 750px;
             z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .hero-content h2 {
             font-family: 'Playfair Display', serif;
             font-style: italic;
             color: var(--gold);
-            font-size: 1.9rem;
+            font-size: 2.1rem;
             margin-bottom: 5px;
         }
 
         .hero-content h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 3.4rem;
+            font-size: 3.8rem;
             color: var(--gold-light);
             line-height: 1.1;
             margin-bottom: 12px;
@@ -161,12 +165,12 @@
         .hero-content .tagline {
             display: flex;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
             gap: 12px;
             color: var(--gold);
             font-family: 'Playfair Display', serif;
             font-style: italic;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             margin-bottom: 15px;
         }
 
@@ -177,16 +181,17 @@
         .custom-divider-line {
             display: flex;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
             gap: 12px;
             margin-bottom: 22px;
             color: var(--gold);
+            width: 100%;
         }
 
         .custom-divider-line::before, .custom-divider-line::after {
             content: "";
             height: 1px;
-            width: 120px;
+            width: 150px;
             background: linear-gradient(90deg, transparent, var(--gold));
         }
 
@@ -196,16 +201,16 @@
 
         .hero-content p {
             color: var(--text-light);
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             line-height: 1.6;
             margin-bottom: 30px;
-            max-width: 520px;
+            max-width: 600px;
         }
 
         .primary-btn {
             background: linear-gradient(135deg, #d4af37 0%, #b38f27 100%);
             color: #1a1612;
-            padding: 14px 30px;
+            padding: 14px 32px;
             border-radius: 35px;
             font-weight: 700;
             font-size: 0.95rem;
@@ -220,33 +225,6 @@
         .primary-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
-        }
-
-        /* Center Cake & Right Side Big Logo Layout */
-        .hero-visuals {
-            display: flex;
-            align-items: center;
-            gap: 35px;
-            z-index: 2;
-        }
-
-        .hero-main-cake {
-            width: 380px;
-            height: 380px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 4px solid var(--gold);
-            box-shadow: 0 20px 45px rgba(0,0,0,0.7);
-        }
-
-        .hero-right-logo {
-            width: 210px;
-            height: 210px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 4px solid var(--gold);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            background: #fff;
         }
 
         /* Wavy Golden Bottom Border Transition */
@@ -265,7 +243,99 @@
             height: 95px;
         }
 
-        /* LIGHT PINK / CREAM THEME WRAPPER STARTING FROM SPECIALTIES */
+        /* PINK MARBLE SPECIALTIES SECTION (Matching Image 0666.png) */
+        .pink-marble-specialties {
+            background: linear-gradient(rgba(255, 238, 238, 0.85), rgba(255, 238, 238, 0.85)), 
+                        url('https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 40px 5% 70px 5%;
+            text-align: center;
+        }
+
+        .specialties-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 8px;
+        }
+
+        .specialties-header::before, .specialties-header::after {
+            content: "";
+            height: 1px;
+            width: 140px;
+            background: linear-gradient(90deg, transparent, #b8860b);
+        }
+
+        .specialties-header::after {
+            background: linear-gradient(90deg, #b8860b, transparent);
+        }
+
+        .specialties-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #2c221e;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        .specialties-heart {
+            color: #b8860b;
+            font-size: 0.75rem;
+            margin-bottom: 45px;
+        }
+
+        .specialties-circles-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 45px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .specialty-circle-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .circle-icon-box {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 1px solid #d4af37;
+            background: rgba(255, 255, 255, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.15);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .specialty-circle-item:hover .circle-icon-box {
+            transform: translateY(-5px);
+            background: #ffffff;
+        }
+
+        .circle-icon-box i {
+            font-size: 2rem;
+            color: #3a2e2b;
+        }
+
+        .specialty-circle-item span {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            color: #3a2e2b;
+            font-weight: 600;
+        }
+
+        /* LIGHT PINK / CREAM THEME WRAPPER FOR MENU & BEYOND */
         .light-theme-section {
             background-color: var(--light-bg);
             color: var(--light-text);
@@ -274,7 +344,7 @@
 
         .section-title {
             text-align: center;
-            margin: 20px 0 40px 0;
+            margin: 40px 0 40px 0;
         }
 
         .section-title h2 {
@@ -302,43 +372,6 @@
 
         .fancy-divider::after {
             background: linear-gradient(90deg, var(--brand-pink), transparent);
-        }
-
-        /* Specialties Section */
-        .specialties-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 25px;
-            max-width: 950px;
-            margin: 0 auto;
-            padding: 0 5%;
-        }
-
-        .specialty-card {
-            background: var(--light-card-bg);
-            border: 1px solid var(--light-border);
-            padding: 25px 15px;
-            text-align: center;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(212, 131, 139, 0.08);
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .specialty-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--brand-pink);
-        }
-
-        .specialty-card i {
-            font-size: 2.2rem;
-            color: var(--brand-pink);
-            margin-bottom: 15px;
-        }
-
-        .specialty-card h3 {
-            font-size: 1rem;
-            color: var(--light-text);
-            letter-spacing: 0.5px;
         }
 
         /* Menu Section */
@@ -477,7 +510,7 @@
             margin-bottom: 0;
         }
 
-        /* Gallery Section (All 6 Pictures Displayed) */
+        /* Gallery Section */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -663,25 +696,6 @@
         }
 
         @media (max-width: 1050px) {
-            #home {
-                flex-direction: column;
-                text-align: center;
-                padding-top: 130px;
-                gap: 40px;
-            }
-            .hero-content {
-                max-width: 100%;
-            }
-            .hero-content .tagline, .custom-divider-line {
-                justify-content: center;
-            }
-            .custom-divider-line::before, .custom-divider-line::after {
-                width: 70px;
-            }
-            .hero-visuals {
-                flex-direction: column;
-                gap: 20px;
-            }
             #about {
                 flex-direction: column;
                 text-align: center;
@@ -694,6 +708,9 @@
             }
             .gallery-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+            .specialties-circles-grid {
+                gap: 20px;
             }
             nav ul {
                 display: none;
@@ -727,7 +744,7 @@
         </a>
     </header>
 
-    <!-- Home Section Matching Exact Reference Image -->
+    <!-- Home Section (Logo Removed & Clean Background) -->
     <section id="home">
         <div class="hero-content">
             <h2>Welcome to</h2>
@@ -744,11 +761,6 @@
             </a>
         </div>
 
-        <div class="hero-visuals">
-            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80" alt="Delicious Cake" class="hero-main-cake">
-            <img src="logo.png" alt="Blissful Bakes Big Logo" class="hero-right-logo">
-        </div>
-
         <!-- Wavy Golden Bottom Border Transition -->
         <div class="home-bottom-transition">
             <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
@@ -758,33 +770,51 @@
         </div>
     </section>
 
-    <!-- LIGHT PINK / CREAM THEME WRAPPER STARTING FROM SPECIALTIES -->
-    <div class="light-theme-section">
-
-        <!-- Our Specialties Section -->
-        <div class="section-title">
+    <!-- PINK MARBLE SPECIALTIES SECTION (Matching Image 0666.png) -->
+    <div class="pink-marble-specialties">
+        <div class="specialties-header">
             <h2>OUR SPECIALTIES</h2>
-            <div class="fancy-divider"><i class="fas fa-heart" style="font-size: 0.7rem;"></i></div>
+        </div>
+        <div class="specialties-heart">
+            <i class="fas fa-heart"></i>
         </div>
 
-        <div class="specialties-grid">
-            <div class="specialty-card">
-                <i class="fas fa-birthday-cake"></i>
-                <h3>CAKES</h3>
-            </div>
-            <div class="specialty-card">
-                <i class="fas fa-cookie"></i>
-                <h3>CUPCAKES</h3>
-            </div>
-            <div class="specialty-card">
-                <i class="fas fa-cube"></i>
-                <h3>BROWNIES</h3>
-            </div>
-            <div class="specialty-card">
-                <i class="fas fa-utensils"></i>
-                <h3>DESSERTS</h3>
-            </div>
+        <div class="specialties-circles-grid">
+            <a href="#menu" class="specialty-circle-item">
+                <div class="circle-icon-box">
+                    <i class="fas fa-birthday-cake"></i>
+                </div>
+                <span>CAKES</span>
+            </a>
+            <a href="#menu" class="specialty-circle-item">
+                <div class="circle-icon-box">
+                    <i class="fas fa-cookie"></i>
+                </div>
+                <span>CUPCAKES</span>
+            </a>
+            <a href="#menu" class="specialty-circle-item">
+                <div class="circle-icon-box">
+                    <i class="fas fa-cube"></i>
+                </div>
+                <span>BROWNIES</span>
+            </a>
+            <a href="#menu" class="specialty-circle-item">
+                <div class="circle-icon-box">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <span>DESSERTS</span>
+            </a>
+            <a href="https://wa.me/923714079790?text=Hello%20Blissful%20Bakes,%20I%20want%20a%20Custom%20Order!" target="_blank" class="specialty-circle-item">
+                <div class="circle-icon-box">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <span>CUSTOM ORDERS</span>
+            </a>
         </div>
+    </div>
+
+    <!-- LIGHT PINK / CREAM THEME WRAPPER FOR REST OF THE PAGE -->
+    <div class="light-theme-section">
 
         <!-- Our Menu Section -->
         <div class="section-title" id="menu">
@@ -901,7 +931,7 @@
             </div>
         </section>
 
-        <!-- Gallery Section (All 6 Pictures Displayed) -->
+        <!-- Gallery Section -->
         <div class="section-title" id="gallery">
             <h2>GALLERY</h2>
             <div class="fancy-divider"><i class="fas fa-heart" style="font-size: 0.7rem;"></i></div>
