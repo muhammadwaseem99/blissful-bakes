@@ -336,7 +336,7 @@
 
         .center-btn {
             text-align: center;
-            margin: 40px 0;
+            margin: 20px 0;
         }
 
         /* Improved About Section */
@@ -431,62 +431,98 @@
             transform: scale(1.03);
         }
 
-        /* Reviews Section */
-        .reviews-container {
-            max-width: 750px;
+        /* Side-by-Side Section for Reviews & Map (Smaller & Clean) */
+        .interactive-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 35px;
+            padding: 0 5%;
+            align-items: stretch;
+        }
+
+        .reviews-box-small {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 15px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             text-align: center;
+            height: 100%;
         }
 
-        .reviews-container i.quote-icon {
-            font-size: 2rem;
-            color: var(--gold);
-            margin-bottom: 15px;
-        }
-
-        .reviews-container p {
-            font-size: 1.1rem;
-            color: var(--text-light);
-            font-style: italic;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .stars {
+        .reviews-box-small i.quote-icon {
+            font-size: 1.5rem;
             color: var(--gold);
             margin-bottom: 10px;
         }
 
+        .reviews-box-small p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            font-style: italic;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .stars {
+            color: var(--gold);
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
         .reviewer-name {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
             font-weight: 700;
         }
 
-        /* Find Us & Map Section */
-        #contact {
-            max-width: 1100px;
-            margin: 80px auto;
-            padding: 0 5%;
-        }
-
-        .map-box {
-            width: 100%;
-            height: 350px;
+        .map-box-small {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             border-radius: 15px;
-            border: 2px solid var(--gold);
-            overflow: hidden;
-            margin-bottom: 25px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
         }
 
-        .map-box iframe {
+        .map-iframe-container {
+            width: 100%;
+            height: 180px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--gold);
+            margin-bottom: 12px;
+        }
+
+        .map-iframe-container iframe {
             width: 100%;
             height: 100%;
             border: 0;
+        }
+
+        .map-btn-small {
+            background: var(--gold);
+            color: var(--bg-color);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .map-btn-small:hover {
+            background: var(--gold-light);
         }
 
         /* Footer */
@@ -569,6 +605,9 @@
             .about-features {
                 grid-template-columns: 1fr;
             }
+            .interactive-grid {
+                grid-template-columns: 1fr;
+            }
             nav ul {
                 display: none;
             }
@@ -615,7 +654,6 @@
             </a>
         </div>
         <div class="hero-image-container">
-            <!-- Yahan logo ki jagah ab khobsurat cake ki picture lagadi gai hai -->
             <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80" alt="Delicious Cake" class="hero-main-cake">
         </div>
     </section>
@@ -712,7 +750,8 @@
         </div>
 
         <div class="menu-card">
-            <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=500&q=80" alt="Chocolate Truffles">
+            <!-- Corrected Chocolate Truffles Picture -->
+            <img src="https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=500&q=80" alt="Chocolate Truffles">
             <div class="menu-card-body">
                 <h3>Chocolate Truffles</h3>
                 <div class="price">Rs. 500 (Box)</div>
@@ -723,7 +762,7 @@
         </div>
     </div>
 
-    <!-- About Us Section (Improved Alignment & Look) -->
+    <!-- About Us Section -->
     <section id="about">
         <div class="about-image">
             <img src="https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=500&q=80" alt="Beautiful Cake">
@@ -779,14 +818,15 @@
         <div class="gallery-item"><img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=300&q=80" alt="Gallery 6"></div>
     </div>
 
-    <!-- Customer Reviews Section -->
+    <!-- Customer Reviews & Find Us Section (Side-by-Side & Smaller) -->
     <div class="section-title" id="reviews">
-        <h2>CUSTOMER REVIEWS</h2>
+        <h2>REVIEWS & LOCATION</h2>
         <div class="fancy-divider"><i class="fas fa-heart" style="font-size: 0.7rem;"></i></div>
     </div>
 
-    <div style="padding: 0 5%;">
-        <div class="reviews-container">
+    <div class="interactive-grid">
+        <!-- Customer Reviews Box -->
+        <div class="reviews-box-small">
             <i class="fas fa-quote-left quote-icon"></i>
             <p>"The cake was beyond amazing! Super soft, fresh and beautifully designed. Highly recommended!"</p>
             <div class="stars">
@@ -798,22 +838,17 @@
             </div>
             <div class="reviewer-name">– Ayesha Khan</div>
         </div>
-    </div>
 
-    <!-- Find Us Section -->
-    <div class="section-title" id="contact">
-        <h2>FIND US</h2>
-        <div class="fancy-divider"><i class="fas fa-heart" style="font-size: 0.7rem;"></i></div>
-    </div>
-
-    <div style="max-width: 1100px; margin: 0 auto; padding: 0 5%;">
-        <div class="map-box">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3403.4988587635!2d74.3587!3d31.5204!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDMxJzEzLjQiTiA3NMKwMjEnMzEuNCJF!5e0!3m2!1sen!2s!4v1625000000000!5m2!1sen!2s" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-        <div class="center-btn">
-            <a href="https://maps.google.com" target="_blank" class="primary-btn">
-                <i class="fas fa-map-marker-alt"></i> VIEW ON GOOGLE MAPS
-            </a>
+        <!-- Find Us Map Box -->
+        <div class="map-box-small" id="contact">
+            <div class="map-iframe-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3403.4988587635!2d74.3587!3d31.5204!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDMxJzEzLjQiTiA3NMKwMjEnMzEuNCJF!5e0!3m2!1sen!2s!4v1625000000000!5m2!1sen!2s" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <div style="text-align: center;">
+                <a href="https://maps.google.com" target="_blank" class="map-btn-small">
+                    <i class="fas fa-map-marker-alt"></i> VIEW ON GOOGLE MAPS
+                </a>
+            </div>
         </div>
     </div>
 
