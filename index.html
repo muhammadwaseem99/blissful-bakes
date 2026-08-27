@@ -16,7 +16,6 @@
             --gold-light: #F3E5AB;
             --text-light: #F5F1EB;
             --text-muted: #D1CBC1;
-            --accent-pink: #d4838b;
             --border-color: rgba(212, 175, 55, 0.25);
             
             /* Light Theme Variables for Specialties, Menu & Beyond */
@@ -26,7 +25,6 @@
             --light-muted: #6E625D;
             --light-border: rgba(212, 140, 140, 0.25);
             --brand-pink: #d4838b;
-            --brand-cream: #FDF8F5;
         }
 
         * {
@@ -127,16 +125,15 @@
         /* Hero Section with Bakery Background Image */
         #home {
             min-height: 100vh;
-            padding: 140px 8% 80px 8%;
-            background: linear-gradient(135deg, rgba(22, 20, 18, 0.88) 0%, rgba(12, 11, 10, 0.92) 100%), 
-                        url('https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=1600&q=80');
+            padding: 140px 8% 120px 8%;
+            background: linear-gradient(135deg, rgba(22, 20, 18, 0.85) 0%, rgba(12, 11, 10, 0.9) 100%), 
+                        url('https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1600&q=80');
             background-size: cover;
             background-position: center;
             display: flex;
             align-items: center;
             justify-content: space-between;
             position: relative;
-            border-bottom: 1px solid var(--border-color);
         }
 
         .hero-content {
@@ -212,16 +209,36 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.6);
         }
 
-        /* Decorative Section Titles & Stylized Dividers */
+        /* Wavy Golden Divider Line matching your image */
+        .wavy-divider-container {
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            background: var(--bg-color);
+        }
+
+        .wavy-divider-container svg {
+            display: block;
+            width: 100%;
+            height: 90px;
+        }
+
+        /* LIGHT PINK / CREAM THEME WRAPPER STARTING FROM SPECIALTIES */
+        .light-theme-section {
+            background-color: var(--light-bg);
+            color: var(--light-text);
+            padding-bottom: 50px;
+        }
+
         .section-title {
             text-align: center;
-            margin: 70px 0 40px 0;
+            margin: 30px 0 40px 0;
         }
 
         .section-title h2 {
             font-family: 'Playfair Display', serif;
             font-size: 2.3rem;
-            color: var(--gold-light);
+            color: var(--light-text);
             margin-bottom: 12px;
             letter-spacing: 1px;
         }
@@ -231,63 +248,21 @@
             align-items: center;
             justify-content: center;
             gap: 15px;
-            color: var(--gold);
+            color: var(--brand-pink);
         }
 
         .fancy-divider::before, .fancy-divider::after {
             content: "";
             height: 1px;
             width: 100px;
-            background: linear-gradient(90deg, transparent, var(--gold));
+            background: linear-gradient(90deg, transparent, var(--brand-pink));
         }
 
         .fancy-divider::after {
-            background: linear-gradient(90deg, var(--gold), transparent);
-        }
-
-        /* Curved Double Golden Line Special Class */
-        .curved-double-line {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-            margin: 15px auto 0 auto;
-            width: 120px;
-        }
-
-        .curved-double-line svg {
-            width: 100%;
-            height: 10px;
-            fill: none;
-            stroke: var(--gold);
-            stroke-width: 2;
-            stroke-linecap: round;
-        }
-
-        /* LIGHT PINK / CREAM WRAPPER FOR SPECIALTIES AND BEYOND */
-        .light-theme-section {
-            background-color: var(--light-bg);
-            color: var(--light-text);
-            padding-bottom: 40px;
-        }
-
-        .light-theme-section .section-title h2 {
-            color: var(--light-text);
-        }
-
-        .light-theme-section .fancy-divider {
-            color: var(--brand-pink);
-        }
-
-        .light-theme-section .fancy-divider::before, 
-        .light-theme-section .fancy-divider::after {
-            background: linear-gradient(90deg, transparent, var(--brand-pink));
-        }
-        .light-theme-section .fancy-divider::after {
             background: linear-gradient(90deg, var(--brand-pink), transparent);
         }
 
-        /* Specialties Section (Light Theme) */
+        /* Specialties Section */
         .specialties-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -324,7 +299,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* Menu Section (Light Theme) */
+        /* Menu Section */
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -390,7 +365,7 @@
             opacity: 0.9;
         }
 
-        /* Improved About Section (Light Theme) */
+        /* About Section */
         #about {
             max-width: 1150px;
             margin: 60px auto;
@@ -460,31 +435,37 @@
             margin-bottom: 0;
         }
 
-        /* Gallery Section (Light Theme) */
+        /* Gallery Section - Fixed to show all 6 pictures properly */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-            max-width: 1100px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 0 5%;
         }
 
+        .gallery-item {
+            width: 100%;
+            height: 220px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--light-border);
+            box-shadow: 0 4px 12px rgba(212, 131, 139, 0.1);
+        }
+
         .gallery-item img {
             width: 100%;
-            height: 160px;
+            height: 100%;
             object-fit: cover;
-            border-radius: 10px;
-            border: 1px solid var(--light-border);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
+            transition: transform 0.4s ease;
         }
 
         .gallery-item img:hover {
-            transform: scale(1.03);
+            transform: scale(1.08);
         }
 
-        /* Side-by-Side Section for Reviews & Map (Light Theme) */
+        /* Interactive Grid for Reviews & Map */
         .interactive-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -583,9 +564,8 @@
         /* Footer */
         footer {
             background: #080706;
-            border-top: 1px solid var(--border-color);
+            border-top: 1px solid rgba(212, 175, 55, 0.25);
             padding: 60px 8% 30px 8%;
-            margin-top: 0px;
         }
 
         .footer-content {
@@ -617,7 +597,7 @@
             width: 40px;
             height: 40px;
             background: var(--card-bg);
-            border: 1px solid var(--border-color);
+            border: 1px solid rgba(212, 175, 55, 0.25);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -663,6 +643,9 @@
             .interactive-grid {
                 grid-template-columns: 1fr;
             }
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
             nav ul {
                 display: none;
             }
@@ -695,7 +678,7 @@
         </a>
     </header>
 
-    <!-- Home Section with Background Image & Curved Double Golden Line -->
+    <!-- Home Section with Background Image -->
     <section id="home">
         <div class="hero-content">
             <h2>Welcome to</h2>
@@ -703,12 +686,7 @@
             <div class="tagline">
                 <i class="fas fa-heart"></i> Delight in Every Bite <i class="fas fa-heart"></i>
             </div>
-            <!-- Curved Double Golden Line -->
-            <div class="curved-double-line">
-                <svg viewBox="0 0 100 15"><path d="M0,10 Q50,0 100,10"/></svg>
-                <svg viewBox="0 0 100 15"><path d="M0,10 Q50,0 100,10"/></svg>
-            </div>
-            <p style="margin-top: 20px;">Indulge in handcrafted cakes, cupcakes, brownies and desserts made with love and the finest ingredients.</p>
+            <p style="margin-top: 10px;">Indulge in handcrafted cakes, cupcakes, brownies and desserts made with love and the finest ingredients.</p>
             <a href="https://wa.me/923714079790?text=Hello%20Blissful%20Bakes,%20I%20want%20to%20place%20an%20order!" target="_blank" class="primary-btn">
                 ORDER NOW ON WHATSAPP <i class="fab fa-whatsapp"></i>
             </a>
@@ -717,6 +695,13 @@
             <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80" alt="Delicious Cake" class="hero-main-cake">
         </div>
     </section>
+
+    <!-- Wavy Golden Divider Line Transition matching your reference image -->
+    <div class="wavy-divider-container">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path d="M0,30 C480,110 960,110 1440,30 L1440,0 L0,0 Z" fill="#D4AF37"></path>
+        </svg>
+    </div>
 
     <!-- LIGHT PINK / CREAM THEME WRAPPER STARTING FROM SPECIALTIES -->
     <div class="light-theme-section">
@@ -861,23 +846,23 @@
             </div>
         </section>
 
-        <!-- Gallery Section -->
+        <!-- Gallery Section (All 6 Pictures Displayed) -->
         <div class="section-title" id="gallery">
             <h2>GALLERY</h2>
             <div class="fancy-divider"><i class="fas fa-heart" style="font-size: 0.7rem;"></i></div>
         </div>
 
         <div class="gallery-grid">
-            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=300&q=80" alt="Gallery 1"></div>
-            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?auto=format&fit=crop&w=300&q=80" alt="Gallery 2"></div>
-            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?auto=format&fit=crop&w=300&q=80" alt="Gallery 3"></div>
-            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?auto=format&fit=crop&w=300&q=80" alt="Gallery 4"></div>
-            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=300&q=80" alt="Gallery 5"></div>
-            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=300&q=80" alt="Gallery 6"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=400&q=80" alt="Gallery 1"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?auto=format&fit=crop&w=400&q=80" alt="Gallery 2"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?auto=format&fit=crop&w=400&q=80" alt="Gallery 3"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?auto=format&fit=crop&w=400&q=80" alt="Gallery 4"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=400&q=80" alt="Gallery 5"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=400&q=80" alt="Gallery 6"></div>
         </div>
 
         <!-- Customer Reviews & Location Section -->
-        <div class="section-title" id="reviews">
+        <div class="section-title" id="reviews" style="margin-top: 60px;">
             <h2>REVIEWS & LOCATION</h2>
             <div class="fancy-divider"><i class="fas fa-heart" style="font-size: 0.7rem;"></i></div>
         </div>
@@ -924,7 +909,7 @@
                 <p>Place your order easily on WhatsApp<br><strong>+92 371 4079790</strong></p>
             </div>
             <div class="footer-info" style="text-align: right;">
-                <h3>OPENING HOURS</h3>
+                <h3>OPENINGH HOURS</h3>
                 <p>Monday – Sunday<br>10:00 AM – 10:00 PM</p>
             </div>
         </div>
