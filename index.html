@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blissful Bakes | Delight in Every Bite</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap');
 
@@ -61,11 +62,19 @@
             text-decoration: none;
         }
 
-        .logo-container img {
+        .logo-container .image-wrapper {
             width: 52px;
             height: 52px;
             border-radius: 50%;
             border: 2px solid var(--gold);
+            overflow: hidden;
+            position: relative;
+            background: #000;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
         }
 
@@ -228,13 +237,25 @@
             margin-right: 40px;
         }
 
-        .hero-main-cake {
+        .image-wrapper {
+            overflow: hidden;
+            display: inline-block;
+            position: relative;
+            background: #000;
+        }
+
+        .hero-main-cake-wrap {
             width: 420px;
             height: 420px;
-            object-fit: cover;
             border-radius: 50%;
             border: 4px solid var(--gold);
             box-shadow: 0 20px 45px rgba(0,0,0,0.7);
+        }
+
+        .hero-main-cake {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .home-bottom-transition {
@@ -349,9 +370,15 @@
             transform: translateY(-5px);
         }
 
-        .menu-card img {
+        .menu-card .image-wrapper {
             width: 100%;
             height: 230px;
+            display: block;
+        }
+
+        .menu-card img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
         }
 
@@ -405,13 +432,18 @@
             gap: 50px;
         }
 
-        .about-image img {
+        .about-image .image-wrapper {
             width: 360px;
             height: 360px;
-            object-fit: cover;
             border-radius: 15px;
             border: 2px solid var(--brand-pink);
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .about-content h2 {
@@ -477,17 +509,40 @@
             overflow: hidden;
             border: 1px solid var(--light-border);
             box-shadow: 0 4px 12px rgba(212, 131, 139, 0.1);
+            position: relative;
+        }
+
+        .gallery-item .image-wrapper {
+            width: 100%;
+            height: 100%;
+            display: block;
         }
 
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.4s ease;
         }
 
-        .gallery-item img:hover {
-            transform: scale(1.08);
+        .admin-add-btn-container {
+            text-align: center;
+            margin-top: 25px;
+            display: none;
+        }
+
+        .admin-add-btn {
+            background: var(--brand-pink);
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(212, 131, 139, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .interactive-grid {
@@ -578,14 +633,9 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: opacity 0.3s ease;
         }
 
-        .map-btn-small:hover {
-            opacity: 0.9;
-        }
-
-        /* Footer Custom Styles */
+        /* Footer Styles */
         footer {
             background: #080706;
             border-top: 1px solid rgba(212, 175, 55, 0.25);
@@ -671,11 +721,16 @@
             gap: 12px;
         }
 
-        .footer-brand-left img {
+        .footer-brand-left .image-wrapper {
             width: 40px;
             height: 40px;
             border-radius: 50%;
             border: 1px solid var(--gold);
+        }
+
+        .footer-brand-left img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
         }
 
@@ -704,7 +759,6 @@
             border-radius: 20px;
             font-size: 0.8rem;
             text-decoration: none;
-            transition: all 0.3s ease;
             cursor: pointer;
         }
 
@@ -746,53 +800,67 @@
             cursor: pointer;
         }
 
-        @media (max-width: 1050px) {
-            #home {
-                flex-direction: column;
-                text-align: center;
-                padding-top: 130px;
-                gap: 40px;
-            }
-            .hero-content {
-                max-width: 100%;
-            }
-            .hero-content .tagline, .custom-divider-line {
-                justify-content: center;
-            }
-            .custom-divider-line::before, .custom-divider-line::after {
-                width: 70px;
-            }
-            .hero-visuals {
-                margin-right: 0;
-            }
-            #about {
-                flex-direction: column;
-                text-align: center;
-            }
-            .about-features {
-                grid-template-columns: 1fr;
-            }
-            .interactive-grid {
-                grid-template-columns: 1fr;
-            }
-            .gallery-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            nav ul {
-                display: none;
-            }
-            .footer-top-grid {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-            .footer-bottom-flex {
-                flex-direction: column;
-                text-align: center;
-            }
+        /* Custom Popup for Zoom & Pan Dragging */
+        #zoomPanModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-box-content {
+            background: #161412;
+            border: 1px solid #D4AF37;
+            padding: 25px;
+            border-radius: 15px;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.9);
+        }
+
+        /* Pan & Zoom Viewport Container */
+        #dragContainer {
+            width: 100%;
+            height: 280px;
+            background: #0c0b0a;
+            border: 2px dashed #D4AF37;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            cursor: grab;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        #dragContainer:active {
+            cursor: grabbing;
+        }
+
+        #modalImagePreview {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            user-select: none;
+            pointer-events: none;
+            transition: transform 0.05s ease-out;
         }
     </style>
 </head>
 <body>
+
+    <input type="file" id="imageUploadInput" accept="image/*" style="display: none;">
+    <input type="file" id="menuImagePicker" accept="image/*" style="display: none;">
+    <input type="file" id="galleryImagePicker" accept="image/*" style="display: none;">
 
     <div id="adminToolbar">
         <span><i class="fas fa-user-shield"></i> Admin Mode Active</span>
@@ -801,10 +869,12 @@
 
     <header>
         <a href="#home" class="logo-container">
-            <img src="logo.png" alt="Blissful Bakes">
+            <div class="image-wrapper">
+                <img src="logo.png" alt="Blissful Bakes" class="editable-img" data-id="logo-img">
+            </div>
             <div class="logo-text">
-                <h1>Blissful Bakes</h1>
-                <p>Delight in Every Bite</p>
+                <h1 class="edit-text" data-id="logo-title">Blissful Bakes</h1>
+                <p class="edit-text" data-id="logo-subtitle">Delight in Every Bite</p>
             </div>
         </a>
         <nav>
@@ -824,22 +894,24 @@
 
     <section id="home">
         <div class="hero-content">
-            <h2 class="edit-text">Welcome to</h2>
-            <h1 class="edit-text">BLISSFUL BAKES</h1>
+            <h2 class="edit-text" data-id="hero-h2">Welcome to</h2>
+            <h1 class="edit-text" data-id="hero-h1">BLISSFUL BAKES</h1>
             <div class="tagline">
-                <i class="fas fa-heart"></i> <span class="edit-text">Delight in Every Bite</span> <i class="fas fa-heart"></i>
+                <i class="fas fa-heart"></i> <span class="edit-text" data-id="hero-tagline">Delight in Every Bite</span> <i class="fas fa-heart"></i>
             </div>
             <div class="custom-divider-line">
                 <i class="fas fa-birthday-cake" style="font-size: 0.8rem;"></i>
             </div>
-            <p class="edit-text">Indulge in handcrafted cakes, cupcakes, brownies and desserts made with love and the finest ingredients.</p>
+            <p class="edit-text" data-id="hero-desc">Indulge in handcrafted cakes, cupcakes, brownies and desserts made with love and the finest ingredients.</p>
             <a href="https://wa.me/923714079790?text=Hello%20Blissful%20Bakes,%20I%20want%20to%20place%20an%20order!" target="_blank" class="primary-btn">
                 ORDER NOW ON WHATSAPP <i class="fab fa-whatsapp"></i>
             </a>
         </div>
 
         <div class="hero-visuals">
-            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80" alt="Delicious Cake" class="hero-main-cake editable-img">
+            <div class="image-wrapper hero-main-cake-wrap">
+                <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80" alt="Delicious Cake" class="hero-main-cake editable-img" data-id="hero-cake-img">
+            </div>
         </div>
 
         <div class="home-bottom-transition">
@@ -852,173 +924,139 @@
 
     <div class="light-theme-section">
         <div class="section-title">
-            <h2 class="edit-text">OUR SPECIALTIES</h2>
+            <h2 class="edit-text" data-id="spec-title">OUR SPECIALTIES</h2>
             <div class="fancy-divider"><i class="fas fa-heart" style="font-size: 0.7rem;"></i></div>
         </div>
 
         <div class="specialties-grid">
-            <div class="specialty-card">
-                <i class="fas fa-birthday-cake"></i>
-                <h3 class="edit-text">CAKES</h3>
-            </div>
-            <div class="specialty-card">
-                <i class="fas fa-cookie"></i>
-                <h3 class="edit-text">CUPCAKES</h3>
-            </div>
-            <div class="specialty-card">
-                <i class="fas fa-cube"></i>
-                <h3 class="edit-text">BROWNIES</h3>
-            </div>
-            <div class="specialty-card">
-                <i class="fas fa-utensils"></i>
-                <h3 class="edit-text">DESSERTS</h3>
-            </div>
+            <div class="specialty-card"><i class="fas fa-birthday-cake"></i><h3 class="edit-text" data-id="spec-1">CAKES</h3></div>
+            <div class="specialty-card"><i class="fas fa-cookie"></i><h3 class="edit-text" data-id="spec-2">CUPCAKES</h3></div>
+            <div class="specialty-card"><i class="fas fa-cube"></i><h3 class="edit-text" data-id="spec-3">BROWNIES</h3></div>
+            <div class="specialty-card"><i class="fas fa-utensils"></i><h3 class="edit-text" data-id="spec-4">DESSERTS</h3></div>
         </div>
 
         <div class="section-title" id="menu">
-            <h2 class="edit-text">OUR MENU</h2>
+            <h2 class="edit-text" data-id="menu-main-title">OUR MENU</h2>
             <div class="fancy-divider"><i class="fas fa-heart" style="font-size: 0.7rem;"></i></div>
         </div>
 
-        <div class="menu-grid">
+        <div class="menu-grid" id="menuGridContainer">
             <div class="menu-card">
-                <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=500&q=80" alt="Chocolate Cake" class="editable-img">
+                <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=500&q=80" alt="Chocolate Cake" class="editable-img" data-id="menu-img-1"></div>
                 <div class="menu-card-body">
-                    <h3 class="edit-text">Chocolate Cake</h3>
-                    <div class="price edit-text">Rs. 2,500</div>
-                    <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Chocolate%20Cake" target="_blank" class="whatsapp-order-btn">
-                        <i class="fab fa-whatsapp"></i> Order on WhatsApp
-                    </a>
+                    <h3 class="edit-text" data-id="menu-title-1">Chocolate Cake</h3>
+                    <div class="price edit-text" data-id="menu-price-1">Rs. 2,500</div>
+                    <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Chocolate%20Cake" target="_blank" class="whatsapp-order-btn"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
                 </div>
             </div>
 
             <div class="menu-card">
-                <img src="https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?auto=format&fit=crop&w=500&q=80" alt="Red Velvet Cake" class="editable-img">
+                <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?auto=format&fit=crop&w=500&q=80" alt="Red Velvet Cake" class="editable-img" data-id="menu-img-2"></div>
                 <div class="menu-card-body">
-                    <h3 class="edit-text">Red Velvet Cake</h3>
-                    <div class="price edit-text">Rs. 2,800</div>
-                    <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Red%20Velvet%20Cake" target="_blank" class="whatsapp-order-btn">
-                        <i class="fab fa-whatsapp"></i> Order on WhatsApp
-                    </a>
+                    <h3 class="edit-text" data-id="menu-title-2">Red Velvet Cake</h3>
+                    <div class="price edit-text" data-id="menu-price-2">Rs. 2,800</div>
+                    <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Red%20Velvet%20Cake" target="_blank" class="whatsapp-order-btn"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
                 </div>
             </div>
 
             <div class="menu-card">
-                <img src="https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?auto=format&fit=crop&w=500&q=80" alt="Chocolate Cupcake" class="editable-img">
+                <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?auto=format&fit=crop&w=500&q=80" alt="Chocolate Cupcake" class="editable-img" data-id="menu-img-3"></div>
                 <div class="menu-card-body">
-                    <h3 class="edit-text">Chocolate Cupcake</h3>
-                    <div class="price edit-text">Rs. 250</div>
-                    <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Chocolate%20Cupcake" target="_blank" class="whatsapp-order-btn">
-                        <i class="fab fa-whatsapp"></i> Order on WhatsApp
-                    </a>
+                    <h3 class="edit-text" data-id="menu-title-3">Chocolate Cupcake</h3>
+                    <div class="price edit-text" data-id="menu-price-3">Rs. 250</div>
+                    <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Chocolate%20Cupcake" target="_blank" class="whatsapp-order-btn"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
                 </div>
             </div>
 
             <div class="menu-card">
-                <img src="https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?auto=format&fit=crop&w=500&q=80" alt="Vanilla Cupcake" class="editable-img">
+                <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?auto=format&fit=crop&w=500&q=80" alt="Vanilla Cupcake" class="editable-img" data-id="menu-img-4"></div>
                 <div class="menu-card-body">
-                    <h3 class="edit-text">Vanilla Cupcake</h3>
-                    <div class="price edit-text">Rs. 250</div>
-                    <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Vanilla%20Cupcake" target="_blank" class="whatsapp-order-btn">
-                        <i class="fab fa-whatsapp"></i> Order on WhatsApp
-                    </a>
+                    <h3 class="edit-text" data-id="menu-title-4">Vanilla Cupcake</h3>
+                    <div class="price edit-text" data-id="menu-price-4">Rs. 250</div>
+                    <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Vanilla%20Cupcake" target="_blank" class="whatsapp-order-btn"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
                 </div>
             </div>
 
             <div class="menu-card">
-                <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=500&q=80" alt="Fudgy Brownie" class="editable-img">
+                <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=500&q=80" alt="Fudgy Brownie" class="editable-img" data-id="menu-img-5"></div>
                 <div class="menu-card-body">
-                    <h3 class="edit-text">Fudgy Brownie</h3>
-                    <div class="price edit-text">Rs. 350</div>
-                    <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Fudgy%20Brownie" target="_blank" class="whatsapp-order-btn">
-                        <i class="fab fa-whatsapp"></i> Order on WhatsApp
-                    </a>
+                    <h3 class="edit-text" data-id="menu-title-5">Fudgy Brownie</h3>
+                    <div class="price edit-text" data-id="menu-price-5">Rs. 350</div>
+                    <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Fudgy%20Brownie" target="_blank" class="whatsapp-order-btn"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
                 </div>
             </div>
 
             <div class="menu-card">
-                <img src="https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=500&q=80" alt="Chocolate Truffles" class="editable-img">
+                <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=500&q=80" alt="Chocolate Truffles" class="editable-img" data-id="menu-img-6"></div>
                 <div class="menu-card-body">
-                    <h3 class="edit-text">Chocolate Truffles</h3>
-                    <div class="price edit-text">Rs. 500 (Box)</div>
-                    <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Chocolate%20Truffles" target="_blank" class="whatsapp-order-btn">
-                        <i class="fab fa-whatsapp"></i> Order on WhatsApp
-                    </a>
+                    <h3 class="edit-text" data-id="menu-title-6">Chocolate Truffles</h3>
+                    <div class="price edit-text" data-id="menu-price-6">Rs. 500 (Box)</div>
+                    <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Chocolate%20Truffles" target="_blank" class="whatsapp-order-btn"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
                 </div>
             </div>
+        </div>
+
+        <div class="admin-add-btn-container" id="addMenuBtnContainer">
+            <button class="admin-add-btn" id="addMoreMenuBtn"><i class="fas fa-plus-circle"></i> Add More Menu Item</button>
         </div>
 
         <section id="about">
             <div class="about-image">
-                <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=500&q=80" alt="About Blissful Bakes" class="editable-img">
+                <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=500&q=80" alt="About Blissful Bakes" class="editable-img" data-id="about-img"></div>
             </div>
             <div class="about-content">
-                <h2 class="edit-text">Baked with Passion, Made for Happiness</h2>
-                <p class="edit-text">At Blissful Bakes, every treat is a piece of art. We use premium ingredients and pour our heart into every creation to make your moments unforgettable.</p>
+                <h2 class="edit-text" data-id="about-h2">Baked with Passion, Made for Happiness</h2>
+                <p class="edit-text" data-id="about-desc">At Blissful Bakes, every treat is a piece of art. We use premium ingredients and pour our heart into every creation to make your moments unforgettable.</p>
                 <div class="about-features">
                     <div class="feature-item">
                         <i class="fas fa-leaf"></i>
-                        <div>
-                            <h4 class="edit-text">Premium Ingredients</h4>
-                            <p class="edit-text">We use only the finest and freshest ingredients.</p>
-                        </div>
+                        <div><h4 class="edit-text" data-id="feat-1-h">Premium Ingredients</h4><p class="edit-text" data-id="feat-1-p">We use only the finest and freshest ingredients.</p></div>
                     </div>
                     <div class="feature-item">
                         <i class="fas fa-heart"></i>
-                        <div>
-                            <h4 class="edit-text">Handcrafted with Love</h4>
-                            <p class="edit-text">Every item is handmade with love and care.</p>
-                        </div>
+                        <div><h4 class="edit-text" data-id="feat-2-h">Handcrafted with Love</h4><p class="edit-text" data-id="feat-2-p">Every item is handmade with love and care.</p></div>
                     </div>
                     <div class="feature-item">
                         <i class="fas fa-birthday-cake"></i>
-                        <div>
-                            <h4 class="edit-text">Custom Made</h4>
-                            <p class="edit-text">We create custom cakes for your special moments.</p>
-                        </div>
+                        <div><h4 class="edit-text" data-id="feat-3-h">Custom Made</h4><p class="edit-text" data-id="feat-3-p">We create custom cakes for your special moments.</p></div>
                     </div>
                     <div class="feature-item">
                         <i class="fas fa-shield-alt"></i>
-                        <div>
-                            <h4 class="edit-text">Hygienic & Fresh</h4>
-                            <p class="edit-text">We ensure 100% hygiene in every bite.</p>
-                        </div>
+                        <div><h4 class="edit-text" data-id="feat-4-h">Hygienic & Fresh</h4><p class="edit-text" data-id="feat-4-p">We ensure 100% hygiene in every bite.</p></div>
                     </div>
                 </div>
             </div>
         </section>
 
         <div class="section-title" id="gallery">
-            <h2 class="edit-text">GALLERY</h2>
+            <h2 class="edit-text" data-id="gal-title">GALLERY</h2>
             <div class="fancy-divider"><i class="fas fa-heart" style="font-size: 0.7rem;"></i></div>
         </div>
 
-        <div class="gallery-grid">
-            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=400&q=80" alt="Gallery 1" class="editable-img"></div>
-            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?auto=format&fit=crop&w=400&q=80" alt="Gallery 2" class="editable-img"></div>
-            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?auto=format&fit=crop&w=400&q=80" alt="Gallery 3" class="editable-img"></div>
-            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?auto=format&fit=crop&w=400&q=80" alt="Gallery 4" class="editable-img"></div>
-            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=400&q=80" alt="Gallery 5" class="editable-img"></div>
-            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=400&q=80" alt="Gallery 6" class="editable-img"></div>
+        <div class="gallery-grid" id="galleryGridContainer">
+            <div class="gallery-item"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=400&q=80" alt="Gallery 1" class="editable-img" data-id="gal-img-1"></div></div>
+            <div class="gallery-item"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?auto=format&fit=crop&w=400&q=80" alt="Gallery 2" class="editable-img" data-id="gal-img-2"></div></div>
+            <div class="gallery-item"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?auto=format&fit=crop&w=400&q=80" alt="Gallery 3" class="editable-img" data-id="gal-img-3"></div></div>
+            <div class="gallery-item"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?auto=format&fit=crop&w=400&q=80" alt="Gallery 4" class="editable-img" data-id="gal-img-4"></div></div>
+            <div class="gallery-item"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=400&q=80" alt="Gallery 5" class="editable-img" data-id="gal-img-5"></div></div>
+            <div class="gallery-item"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=400&q=80" alt="Gallery 6" class="editable-img" data-id="gal-img-6"></div></div>
+        </div>
+
+        <div class="admin-add-btn-container" id="addGalleryBtnContainer">
+            <button class="admin-add-btn" id="addMoreGalleryBtn"><i class="fas fa-plus-circle"></i> Add More Picture</button>
         </div>
 
         <div class="section-title" id="reviews" style="margin-top: 60px;">
-            <h2 class="edit-text">REVIEWS & LOCATION</h2>
+            <h2 class="edit-text" data-id="rev-main-title">REVIEWS & LOCATION</h2>
             <div class="fancy-divider"><i class="fas fa-heart" style="font-size: 0.7rem;"></i></div>
         </div>
 
         <div class="interactive-grid">
             <div class="reviews-box-small">
                 <i class="fas fa-quote-left quote-icon"></i>
-                <p class="edit-text">"The cake was beyond amazing! Super soft, fresh and beautifully designed. Highly recommended!"</p>
-                <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="reviewer-name edit-text">– Ayesha Khan</div>
+                <p class="edit-text" data-id="rev-text">"The cake was beyond amazing! Super soft, fresh and beautifully designed. Highly recommended!"</p>
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <div class="reviewer-name edit-text" data-id="rev-author">– Ayesha Khan</div>
             </div>
 
             <div class="map-box-small" id="contact">
@@ -1038,13 +1076,13 @@
         <div class="footer-top-grid">
             <div class="footer-col">
                 <i class="fab fa-whatsapp main-icon"></i>
-                <h4 class="edit-text">ORDER ON WHATSAPP</h4>
-                <p class="edit-text">Place your order easily on WhatsApp</p>
-                <a href="https://wa.me/923714079790?text=Hello%20Blissful%20Bakes,%20I%20want%20to%20order!" target="_blank" class="phone-num edit-text">+92 371 4079790</a>
+                <h4 class="edit-text" data-id="footer-h-1">ORDER ON WHATSAPP</h4>
+                <p class="edit-text" data-id="footer-p-1">Place your order easily on WhatsApp</p>
+                <a href="https://wa.me/923714079790?text=Hello%20Blissful%20Bakes,%20I%20want%20to%20order!" target="_blank" class="phone-num edit-text" data-id="footer-phone">+92 371 4079790</a>
             </div>
             <div class="footer-col">
                 <i class="fas fa-share-alt main-icon"></i>
-                <h4 class="edit-text">FOLLOW US</h4>
+                <h4 class="edit-text" data-id="footer-h-2">FOLLOW US</h4>
                 <div class="footer-social-icons">
                     <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
@@ -1054,26 +1092,22 @@
             </div>
             <div class="footer-col">
                 <i class="far fa-clock main-icon"></i>
-                <h4 class="edit-text">OPENING HOURS</h4>
-                <p class="edit-text">Monday – Sunday</p>
-                <p style="color: var(--gold-light); font-weight: 700; margin-top: 4px;" class="edit-text">10:00 AM – 10:00 PM</p>
+                <h4 class="edit-text" data-id="footer-h-3">OPENING HOURS</h4>
+                <p class="edit-text" data-id="footer-hours-days">Monday – Sunday</p>
+                <p style="color: var(--gold-light); font-weight: 700; margin-top: 4px;" class="edit-text" data-id="footer-hours-time">10:00 AM – 10:00 PM</p>
             </div>
         </div>
 
         <div class="footer-bottom-flex">
             <div class="footer-brand-left">
-                <img src="logo.png" alt="Blissful Bakes" class="editable-img">
+                <div class="image-wrapper"><img src="logo.png" alt="Blissful Bakes" class="editable-img" data-id="footer-logo"></div>
                 <div>
-                    <h5 class="edit-text">Blissful Bakes</h5>
-                    <p class="edit-text">Delight in Every Bite ♥</p>
+                    <h5 class="edit-text" data-id="footer-brand-name">Blissful Bakes</h5>
+                    <p class="edit-text" data-id="footer-brand-tag">Delight in Every Bite ♥</p>
                 </div>
             </div>
-            <div class="footer-copyright edit-text">
-                © 2026 Blissful Bakes. All Rights Reserved.
-            </div>
-            <div>
-                <a href="javascript:void(0);" id="adminLoginBtn" class="admin-login-btn">Admin Login</a>
-            </div>
+            <div class="footer-copyright edit-text" data-id="footer-copy">© 2026 Blissful Bakes. All Rights Reserved.</div>
+            <div><a href="javascript:void(0);" id="adminLoginBtn" class="admin-login-btn">Admin Login</a></div>
         </div>
     </footer>
 
@@ -1084,6 +1118,27 @@
             <input type="password" id="adminPassword" placeholder="Enter Admin Password" style="width: 100%; padding: 10px; background: #0c0b0a; border: 1px solid rgba(212,175,55,0.4); color: #fff; border-radius: 5px; margin-bottom: 15px; outline: none; text-align: center;">
             <button id="loginSubmitBtn" style="background: #D4AF37; color: #0c0b0a; border: none; padding: 10px 20px; border-radius: 25px; font-weight: 700; cursor: pointer; width: 100%;">Login</button>
             <p id="loginError" style="color: #ff6b6b; font-size: 0.8rem; margin-top: 10px; display: none;">Ghalat Password!</p>
+        </div>
+    </div>
+
+    <div id="zoomPanModal">
+        <div class="modal-box-content">
+            <h3 style="font-family: 'Playfair Display', serif; color: #F3E5AB; margin-bottom: 5px;">Adjust Image</h3>
+            <p style="color: #D1CBC1; font-size: 0.78rem; margin-bottom: 12px;">Zoom slider se size barhaein aur mouse ya finger se move karein:</p>
+            
+            <div id="dragContainer">
+                <img id="modalImagePreview" src="" alt="Preview">
+            </div>
+
+            <div style="margin-bottom: 15px; text-align: left;">
+                <label style="color: #F3E5AB; font-size: 0.85rem; display: block; margin-bottom: 5px;">Zoom Level:</label>
+                <input type="range" id="zoomRangeInput" min="1" max="3" step="0.05" value="1" style="width: 100%; accent-color: #D4AF37; cursor: pointer;">
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button id="cancelZoomBtn" style="background: #555; color: #fff; border: none; padding: 10px 15px; border-radius: 25px; font-weight: 700; cursor: pointer; flex: 1;">Cancel</button>
+                <button id="saveZoomBtn" style="background: #D4AF37; color: #0c0b0a; border: none; padding: 10px 15px; border-radius: 25px; font-weight: 700; cursor: pointer; flex: 1;">Save & Apply</button>
+            </div>
         </div>
     </div>
 
@@ -1115,13 +1170,69 @@
         const errorMsg = document.getElementById('loginError');
         const adminToolbar = document.getElementById('adminToolbar');
         const logoutBtn = document.getElementById('logoutAdminBtn');
+        
+        const fileInput = document.getElementById('imageUploadInput');
+        const menuImagePicker = document.getElementById('menuImagePicker');
+        const galleryImagePicker = document.getElementById('galleryImagePicker');
+        
+        const zoomPanModal = document.getElementById('zoomPanModal');
+        const dragContainer = document.getElementById('dragContainer');
+        const modalImagePreview = document.getElementById('modalImagePreview');
+        const zoomRangeInput = document.getElementById('zoomRangeInput');
+        const saveZoomBtn = document.getElementById('saveZoomBtn');
+        const cancelZoomBtn = document.getElementById('cancelZoomBtn');
 
-        // Modal Open/Close
+        const addMenuBtnContainer = document.getElementById('addMenuBtnContainer');
+        const addMoreMenuBtn = document.getElementById('addMoreMenuBtn');
+        const menuGridContainer = document.getElementById('menuGridContainer');
+
+        const addGalleryBtnContainer = document.getElementById('addGalleryBtnContainer');
+        const addMoreGalleryBtn = document.getElementById('addMoreGalleryBtn');
+        const galleryGridContainer = document.getElementById('galleryGridContainer');
+
+        let activeImageElement = null;
+        let isAdminLoggedIn = false;
+
+        // Pan & Zoom Variables
+        let currentScale = 1;
+        let pointX = 0;
+        let pointY = 0;
+        let isDragging = false;
+        let startX = 0;
+        let startY = 0;
+
+        // Load Saved Data on Startup
+        window.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.edit-text').forEach(el => {
+                const id = el.getAttribute('data-id');
+                if (id && localStorage.getItem('text_' + id)) {
+                    el.innerText = localStorage.getItem('text_' + id);
+                }
+            });
+
+            document.querySelectorAll('.editable-img').forEach(img => {
+                const id = img.getAttribute('data-id');
+                if (id && localStorage.getItem('img_' + id)) {
+                    img.src = localStorage.getItem('img_' + id);
+                }
+            });
+
+            const savedMenus = JSON.parse(localStorage.getItem('custom_menus') || '[]');
+            savedMenus.forEach(item => {
+                appendMenuCard(item.img, item.title, item.price, item.id);
+            });
+
+            const savedGallery = JSON.parse(localStorage.getItem('custom_gallery') || '[]');
+            savedGallery.forEach(item => {
+                appendGalleryItem(item.img, item.id);
+            });
+        });
+
+        // Admin Modal Controls
         btn.onclick = () => modal.style.display = 'flex';
         span.onclick = () => { modal.style.display = 'none'; errorMsg.style.display = 'none'; passwordInput.value = ''; }
         window.onclick = (e) => { if (e.target == modal) { modal.style.display = 'none'; errorMsg.style.display = 'none'; passwordInput.value = ''; } }
 
-        // Login Logic
         submitBtn.onclick = async function() {
             const pass = passwordInput.value;
             const adminEmail = "muhammad.waseem99@gmail.com"; 
@@ -1132,15 +1243,13 @@
                 passwordInput.value = '';
                 errorMsg.style.display = 'none';
                 
-                // Enable Editing Mode
                 enableEditingMode();
-                alert("Login Successful! Admin Editing Enabled.");
+                alert("Login Successful! Click any image to change, zoom, or move it.");
             } catch (error) {
                 errorMsg.style.display = 'block';
             }
         };
 
-        // Logout Logic
         logoutBtn.onclick = async function() {
             try {
                 await signOut(auth);
@@ -1151,36 +1260,229 @@
             }
         };
 
-        // Enable Edit Functions
         function enableEditingMode() {
+            isAdminLoggedIn = true;
             adminToolbar.style.display = 'flex';
+            addMenuBtnContainer.style.display = 'block';
+            addGalleryBtnContainer.style.display = 'block';
             
-            // Make texts editable
             document.querySelectorAll('.edit-text').forEach(el => {
                 el.setAttribute('contenteditable', 'true');
                 el.style.borderBottom = '1px dashed #D4AF37';
+
+                el.oninput = function() {
+                    const id = el.getAttribute('data-id');
+                    if (id) {
+                        localStorage.setItem('text_' + id, el.innerText);
+                    }
+                };
             });
 
-            // Make images clickable to change URL
+            bindImageClickEvents();
+        }
+
+        function bindImageClickEvents() {
             document.querySelectorAll('.editable-img').forEach(img => {
                 img.style.cursor = 'pointer';
                 img.style.border = '3px dashed #D4AF37';
-                img.onclick = function() {
-                    const newUrl = prompt("Enter new Image URL:", img.src);
-                    if (newUrl) {
-                        img.src = newUrl;
-                    }
+                img.onclick = function(e) {
+                    e.stopPropagation();
+                    activeImageElement = img; 
+                    fileInput.click();       
                 };
             });
         }
 
-        // Disable Edit Functions
+        // File Selection Triggers Zoom & Pan Modal
+        fileInput.onchange = function(event) {
+            const file = event.target.files[0];
+            if (file && activeImageElement) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    modalImagePreview.src = e.target.result;
+                    zoomPanModal.style.display = 'flex';
+
+                    // Reset values
+                    currentScale = 1;
+                    pointX = 0;
+                    pointY = 0;
+                    zoomRangeInput.value = 1;
+                    updateImageTransform();
+                };
+                reader.readAsDataURL(file);
+            }
+            fileInput.value = ''; 
+        };
+
+        function updateImageTransform() {
+            modalImagePreview.style.transform = `translate(${pointX}px, ${pointY}px) scale(${currentScale})`;
+        }
+
+        // Zoom Slider Input Event
+        zoomRangeInput.oninput = function(e) {
+            currentScale = parseFloat(e.target.value);
+            updateImageTransform();
+        };
+
+        // Mouse Drag (Pan) Logic
+        dragContainer.onmousedown = function(e) {
+            isDragging = true;
+            startX = e.clientX - pointX;
+            startY = e.clientY - pointY;
+        };
+
+        window.onmousemove = function(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+            pointX = e.clientX - startX;
+            pointY = e.clientY - startY;
+            updateImageTransform();
+        };
+
+        window.onmouseup = function() {
+            isDragging = false;
+        };
+
+        // Touch Drag (Pan) Logic for Mobile Phones
+        dragContainer.ontouchstart = function(e) {
+            isDragging = true;
+            startX = e.touches[0].clientX - pointX;
+            startY = e.touches[0].clientY - pointY;
+        };
+
+        window.ontouchmove = function(e) {
+            if (!isDragging) return;
+            pointX = e.touches[0].clientX - startX;
+            pointY = e.touches[0].clientY - startY;
+            updateImageTransform();
+        };
+
+        window.ontouchend = function() {
+            isDragging = false;
+        };
+
+        // Save Adjusted Image using HTML5 Canvas
+        saveZoomBtn.onclick = function() {
+            if (activeImageElement && modalImagePreview.src) {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+
+                img.onload = function() {
+                    canvas.width = 600;
+                    canvas.height = 600;
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                    ctx.save();
+                    ctx.translate(canvas.width / 2 + pointX, canvas.height / 2 + pointY);
+                    ctx.scale(currentScale, currentScale);
+                    ctx.drawImage(img, -img.width / 2, -img.height / 2);
+                    ctx.restore();
+
+                    const finalDataUrl = canvas.toDataURL('image/jpeg', 0.9);
+                    activeImageElement.src = finalDataUrl;
+
+                    const id = activeImageElement.getAttribute('data-id');
+                    if (id) {
+                        localStorage.setItem('img_' + id, finalDataUrl);
+                    }
+
+                    zoomPanModal.style.display = 'none';
+                };
+                img.src = modalImagePreview.src;
+            }
+        };
+
+        cancelZoomBtn.onclick = function() {
+            zoomPanModal.style.display = 'none';
+        };
+
+        // Add More Menu Items
+        addMoreMenuBtn.onclick = function() {
+            menuImagePicker.click();
+        };
+
+        menuImagePicker.onchange = function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgSrc = e.target.result;
+                    const title = prompt("Enter Menu Item Title (e.g., Fruit Cake):", "New Item");
+                    if (!title) return;
+                    const price = prompt("Enter Price (e.g., Rs. 3,000):", "Rs. 2,000");
+                    if (!price) return;
+
+                    const uniqueId = 'custom_menu_' + Date.now();
+                    const savedMenus = JSON.parse(localStorage.getItem('custom_menus') || '[]');
+                    savedMenus.push({ id: uniqueId, img: imgSrc, title: title, price: price });
+                    localStorage.setItem('custom_menus', JSON.stringify(savedMenus));
+
+                    appendMenuCard(imgSrc, title, price, uniqueId);
+                };
+                reader.readAsDataURL(file);
+            }
+            menuImagePicker.value = '';
+        };
+
+        function appendMenuCard(imgSrc, title, price, uniqueId) {
+            const card = document.createElement('div');
+            card.className = 'menu-card';
+            card.innerHTML = `
+                <div class="image-wrapper"><img src="${imgSrc}" alt="${title}" class="editable-img" data-id="${uniqueId}"></div>
+                <div class="menu-card-body">
+                    <h3 class="edit-text" data-id="${uniqueId}_title">${title}</h3>
+                    <div class="price edit-text" data-id="${uniqueId}_price">${price}</div>
+                    <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20${encodeURIComponent(title)}" target="_blank" class="whatsapp-order-btn"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
+                </div>
+            `;
+            menuGridContainer.appendChild(card);
+            if (isAdminLoggedIn) enableEditingMode();
+        }
+
+        // Add More Gallery Pictures
+        addMoreGalleryBtn.onclick = function() {
+            galleryImagePicker.click();
+        };
+
+        galleryImagePicker.onchange = function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgSrc = e.target.result;
+                    const uniqueId = 'custom_gallery_' + Date.now();
+
+                    const savedGallery = JSON.parse(localStorage.getItem('custom_gallery') || '[]');
+                    savedGallery.push({ id: uniqueId, img: imgSrc });
+                    localStorage.setItem('custom_gallery', JSON.stringify(savedGallery));
+
+                    appendGalleryItem(imgSrc, uniqueId);
+                };
+                reader.readAsDataURL(file);
+            }
+            galleryImagePicker.value = '';
+        };
+
+        function appendGalleryItem(imgSrc, uniqueId) {
+            const item = document.createElement('div');
+            item.className = 'gallery-item';
+            item.innerHTML = `<div class="image-wrapper"><img src="${imgSrc}" alt="Gallery Item" class="editable-img" data-id="${uniqueId}"></div>`;
+            galleryGridContainer.appendChild(item);
+            if (isAdminLoggedIn) enableEditingMode();
+        }
+
         function disableEditingMode() {
+            isAdminLoggedIn = false;
             adminToolbar.style.display = 'none';
+            addMenuBtnContainer.style.display = 'none';
+            addGalleryBtnContainer.style.display = 'none';
             
             document.querySelectorAll('.edit-text').forEach(el => {
                 el.removeAttribute('contenteditable');
                 el.style.borderBottom = 'none';
+                el.oninput = null;
             });
 
             document.querySelectorAll('.editable-img').forEach(img => {
