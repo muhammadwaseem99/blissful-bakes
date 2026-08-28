@@ -32,11 +32,12 @@
             scroll-behavior: smooth;
         }
 
-        body {
+        body, html {
             background-color: var(--bg-color);
             color: var(--text-light);
             font-family: 'Lato', sans-serif;
             overflow-x: hidden;
+            width: 100%;
         }
 
         /* Top Bar & Header */
@@ -55,21 +56,45 @@
             padding: 12px 5%;
         }
 
+        .header-left-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Hamburger Menu Icon */
+        .menu-toggle-btn {
+            background: none;
+            border: none;
+            color: var(--gold-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s ease;
+        }
+
+        .menu-toggle-btn:hover {
+            color: var(--gold);
+        }
+
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             text-decoration: none;
         }
 
         .logo-container .image-wrapper {
-            width: 52px;
-            height: 52px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             border: 2px solid var(--gold);
             overflow: hidden;
             position: relative;
             background: #000;
+            flex-shrink: 0;
         }
 
         .logo-container img {
@@ -80,47 +105,132 @@
 
         .logo-text h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.35rem;
+            font-size: 1.15rem;
             color: var(--gold-light);
             letter-spacing: 0.5px;
+            white-space: nowrap;
         }
 
         .logo-text p {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--text-muted);
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
         }
 
-        nav ul {
+        /* Desktop Nav */
+        .desktop-nav {
             display: flex;
             list-style: none;
-            gap: 25px;
+            gap: 20px;
             align-items: center;
         }
 
-        nav a {
+        .desktop-nav a {
             color: var(--text-light);
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             transition: color 0.3s ease;
         }
 
-        nav a:hover {
+        .desktop-nav a:hover {
             color: var(--gold);
+        }
+
+        /* Mobile Slide-out Menu Drawer */
+        .mobile-nav-drawer {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100%;
+            background: #161412;
+            border-right: 2px solid var(--gold);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            padding: 30px 20px;
+            transition: left 0.3s ease-in-out;
+            box-shadow: 5px 0 25px rgba(0,0,0,0.8);
+        }
+
+        .mobile-nav-drawer.active {
+            left: 0;
+        }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            padding-bottom: 15px;
+        }
+
+        .drawer-header h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold-light);
+            font-size: 1.2rem;
+        }
+
+        .drawer-close-btn {
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .mobile-nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            display: block;
+            padding: 5px 0;
+        }
+
+        .mobile-nav-links a:hover {
+            color: var(--gold);
+            padding-left: 5px;
+        }
+
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1500;
+            display: none;
+        }
+
+        .drawer-overlay.active {
+            display: block;
         }
 
         .whatsapp-btn-header {
             background: transparent;
             border: 1px solid var(--gold);
             color: var(--gold-light);
-            padding: 8px 18px;
+            padding: 6px 14px;
             border-radius: 30px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             text-decoration: none;
             transition: all 0.3s ease;
+            white-space: nowrap;
         }
 
         .whatsapp-btn-header:hover {
@@ -131,7 +241,7 @@
         /* Hero Section */
         #home {
             min-height: 105vh;
-            padding: 150px 6% 140px 6%;
+            padding: 140px 5% 120px 5%;
             background: linear-gradient(135deg, rgba(12, 11, 10, 0.82) 0%, rgba(12, 11, 10, 0.92) 100%), 
                         url('https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=1800&q=80');
             background-size: cover;
@@ -140,24 +250,28 @@
             align-items: center;
             justify-content: space-between;
             position: relative;
+            flex-wrap: wrap;
+            gap: 40px;
         }
 
         .hero-content {
             max-width: 580px;
             z-index: 2;
+            flex: 1;
+            min-width: 280px;
         }
 
         .hero-content h2 {
             font-family: 'Playfair Display', serif;
             font-style: italic;
             color: var(--gold);
-            font-size: 1.9rem;
+            font-size: 1.7rem;
             margin-bottom: 5px;
         }
 
         .hero-content h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 3.4rem;
+            font-size: 2.8rem;
             color: var(--gold-light);
             line-height: 1.1;
             margin-bottom: 12px;
@@ -169,16 +283,12 @@
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            gap: 12px;
+            gap: 10px;
             color: var(--gold);
             font-family: 'Playfair Display', serif;
             font-style: italic;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             margin-bottom: 15px;
-        }
-
-        .hero-content .tagline i {
-            font-size: 0.8rem;
         }
 
         .custom-divider-line {
@@ -186,47 +296,36 @@
             align-items: center;
             justify-content: flex-start;
             gap: 12px;
-            margin-bottom: 22px;
+            margin-bottom: 20px;
             color: var(--gold);
         }
 
         .custom-divider-line::before, .custom-divider-line::after {
             content: "";
             height: 1px;
-            width: 120px;
+            width: 80px;
             background: linear-gradient(90deg, transparent, var(--gold));
-        }
-
-        .custom-divider-line::after {
-            background: linear-gradient(90deg, var(--gold), transparent);
         }
 
         .hero-content p {
             color: var(--text-light);
-            font-size: 1.05rem;
+            font-size: 1rem;
             line-height: 1.6;
-            margin-bottom: 30px;
-            max-width: 520px;
+            margin-bottom: 25px;
         }
 
         .primary-btn {
             background: linear-gradient(135deg, #d4af37 0%, #b38f27 100%);
             color: #1a1612;
-            padding: 14px 30px;
+            padding: 12px 25px;
             border-radius: 35px;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .primary-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
         }
 
         .hero-visuals {
@@ -234,7 +333,8 @@
             align-items: center;
             justify-content: center;
             z-index: 2;
-            margin-right: 40px;
+            flex: 1;
+            min-width: 280px;
         }
 
         .image-wrapper {
@@ -245,8 +345,8 @@
         }
 
         .hero-main-cake-wrap {
-            width: 420px;
-            height: 420px;
+            width: 320px;
+            height: 320px;
             border-radius: 50%;
             border: 4px solid var(--gold);
             box-shadow: 0 20px 45px rgba(0,0,0,0.7);
@@ -270,7 +370,7 @@
         .home-bottom-transition svg {
             display: block;
             width: 100%;
-            height: 95px;
+            height: 70px;
         }
 
         /* Light Theme Wrapper */
@@ -278,19 +378,20 @@
             background-color: var(--light-bg);
             color: var(--light-text);
             padding-bottom: 50px;
+            width: 100%;
         }
 
         .section-title {
             text-align: center;
-            margin: 20px 0 40px 0;
+            margin: 20px 0 35px 0;
+            padding: 0 15px;
         }
 
         .section-title h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 2.3rem;
+            font-size: 2rem;
             color: var(--light-text);
-            margin-bottom: 12px;
-            letter-spacing: 1px;
+            margin-bottom: 10px;
         }
 
         .fancy-divider {
@@ -304,18 +405,14 @@
         .fancy-divider::before, .fancy-divider::after {
             content: "";
             height: 1px;
-            width: 100px;
+            width: 80px;
             background: linear-gradient(90deg, transparent, var(--brand-pink));
-        }
-
-        .fancy-divider::after {
-            background: linear-gradient(90deg, var(--brand-pink), transparent);
         }
 
         .specialties-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 20px;
             max-width: 950px;
             margin: 0 auto;
             padding: 0 5%;
@@ -324,34 +421,27 @@
         .specialty-card {
             background: var(--light-card-bg);
             border: 1px solid var(--light-border);
-            padding: 25px 15px;
+            padding: 20px 10px;
             text-align: center;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(212, 131, 139, 0.08);
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .specialty-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--brand-pink);
         }
 
         .specialty-card i {
-            font-size: 2.2rem;
+            font-size: 2rem;
             color: var(--brand-pink);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .specialty-card h3 {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: var(--light-text);
-            letter-spacing: 0.5px;
         }
 
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 5%;
@@ -363,16 +453,11 @@
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 6px 20px rgba(212, 131, 139, 0.08);
-            transition: transform 0.3s ease;
-        }
-
-        .menu-card:hover {
-            transform: translateY(-5px);
         }
 
         .menu-card .image-wrapper {
             width: 100%;
-            height: 230px;
+            height: 210px;
             display: block;
         }
 
@@ -383,61 +468,64 @@
         }
 
         .menu-card-body {
-            padding: 20px;
+            padding: 18px;
             text-align: center;
         }
 
         .menu-card-body h3 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            margin-bottom: 8px;
+            font-size: 1.2rem;
+            margin-bottom: 6px;
             color: var(--light-text);
         }
 
         .menu-card-body .price {
             color: var(--brand-pink);
             font-weight: 700;
-            font-size: 1.1rem;
-            margin-bottom: 15px;
+            font-size: 1.05rem;
+            margin-bottom: 12px;
         }
 
         .whatsapp-order-btn {
             background: #25D366;
             color: #fff;
-            padding: 10px 18px;
+            padding: 9px 16px;
             border-radius: 25px;
             text-decoration: none;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 600;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            transition: opacity 0.3s ease;
-        }
-
-        .whatsapp-order-btn:hover {
-            opacity: 0.9;
         }
 
         #about {
-            max-width: 1150px;
-            margin: 60px auto;
-            padding: 50px 5%;
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 40px 5%;
             background: var(--light-card-bg);
             border: 1px solid var(--light-border);
             border-radius: 20px;
             box-shadow: 0 8px 25px rgba(212, 131, 139, 0.1);
             display: flex;
             align-items: center;
-            gap: 50px;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .about-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            min-width: 280px;
         }
 
         .about-image .image-wrapper {
-            width: 360px;
-            height: 360px;
+            width: 100%;
+            max-width: 320px;
+            height: 320px;
             border-radius: 15px;
             border: 2px solid var(--brand-pink);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
         .about-image img {
@@ -446,57 +534,68 @@
             object-fit: cover;
         }
 
+        .about-content {
+            flex: 1.2;
+            min-width: 280px;
+        }
+
         .about-content h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             color: var(--light-text);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .about-content p {
             color: var(--light-muted);
-            line-height: 1.7;
-            margin-bottom: 25px;
-            font-size: 1.02rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 0.98rem;
         }
 
         .about-features {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media(min-width: 600px) {
+            .about-features {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
         .feature-item {
             display: flex;
             align-items: flex-start;
-            gap: 15px;
+            gap: 12px;
         }
 
         .feature-item i {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             color: var(--brand-pink);
             background: rgba(212, 131, 139, 0.1);
-            padding: 12px;
+            padding: 10px;
             border-radius: 10px;
             border: 1px solid var(--light-border);
         }
 
         .feature-item h4 {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--light-text);
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .feature-item p {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--light-muted);
             margin-bottom: 0;
         }
 
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
             max-width: 1000px;
             margin: 0 auto;
             padding: 0 5%;
@@ -504,12 +603,10 @@
 
         .gallery-item {
             width: 100%;
-            height: 220px;
+            height: 180px;
             border-radius: 12px;
             overflow: hidden;
             border: 1px solid var(--light-border);
-            box-shadow: 0 4px 12px rgba(212, 131, 139, 0.1);
-            position: relative;
         }
 
         .gallery-item .image-wrapper {
@@ -526,7 +623,7 @@
 
         .admin-add-btn-container {
             text-align: center;
-            margin-top: 25px;
+            margin-top: 20px;
             display: none;
         }
 
@@ -534,25 +631,26 @@
             background: var(--brand-pink);
             color: #fff;
             border: none;
-            padding: 12px 25px;
+            padding: 10px 22px;
             border-radius: 30px;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(212, 131, 139, 0.3);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
         }
 
         .interactive-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
+            grid-template-columns: 1fr;
+            gap: 25px;
             max-width: 1100px;
             margin: 0 auto;
             padding: 0 5%;
-            align-items: stretch;
+        }
+
+        @media(min-width: 768px) {
+            .interactive-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
         .reviews-box-small {
@@ -561,35 +659,31 @@
             border-radius: 15px;
             padding: 25px;
             box-shadow: 0 6px 20px rgba(212, 131, 139, 0.08);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
             text-align: center;
-            height: 100%;
         }
 
         .reviews-box-small i.quote-icon {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: var(--brand-pink);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .reviews-box-small p {
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             color: var(--light-text);
             font-style: italic;
             line-height: 1.5;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .stars {
             color: #f1c40f;
-            font-size: 0.85rem;
-            margin-bottom: 8px;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
         }
 
         .reviewer-name {
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             color: var(--light-muted);
             font-weight: 700;
         }
@@ -603,16 +697,15 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            height: 100%;
         }
 
         .map-iframe-container {
             width: 100%;
-            height: 180px;
+            height: 170px;
             border-radius: 10px;
             overflow: hidden;
             border: 1px solid var(--brand-pink);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .map-iframe-container iframe {
@@ -624,10 +717,10 @@
         .map-btn-small {
             background: var(--brand-pink);
             color: #fff;
-            padding: 10px 20px;
+            padding: 9px 18px;
             border-radius: 25px;
             font-weight: 700;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
@@ -639,57 +732,63 @@
         footer {
             background: #080706;
             border-top: 1px solid rgba(212, 175, 55, 0.25);
-            padding: 50px 6% 25px 6%;
+            padding: 40px 5% 20px 5%;
             color: var(--text-light);
+            width: 100%;
         }
 
         .footer-top-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: 1fr;
             gap: 30px;
             text-align: center;
-            padding-bottom: 40px;
+            padding-bottom: 30px;
             border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        @media(min-width: 768px) {
+            .footer-top-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
 
         .footer-col h4 {
             font-family: 'Playfair Display', serif;
             color: var(--gold);
-            font-size: 1.1rem;
-            letter-spacing: 1px;
-            margin: 12px 0 8px 0;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
+            margin: 10px 0 6px 0;
         }
 
         .footer-col p {
             color: var(--text-muted);
-            font-size: 0.9rem;
-            line-height: 1.4;
+            font-size: 0.85rem;
         }
 
         .footer-col .phone-num {
             color: var(--gold-light);
             font-weight: 700;
-            font-size: 1.15rem;
-            margin-top: 5px;
+            font-size: 1.1rem;
+            margin-top: 4px;
             display: inline-block;
             text-decoration: none;
         }
 
         .footer-col i.main-icon {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             color: var(--gold);
         }
 
         .footer-social-icons {
             display: flex;
             justify-content: center;
-            gap: 12px;
-            margin-top: 12px;
+            gap: 10px;
+            margin-top: 10px;
         }
 
         .footer-social-icons a {
-            width: 36px;
-            height: 36px;
+            width: 34px;
+            height: 34px;
             background: #161412;
             border: 1px solid rgba(212, 175, 55, 0.3);
             border-radius: 50%;
@@ -698,32 +797,34 @@
             justify-content: center;
             color: var(--gold);
             text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .footer-social-icons a:hover {
-            background: var(--gold);
-            color: var(--bg-color);
         }
 
         .footer-bottom-flex {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-top: 25px;
+            padding-top: 20px;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 15px;
+            text-align: center;
         }
 
         .footer-brand-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
+            margin: 0 auto;
+        }
+
+        @media(min-width: 768px) {
+            .footer-brand-left {
+                margin: 0;
+            }
         }
 
         .footer-brand-left .image-wrapper {
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             border: 1px solid var(--gold);
         }
@@ -737,67 +838,76 @@
         .footer-brand-left h5 {
             font-family: 'Playfair Display', serif;
             color: var(--gold-light);
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
         .footer-brand-left p {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--text-muted);
         }
 
         .footer-copyright {
             color: var(--text-muted);
-            font-size: 0.85rem;
-            text-align: center;
+            font-size: 0.8rem;
+            width: 100%;
+        }
+
+        @media(min-width: 768px) {
+            .footer-copyright {
+                width: auto;
+            }
         }
 
         .admin-login-btn {
             background: transparent;
             border: 1px dashed var(--gold);
             color: var(--gold-light);
-            padding: 6px 16px;
+            padding: 5px 14px;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             text-decoration: none;
             cursor: pointer;
+            display: inline-block;
         }
 
-        .admin-login-btn:hover {
-            background: var(--gold);
-            color: var(--bg-color);
-            border-style: solid;
+        /* MEDIA QUERY FOR MOBILE: HIDE DESKTOP NAV */
+        @media screen and (max-width: 900px) {
+            .desktop-nav {
+                display: none !important;
+            }
         }
 
         /* Admin Floating Toolbar */
         #adminToolbar {
             display: none;
             position: fixed;
-            top: 75px;
-            right: 20px;
+            top: 70px;
+            right: 15px;
             background: #161412;
             border: 2px solid var(--gold);
-            padding: 10px 20px;
-            border-radius: 30px;
+            padding: 8px 15px;
+            border-radius: 25px;
             z-index: 2000;
             box-shadow: 0 5px 20px rgba(0,0,0,0.8);
             align-items: center;
-            gap: 15px;
+            gap: 10px;
         }
 
         #adminToolbar span {
             color: var(--gold-light);
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
 
         #adminToolbar button {
             background: var(--gold);
             color: #0c0b0a;
             border: none;
-            padding: 5px 15px;
-            border-radius: 15px;
+            padding: 4px 12px;
+            border-radius: 12px;
             font-weight: bold;
             cursor: pointer;
+            font-size: 0.75rem;
         }
 
         /* Custom Popup for Zoom & Pan Dragging */
@@ -812,24 +922,23 @@
             z-index: 3000;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 15px;
         }
 
         .modal-box-content {
             background: #161412;
             border: 1px solid #D4AF37;
-            padding: 25px;
+            padding: 20px;
             border-radius: 15px;
-            max-width: 420px;
+            max-width: 380px;
             width: 100%;
             text-align: center;
             box-shadow: 0 10px 40px rgba(0,0,0,0.9);
         }
 
-        /* Pan & Zoom Viewport Container */
         #dragContainer {
             width: 100%;
-            height: 280px;
+            height: 240px;
             background: #0c0b0a;
             border: 2px dashed #D4AF37;
             border-radius: 10px;
@@ -839,11 +948,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 15px;
-        }
-
-        #dragContainer:active {
-            cursor: grabbing;
+            margin-bottom: 12px;
         }
 
         #modalImagePreview {
@@ -863,34 +968,60 @@
     <input type="file" id="galleryImagePicker" accept="image/*" style="display: none;">
 
     <div id="adminToolbar">
-        <span><i class="fas fa-user-shield"></i> Admin Mode Active</span>
+        <span><i class="fas fa-user-shield"></i> Admin Active</span>
         <button id="logoutAdminBtn">Logout</button>
     </div>
 
+    <!-- Header -->
     <header>
-        <a href="#home" class="logo-container">
-            <div class="image-wrapper">
-                <img src="logo.png" alt="Blissful Bakes" class="editable-img" data-id="logo-img">
-            </div>
-            <div class="logo-text">
-                <h1 class="edit-text" data-id="logo-title">Blissful Bakes</h1>
-                <p class="edit-text" data-id="logo-subtitle">Delight in Every Bite</p>
-            </div>
-        </a>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About Us</a></li>
-                <li><a href="#menu">Our Menu</a></li>
-                <li><a href="#gallery">Gallery</a></li>
-                <li><a href="#reviews">Reviews</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
+        <div class="header-left-group">
+            <button class="menu-toggle-btn" id="menuToggleBtn" aria-label="Toggle Navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <a href="#home" class="logo-container">
+                <div class="image-wrapper">
+                    <img src="logo.png" alt="Blissful Bakes" class="editable-img" data-id="logo-img">
+                </div>
+                <div class="logo-text">
+                    <h1 class="edit-text" data-id="logo-title">Blissful Bakes</h1>
+                    <p class="edit-text" data-id="logo-subtitle">Delight in Every Bite</p>
+                </div>
+            </a>
+        </div>
+        
+        <!-- Desktop Nav Links -->
+        <ul class="desktop-nav">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#menu">Our Menu</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#reviews">Reviews</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+
         <a href="https://wa.me/923714079790?text=Hello%20Blissful%20Bakes,%20I%20want%20to%20order!" target="_blank" class="whatsapp-btn-header">
-            <i class="fab fa-whatsapp"></i> Order on WhatsApp
+            <i class="fab fa-whatsapp"></i> <span style="display:none; @media(min-width:600px){display:inline;}">Order on </span>WhatsApp
         </a>
     </header>
+
+    <!-- Mobile Slide-out Drawer & Overlay -->
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+    <div class="mobile-nav-drawer" id="mobileNavDrawer">
+        <div class="drawer-header">
+            <h3>Blissful Bakes</h3>
+            <button class="drawer-close-btn" id="drawerCloseBtn"><i class="fas fa-times"></i></button>
+        </div>
+        <ul class="mobile-nav-links">
+            <li><a href="#home" class="mobile-link">Home</a></li>
+            <li><a href="#about" class="mobile-link">About Us</a></li>
+            <li><a href="#menu" class="mobile-link">Our Menu</a></li>
+            <li><a href="#gallery" class="mobile-link">Gallery</a></li>
+            <li><a href="#reviews" class="mobile-link">Reviews</a></li>
+            <li><a href="#contact" class="mobile-link">Contact</a></li>
+            <!-- 3 line wale menu drawer ke andar Admin Login -->
+            <li><a href="javascript:void(0);" id="adminLoginBtn" class="admin-login-btn" style="text-align: center; margin-top: 10px; display: block;"><i class="fas fa-user-shield"></i> Admin Login</a></li>
+        </ul>
+    </div>
 
     <section id="home">
         <div class="hero-content">
@@ -907,13 +1038,11 @@
                 ORDER NOW ON WHATSAPP <i class="fab fa-whatsapp"></i>
             </a>
         </div>
-
         <div class="hero-visuals">
             <div class="image-wrapper hero-main-cake-wrap">
                 <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80" alt="Delicious Cake" class="hero-main-cake editable-img" data-id="hero-cake-img">
             </div>
         </div>
-
         <div class="home-bottom-transition">
             <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
                 <path d="M0,35 C480,110 960,110 1440,35 L1440,120 L0,120 Z" fill="#D4AF37"></path>
@@ -927,7 +1056,6 @@
             <h2 class="edit-text" data-id="spec-title">OUR SPECIALTIES</h2>
             <div class="fancy-divider"><i class="fas fa-heart" style="font-size: 0.7rem;"></i></div>
         </div>
-
         <div class="specialties-grid">
             <div class="specialty-card"><i class="fas fa-birthday-cake"></i><h3 class="edit-text" data-id="spec-1">CAKES</h3></div>
             <div class="specialty-card"><i class="fas fa-cookie"></i><h3 class="edit-text" data-id="spec-2">CUPCAKES</h3></div>
@@ -949,7 +1077,6 @@
                     <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Chocolate%20Cake" target="_blank" class="whatsapp-order-btn"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
                 </div>
             </div>
-
             <div class="menu-card">
                 <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?auto=format&fit=crop&w=500&q=80" alt="Red Velvet Cake" class="editable-img" data-id="menu-img-2"></div>
                 <div class="menu-card-body">
@@ -958,7 +1085,6 @@
                     <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Red%20Velvet%20Cake" target="_blank" class="whatsapp-order-btn"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
                 </div>
             </div>
-
             <div class="menu-card">
                 <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?auto=format&fit=crop&w=500&q=80" alt="Chocolate Cupcake" class="editable-img" data-id="menu-img-3"></div>
                 <div class="menu-card-body">
@@ -967,7 +1093,6 @@
                     <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Chocolate%20Cupcake" target="_blank" class="whatsapp-order-btn"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
                 </div>
             </div>
-
             <div class="menu-card">
                 <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?auto=format&fit=crop&w=500&q=80" alt="Vanilla Cupcake" class="editable-img" data-id="menu-img-4"></div>
                 <div class="menu-card-body">
@@ -976,7 +1101,6 @@
                     <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Vanilla%20Cupcake" target="_blank" class="whatsapp-order-btn"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
                 </div>
             </div>
-
             <div class="menu-card">
                 <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=500&q=80" alt="Fudgy Brownie" class="editable-img" data-id="menu-img-5"></div>
                 <div class="menu-card-body">
@@ -985,7 +1109,6 @@
                     <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Fudgy%20Brownie" target="_blank" class="whatsapp-order-btn"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
                 </div>
             </div>
-
             <div class="menu-card">
                 <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=500&q=80" alt="Chocolate Truffles" class="editable-img" data-id="menu-img-6"></div>
                 <div class="menu-card-body">
@@ -1046,7 +1169,7 @@
             <button class="admin-add-btn" id="addMoreGalleryBtn"><i class="fas fa-plus-circle"></i> Add More Picture</button>
         </div>
 
-        <div class="section-title" id="reviews" style="margin-top: 60px;">
+        <div class="section-title" id="reviews" style="margin-top: 50px;">
             <h2 class="edit-text" data-id="rev-main-title">REVIEWS & LOCATION</h2>
             <div class="fancy-divider"><i class="fas fa-heart" style="font-size: 0.7rem;"></i></div>
         </div>
@@ -1058,7 +1181,6 @@
                 <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                 <div class="reviewer-name edit-text" data-id="rev-author">– Ayesha Khan</div>
             </div>
-
             <div class="map-box-small" id="contact">
                 <div class="map-iframe-container">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3400.5!2d74.3707575!3d31.5921471!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39191bcf874a17e9%3A0xdb3da5e3f770a0a0!2sBlissful%20Bakes%F0%9F%8E%82%20Home%20Baker%20%F0%9F%8D%AE!5e0!3m2!1sen!2s!4v1625000000000!5m2!1sen!2s" allowfullscreen="" loading="lazy"></iframe>
@@ -1097,7 +1219,6 @@
                 <p style="color: var(--gold-light); font-weight: 700; margin-top: 4px;" class="edit-text" data-id="footer-hours-time">10:00 AM – 10:00 PM</p>
             </div>
         </div>
-
         <div class="footer-bottom-flex">
             <div class="footer-brand-left">
                 <div class="image-wrapper"><img src="logo.png" alt="Blissful Bakes" class="editable-img" data-id="footer-logo"></div>
@@ -1107,12 +1228,13 @@
                 </div>
             </div>
             <div class="footer-copyright edit-text" data-id="footer-copy">© 2026 Blissful Bakes. All Rights Reserved.</div>
-            <div><a href="javascript:void(0);" id="adminLoginBtn" class="admin-login-btn">Admin Login</a></div>
+            <!-- Footer se admin login button khatam kar diya gaya hai -->
         </div>
     </footer>
 
-    <div id="adminModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center;">
-        <div style="background: #161412; border: 1px solid #D4AF37; padding: 30px; border-radius: 15px; width: 320px; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
+    <!-- Admin Login Modal -->
+    <div id="adminModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 15px;">
+        <div style="background: #161412; border: 1px solid #D4AF37; padding: 25px; border-radius: 15px; width: 100%; max-width: 320px; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
             <span id="closeModal" style="position: absolute; top: 10px; right: 15px; color: #D4AF37; font-size: 1.5rem; cursor: pointer;">×</span>
             <h3 style="font-family: 'Playfair Display', serif; color: #F3E5AB; margin-bottom: 20px;">Admin Login</h3>
             <input type="password" id="adminPassword" placeholder="Enter Admin Password" style="width: 100%; padding: 10px; background: #0c0b0a; border: 1px solid rgba(212,175,55,0.4); color: #fff; border-radius: 5px; margin-bottom: 15px; outline: none; text-align: center;">
@@ -1121,23 +1243,22 @@
         </div>
     </div>
 
+    <!-- Zoom & Pan Modal -->
     <div id="zoomPanModal">
         <div class="modal-box-content">
             <h3 style="font-family: 'Playfair Display', serif; color: #F3E5AB; margin-bottom: 5px;">Adjust Image</h3>
-            <p style="color: #D1CBC1; font-size: 0.78rem; margin-bottom: 12px;">Zoom slider se size barhaein aur mouse ya finger se move karein:</p>
+            <p style="color: #D1CBC1; font-size: 0.78rem; margin-bottom: 12px;">Zoom slider se size barhaein aur move karein:</p>
             
             <div id="dragContainer">
                 <img id="modalImagePreview" src="" alt="Preview">
             </div>
-
             <div style="margin-bottom: 15px; text-align: left;">
                 <label style="color: #F3E5AB; font-size: 0.85rem; display: block; margin-bottom: 5px;">Zoom Level:</label>
                 <input type="range" id="zoomRangeInput" min="1" max="3" step="0.05" value="1" style="width: 100%; accent-color: #D4AF37; cursor: pointer;">
             </div>
-
             <div style="display: flex; gap: 10px;">
                 <button id="cancelZoomBtn" style="background: #555; color: #fff; border: none; padding: 10px 15px; border-radius: 25px; font-weight: 700; cursor: pointer; flex: 1;">Cancel</button>
-                <button id="saveZoomBtn" style="background: #D4AF37; color: #0c0b0a; border: none; padding: 10px 15px; border-radius: 25px; font-weight: 700; cursor: pointer; flex: 1;">Save & Apply</button>
+                <button id="saveZoomBtn" style="background: #D4AF37; color: #0c0b0a; border: none; padding: 10px 15px; border-radius: 25px; font-weight: 700; cursor: pointer; flex: 1;">Save</button>
             </div>
         </div>
     </div>
@@ -1161,7 +1282,6 @@
         const auth = getAuth(app);
         const analytics = getAnalytics(app);
 
-        // Elements
         const modal = document.getElementById('adminModal');
         const btn = document.getElementById('adminLoginBtn');
         const span = document.getElementById('closeModal');
@@ -1170,11 +1290,11 @@
         const errorMsg = document.getElementById('loginError');
         const adminToolbar = document.getElementById('adminToolbar');
         const logoutBtn = document.getElementById('logoutAdminBtn');
-        
+
         const fileInput = document.getElementById('imageUploadInput');
         const menuImagePicker = document.getElementById('menuImagePicker');
         const galleryImagePicker = document.getElementById('galleryImagePicker');
-        
+
         const zoomPanModal = document.getElementById('zoomPanModal');
         const dragContainer = document.getElementById('dragContainer');
         const modalImagePreview = document.getElementById('modalImagePreview');
@@ -1190,10 +1310,15 @@
         const addMoreGalleryBtn = document.getElementById('addMoreGalleryBtn');
         const galleryGridContainer = document.getElementById('galleryGridContainer');
 
+        const menuToggleBtn = document.getElementById('menuToggleBtn');
+        const mobileNavDrawer = document.getElementById('mobileNavDrawer');
+        const drawerCloseBtn = document.getElementById('drawerCloseBtn');
+        const drawerOverlay = document.getElementById('drawerOverlay');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
         let activeImageElement = null;
         let isAdminLoggedIn = false;
 
-        // Pan & Zoom Variables
         let currentScale = 1;
         let pointX = 0;
         let pointY = 0;
@@ -1201,7 +1326,19 @@
         let startX = 0;
         let startY = 0;
 
-        // Load Saved Data on Startup
+        function toggleDrawer() {
+            mobileNavDrawer.classList.toggle('active');
+            drawerOverlay.classList.toggle('active');
+        }
+
+        menuToggleBtn.onclick = toggleDrawer;
+        drawerCloseBtn.onclick = toggleDrawer;
+        drawerOverlay.onclick = toggleDrawer;
+
+        mobileLinks.forEach(link => {
+            link.onclick = () => { toggleDrawer(); };
+        });
+
         window.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.edit-text').forEach(el => {
                 const id = el.getAttribute('data-id');
@@ -1228,23 +1365,28 @@
             });
         });
 
-        // Admin Modal Controls
-        btn.onclick = () => modal.style.display = 'flex';
+        // 3-line drawer wale Admin Login button ke liye click handler
+        if (btn) {
+            btn.onclick = () => {
+                mobileNavDrawer.classList.remove('active');
+                drawerOverlay.classList.remove('active');
+                modal.style.display = 'flex';
+            };
+        }
+
         span.onclick = () => { modal.style.display = 'none'; errorMsg.style.display = 'none'; passwordInput.value = ''; }
         window.onclick = (e) => { if (e.target == modal) { modal.style.display = 'none'; errorMsg.style.display = 'none'; passwordInput.value = ''; } }
 
         submitBtn.onclick = async function() {
             const pass = passwordInput.value;
             const adminEmail = "muhammad.waseem99@gmail.com"; 
-
             try {
                 await signInWithEmailAndPassword(auth, adminEmail, pass);
                 modal.style.display = 'none';
                 passwordInput.value = '';
                 errorMsg.style.display = 'none';
-                
                 enableEditingMode();
-                alert("Login Successful! Click any image to change, zoom, or move it.");
+                alert("Login Successful!");
             } catch (error) {
                 errorMsg.style.display = 'block';
             }
@@ -1265,19 +1407,15 @@
             adminToolbar.style.display = 'flex';
             addMenuBtnContainer.style.display = 'block';
             addGalleryBtnContainer.style.display = 'block';
-            
+
             document.querySelectorAll('.edit-text').forEach(el => {
                 el.setAttribute('contenteditable', 'true');
                 el.style.borderBottom = '1px dashed #D4AF37';
-
                 el.oninput = function() {
                     const id = el.getAttribute('data-id');
-                    if (id) {
-                        localStorage.setItem('text_' + id, el.innerText);
-                    }
+                    if (id) { localStorage.setItem('text_' + id, el.innerText); }
                 };
             });
-
             bindImageClickEvents();
         }
 
@@ -1288,12 +1426,11 @@
                 img.onclick = function(e) {
                     e.stopPropagation();
                     activeImageElement = img; 
-                    fileInput.click();       
+                    fileInput.click();   
                 };
             });
         }
 
-        // File Selection Triggers Zoom & Pan Modal
         fileInput.onchange = function(event) {
             const file = event.target.files[0];
             if (file && activeImageElement) {
@@ -1301,8 +1438,6 @@
                 reader.onload = function(e) {
                     modalImagePreview.src = e.target.result;
                     zoomPanModal.style.display = 'flex';
-
-                    // Reset values
                     currentScale = 1;
                     pointX = 0;
                     pointY = 0;
@@ -1318,13 +1453,11 @@
             modalImagePreview.style.transform = `translate(${pointX}px, ${pointY}px) scale(${currentScale})`;
         }
 
-        // Zoom Slider Input Event
         zoomRangeInput.oninput = function(e) {
             currentScale = parseFloat(e.target.value);
             updateImageTransform();
         };
 
-        // Mouse Drag (Pan) Logic
         dragContainer.onmousedown = function(e) {
             isDragging = true;
             startX = e.clientX - pointX;
@@ -1339,11 +1472,8 @@
             updateImageTransform();
         };
 
-        window.onmouseup = function() {
-            isDragging = false;
-        };
+        window.onmouseup = function() { isDragging = false; };
 
-        // Touch Drag (Pan) Logic for Mobile Phones
         dragContainer.ontouchstart = function(e) {
             isDragging = true;
             startX = e.touches[0].clientX - pointX;
@@ -1357,51 +1487,36 @@
             updateImageTransform();
         };
 
-        window.ontouchend = function() {
-            isDragging = false;
-        };
+        window.ontouchend = function() { isDragging = false; };
 
-        // Save Adjusted Image using HTML5 Canvas
         saveZoomBtn.onclick = function() {
             if (activeImageElement && modalImagePreview.src) {
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
                 const img = new Image();
-
                 img.onload = function() {
                     canvas.width = 600;
                     canvas.height = 600;
                     ctx.fillStyle = '#ffffff';
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
                     ctx.save();
                     ctx.translate(canvas.width / 2 + pointX, canvas.height / 2 + pointY);
                     ctx.scale(currentScale, currentScale);
                     ctx.drawImage(img, -img.width / 2, -img.height / 2);
                     ctx.restore();
-
                     const finalDataUrl = canvas.toDataURL('image/jpeg', 0.9);
                     activeImageElement.src = finalDataUrl;
-
                     const id = activeImageElement.getAttribute('data-id');
-                    if (id) {
-                        localStorage.setItem('img_' + id, finalDataUrl);
-                    }
-
+                    if (id) { localStorage.setItem('img_' + id, finalDataUrl); }
                     zoomPanModal.style.display = 'none';
                 };
                 img.src = modalImagePreview.src;
             }
         };
 
-        cancelZoomBtn.onclick = function() {
-            zoomPanModal.style.display = 'none';
-        };
+        cancelZoomBtn.onclick = function() { zoomPanModal.style.display = 'none'; };
 
-        // Add More Menu Items
-        addMoreMenuBtn.onclick = function() {
-            menuImagePicker.click();
-        };
+        addMoreMenuBtn.onclick = function() { menuImagePicker.click(); };
 
         menuImagePicker.onchange = function(event) {
             const file = event.target.files[0];
@@ -1409,16 +1524,14 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const imgSrc = e.target.result;
-                    const title = prompt("Enter Menu Item Title (e.g., Fruit Cake):", "New Item");
+                    const title = prompt("Enter Menu Item Title:", "New Item");
                     if (!title) return;
-                    const price = prompt("Enter Price (e.g., Rs. 3,000):", "Rs. 2,000");
+                    const price = prompt("Enter Price:", "Rs. 2,000");
                     if (!price) return;
-
                     const uniqueId = 'custom_menu_' + Date.now();
                     const savedMenus = JSON.parse(localStorage.getItem('custom_menus') || '[]');
                     savedMenus.push({ id: uniqueId, img: imgSrc, title: title, price: price });
                     localStorage.setItem('custom_menus', JSON.stringify(savedMenus));
-
                     appendMenuCard(imgSrc, title, price, uniqueId);
                 };
                 reader.readAsDataURL(file);
@@ -1441,10 +1554,7 @@
             if (isAdminLoggedIn) enableEditingMode();
         }
 
-        // Add More Gallery Pictures
-        addMoreGalleryBtn.onclick = function() {
-            galleryImagePicker.click();
-        };
+        addMoreGalleryBtn.onclick = function() { galleryImagePicker.click(); };
 
         galleryImagePicker.onchange = function(event) {
             const file = event.target.files[0];
@@ -1453,11 +1563,9 @@
                 reader.onload = function(e) {
                     const imgSrc = e.target.result;
                     const uniqueId = 'custom_gallery_' + Date.now();
-
                     const savedGallery = JSON.parse(localStorage.getItem('custom_gallery') || '[]');
                     savedGallery.push({ id: uniqueId, img: imgSrc });
                     localStorage.setItem('custom_gallery', JSON.stringify(savedGallery));
-
                     appendGalleryItem(imgSrc, uniqueId);
                 };
                 reader.readAsDataURL(file);
@@ -1478,13 +1586,12 @@
             adminToolbar.style.display = 'none';
             addMenuBtnContainer.style.display = 'none';
             addGalleryBtnContainer.style.display = 'none';
-            
+
             document.querySelectorAll('.edit-text').forEach(el => {
                 el.removeAttribute('contenteditable');
                 el.style.borderBottom = 'none';
                 el.oninput = null;
             });
-
             document.querySelectorAll('.editable-img').forEach(img => {
                 img.style.cursor = 'default';
                 img.style.border = 'none';
