@@ -1262,11 +1262,16 @@
             </div>
         </div>
     </div>
-
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+        import {
+            getFirestore, doc, getDoc, setDoc
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import {
+            getStorage, ref, uploadBytes, getDownloadURL
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBPou6eASh5shC57D1CmOUZ_o2lf8EmTYQ",
@@ -1280,7 +1285,11 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        // Analytics is optional; keep the site working even if Analytics is unavailable.
+        try { getAnalytics(app); } catch (e) { console.warn("Analytics unavailable:", e); }
 
         const modal = document.getElementById('adminModal');
         const btn = document.getElementById('adminLoginBtn');
@@ -1326,6 +1335,12 @@
         let startX = 0;
         let startY = 0;
 
+        // All editable website data is stored in ONE Firestore document.
+        // This replaces the old browser-only localStorage system.
+        const SITE_DOC = doc(db, "siteData", "main");
+        let siteData = { texts: {}, images: {}, menus: [], gallery: [] };
+        let saveTimers = {};
+
         function toggleDrawer() {
             mobileNavDrawer.classList.toggle('active');
             drawerOverlay.classList.toggle('active');
@@ -1334,38 +1349,74 @@
         menuToggleBtn.onclick = toggleDrawer;
         drawerCloseBtn.onclick = toggleDrawer;
         drawerOverlay.onclick = toggleDrawer;
+        mobileLinks.forEach(link => link.onclick = () => toggleDrawer());
 
-        mobileLinks.forEach(link => {
-            link.onclick = () => { toggleDrawer(); };
-        });
+        function normalizeData(data) {
+            return {
+                texts: data && data.texts ? data.texts : {},
+                images: data && data.images ? data.images : {},
+                menus: Array.isArray(data && data.menus) ? data.menus : [],
+                gallery: Array.isArray(data && data.gallery) ? data.gallery : []
+            };
+        }
 
-        window.addEventListener('DOMContentLoaded', () => {
+        async function loadSiteData() {
+            try {
+                const snap = await getDoc(SITE_DOC);
+                if (snap.exists()) {
+                    siteData = normalizeData(snap.data());
+
+                    Object.entries(siteData.texts).forEach(([id, value]) => {
+                        const el = document.querySelector(`.edit-text[data-id="${CSS.escape(id)}"]`);
+                        if (el && typeof value === "string") el.innerText = value;
+                    });
+
+                    Object.entries(siteData.images).forEach(([id, value]) => {
+                        const img = document.querySelector(`.editable-img[data-id="${CSS.escape(id)}"]`);
+                        if (img && value) img.src = value;
+                    });
+
+                    siteData.menus.forEach(item => {
+                        if (item && item.id) appendMenuCard(item.img, item.title, item.price, item.id, false);
+                    });
+
+                    siteData.gallery.forEach(item => {
+                        if (item && item.id) appendGalleryItem(item.img, item.id, false);
+                    });
+                }
+            } catch (error) {
+                console.error("Could not load Firestore data:", error);
+                // Old localStorage data is only used as a one-time fallback.
+                loadLegacyLocalStorage();
+            }
+        }
+
+        function loadLegacyLocalStorage() {
             document.querySelectorAll('.edit-text').forEach(el => {
                 const id = el.getAttribute('data-id');
-                if (id && localStorage.getItem('text_' + id)) {
-                    el.innerText = localStorage.getItem('text_' + id);
-                }
+                const value = id ? localStorage.getItem('text_' + id) : null;
+                if (value !== null) el.innerText = value;
             });
 
             document.querySelectorAll('.editable-img').forEach(img => {
                 const id = img.getAttribute('data-id');
-                if (id && localStorage.getItem('img_' + id)) {
-                    img.src = localStorage.getItem('img_' + id);
-                }
+                const value = id ? localStorage.getItem('img_' + id) : null;
+                if (value) img.src = value;
             });
 
-            const savedMenus = JSON.parse(localStorage.getItem('custom_menus') || '[]');
-            savedMenus.forEach(item => {
-                appendMenuCard(item.img, item.title, item.price, item.id);
-            });
+            try {
+                const oldMenus = JSON.parse(localStorage.getItem('custom_menus') || '[]');
+                oldMenus.forEach(item => appendMenuCard(item.img, item.title, item.price, item.id, false));
+            } catch (e) {}
 
-            const savedGallery = JSON.parse(localStorage.getItem('custom_gallery') || '[]');
-            savedGallery.forEach(item => {
-                appendGalleryItem(item.img, item.id);
-            });
-        });
+            try {
+                const oldGallery = JSON.parse(localStorage.getItem('custom_gallery') || '[]');
+                oldGallery.forEach(item => appendGalleryItem(item.img, item.id, false));
+            } catch (e) {}
+        }
 
-        // 3-line drawer wale Admin Login button ke liye click handler
+        window.addEventListener('DOMContentLoaded', loadSiteData);
+
         if (btn) {
             btn.onclick = () => {
                 mobileNavDrawer.classList.remove('active');
@@ -1374,12 +1425,30 @@
             };
         }
 
-        span.onclick = () => { modal.style.display = 'none'; errorMsg.style.display = 'none'; passwordInput.value = ''; }
-        window.onclick = (e) => { if (e.target == modal) { modal.style.display = 'none'; errorMsg.style.display = 'none'; passwordInput.value = ''; } }
+        span.onclick = () => {
+            modal.style.display = 'none';
+            errorMsg.style.display = 'none';
+            passwordInput.value = '';
+        };
+
+        window.onclick = (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                errorMsg.style.display = 'none';
+                passwordInput.value = '';
+            }
+        };
 
         submitBtn.onclick = async function() {
-            const pass = passwordInput.value;
-            const adminEmail = "muhammad.waseem99@gmail.com"; 
+            const pass = passwordInput.value.trim();
+            const adminEmail = "muhammad.waseem99@gmail.com";
+
+            if (!pass) {
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            submitBtn.disabled = true;
             try {
                 await signInWithEmailAndPassword(auth, adminEmail, pass);
                 modal.style.display = 'none';
@@ -1388,9 +1457,17 @@
                 enableEditingMode();
                 alert("Login Successful!");
             } catch (error) {
+                console.error(error);
+                errorMsg.textContent = "Ghalat Password!";
                 errorMsg.style.display = 'block';
+            } finally {
+                submitBtn.disabled = false;
             }
         };
+
+        passwordInput.addEventListener('keydown', e => {
+            if (e.key === 'Enter') submitBtn.click();
+        });
 
         logoutBtn.onclick = async function() {
             try {
@@ -1402,6 +1479,64 @@
             }
         };
 
+        function queueTextSave(id, value) {
+            clearTimeout(saveTimers['text_' + id]);
+            saveTimers['text_' + id] = setTimeout(async () => {
+                try {
+                    siteData.texts[id] = value;
+                    await setDoc(SITE_DOC, { texts: { [id]: value } }, { merge: true });
+                    console.log("Text saved:", id);
+                } catch (error) {
+                    console.error("Text save failed:", error);
+                    alert("Text save nahi ho saka. Firebase Firestore Rules check karein.");
+                }
+            }, 500);
+        }
+
+        async function saveImageToFirebase(id, blob) {
+            if (!auth.currentUser) {
+                alert("Admin login required.");
+                return null;
+            }
+
+            try {
+                const safeId = String(id).replace(/[^a-zA-Z0-9_-]/g, '_');
+                const imageRef = ref(storage, `site-images/${safeId}-${Date.now()}.jpg`);
+                const snapshot = await uploadBytes(imageRef, blob, {
+                    contentType: 'image/jpeg',
+                    cacheControl: 'public,max-age=31536000'
+                });
+                const url = await getDownloadURL(snapshot.ref);
+
+                siteData.images[id] = url;
+                await setDoc(SITE_DOC, { images: { [id]: url } }, { merge: true });
+
+                return url;
+            } catch (error) {
+                console.error("Image upload/save failed:", error);
+                alert("Image save nahi hui. Firebase Storage enable aur Rules check karein.");
+                return null;
+            }
+        }
+
+        async function saveMenus() {
+            try {
+                await setDoc(SITE_DOC, { menus: siteData.menus }, { merge: true });
+            } catch (error) {
+                console.error("Menu save failed:", error);
+                alert("Menu save nahi ho saka. Firestore Rules check karein.");
+            }
+        }
+
+        async function saveGallery() {
+            try {
+                await setDoc(SITE_DOC, { gallery: siteData.gallery }, { merge: true });
+            } catch (error) {
+                console.error("Gallery save failed:", error);
+                alert("Gallery save nahi ho saki. Firestore Rules check karein.");
+            }
+        }
+
         function enableEditingMode() {
             isAdminLoggedIn = true;
             adminToolbar.style.display = 'flex';
@@ -1411,11 +1546,13 @@
             document.querySelectorAll('.edit-text').forEach(el => {
                 el.setAttribute('contenteditable', 'true');
                 el.style.borderBottom = '1px dashed #D4AF37';
+
                 el.oninput = function() {
                     const id = el.getAttribute('data-id');
-                    if (id) { localStorage.setItem('text_' + id, el.innerText); }
+                    if (id) queueTextSave(id, el.innerText);
                 };
             });
+
             bindImageClickEvents();
         }
 
@@ -1423,18 +1560,28 @@
             document.querySelectorAll('.editable-img').forEach(img => {
                 img.style.cursor = 'pointer';
                 img.style.border = '3px dashed #D4AF37';
+
                 img.onclick = function(e) {
+                    if (!isAdminLoggedIn) return;
                     e.stopPropagation();
-                    activeImageElement = img; 
-                    fileInput.click();   
+                    activeImageElement = img;
+                    fileInput.click();
                 };
             });
         }
 
         fileInput.onchange = function(event) {
             const file = event.target.files[0];
+
             if (file && activeImageElement) {
+                if (!file.type.startsWith('image/')) {
+                    alert("Sirf image file select karein.");
+                    fileInput.value = '';
+                    return;
+                }
+
                 const reader = new FileReader();
+
                 reader.onload = function(e) {
                     modalImagePreview.src = e.target.result;
                     zoomPanModal.style.display = 'flex';
@@ -1444,13 +1591,16 @@
                     zoomRangeInput.value = 1;
                     updateImageTransform();
                 };
+
                 reader.readAsDataURL(file);
             }
-            fileInput.value = ''; 
+
+            fileInput.value = '';
         };
 
         function updateImageTransform() {
-            modalImagePreview.style.transform = `translate(${pointX}px, ${pointY}px) scale(${currentScale})`;
+            modalImagePreview.style.transform =
+                `translate(${pointX}px, ${pointY}px) scale(${currentScale})`;
         }
 
         zoomRangeInput.oninput = function(e) {
@@ -1472,7 +1622,9 @@
             updateImageTransform();
         };
 
-        window.onmouseup = function() { isDragging = false; };
+        window.onmouseup = function() {
+            isDragging = false;
+        };
 
         dragContainer.ontouchstart = function(e) {
             isDragging = true;
@@ -1487,98 +1639,224 @@
             updateImageTransform();
         };
 
-        window.ontouchend = function() { isDragging = false; };
+        window.ontouchend = function() {
+            isDragging = false;
+        };
 
         saveZoomBtn.onclick = function() {
-            if (activeImageElement && modalImagePreview.src) {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                const img = new Image();
-                img.onload = function() {
+            if (!activeImageElement || !modalImagePreview.src) return;
+
+            saveZoomBtn.disabled = true;
+            saveZoomBtn.textContent = "Saving...";
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+
+            img.onload = async function() {
+                try {
                     canvas.width = 600;
                     canvas.height = 600;
+
                     ctx.fillStyle = '#ffffff';
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
+
                     ctx.save();
-                    ctx.translate(canvas.width / 2 + pointX, canvas.height / 2 + pointY);
+                    ctx.translate(
+                        canvas.width / 2 + pointX,
+                        canvas.height / 2 + pointY
+                    );
                     ctx.scale(currentScale, currentScale);
                     ctx.drawImage(img, -img.width / 2, -img.height / 2);
                     ctx.restore();
-                    const finalDataUrl = canvas.toDataURL('image/jpeg', 0.9);
-                    activeImageElement.src = finalDataUrl;
+
+                    const blob = await new Promise(resolve =>
+                        canvas.toBlob(resolve, 'image/jpeg', 0.88)
+                    );
+
+                    if (!blob) throw new Error("Could not create image blob.");
+
                     const id = activeImageElement.getAttribute('data-id');
-                    if (id) { localStorage.setItem('img_' + id, finalDataUrl); }
+                    const url = await saveImageToFirebase(id, blob);
+
+                    if (url) {
+                        activeImageElement.src = url;
+                        alert("Image successfully saved!");
+                    }
+                } catch (error) {
+                    console.error(error);
+                    alert("Image save nahi ho saki.");
+                } finally {
                     zoomPanModal.style.display = 'none';
-                };
-                img.src = modalImagePreview.src;
-            }
+                    saveZoomBtn.disabled = false;
+                    saveZoomBtn.textContent = "Save";
+                }
+            };
+
+            img.onerror = function() {
+                alert("Image process nahi ho saki.");
+                saveZoomBtn.disabled = false;
+                saveZoomBtn.textContent = "Save";
+            };
+
+            img.src = modalImagePreview.src;
         };
 
-        cancelZoomBtn.onclick = function() { zoomPanModal.style.display = 'none'; };
+        cancelZoomBtn.onclick = function() {
+            zoomPanModal.style.display = 'none';
+        };
 
-        addMoreMenuBtn.onclick = function() { menuImagePicker.click(); };
+        addMoreMenuBtn.onclick = function() {
+            if (isAdminLoggedIn) menuImagePicker.click();
+        };
 
         menuImagePicker.onchange = function(event) {
             const file = event.target.files[0];
+
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+
+                reader.onload = async function(e) {
                     const imgSrc = e.target.result;
                     const title = prompt("Enter Menu Item Title:", "New Item");
                     if (!title) return;
+
                     const price = prompt("Enter Price:", "Rs. 2,000");
                     if (!price) return;
+
                     const uniqueId = 'custom_menu_' + Date.now();
-                    const savedMenus = JSON.parse(localStorage.getItem('custom_menus') || '[]');
-                    savedMenus.push({ id: uniqueId, img: imgSrc, title: title, price: price });
-                    localStorage.setItem('custom_menus', JSON.stringify(savedMenus));
-                    appendMenuCard(imgSrc, title, price, uniqueId);
+
+                    try {
+                        const blob = await dataURLToBlob(imgSrc);
+                        const url = await saveImageToFirebase(uniqueId, blob);
+                        if (!url) return;
+
+                        const item = {
+                            id: uniqueId,
+                            img: url,
+                            title: title,
+                            price: price
+                        };
+
+                        siteData.menus.push(item);
+                        await saveMenus();
+                        appendMenuCard(url, title, price, uniqueId, false);
+                        alert("Menu item successfully added!");
+                    } catch (error) {
+                        console.error(error);
+                        alert("Menu item save nahi ho saka.");
+                    }
                 };
+
                 reader.readAsDataURL(file);
             }
+
             menuImagePicker.value = '';
         };
 
-        function appendMenuCard(imgSrc, title, price, uniqueId) {
+        function appendMenuCard(imgSrc, title, price, uniqueId, addToData = true) {
+            if (document.querySelector(`.editable-img[data-id="${CSS.escape(uniqueId)}"]`)) return;
+
             const card = document.createElement('div');
             card.className = 'menu-card';
+
+            const safeTitle = escapeHtml(title);
+            const safePrice = escapeHtml(price);
+
             card.innerHTML = `
-                <div class="image-wrapper"><img src="${imgSrc}" alt="${title}" class="editable-img" data-id="${uniqueId}"></div>
+                <div class="image-wrapper">
+                    <img src="${escapeAttribute(imgSrc)}" alt="${safeTitle}" class="editable-img" data-id="${escapeAttribute(uniqueId)}">
+                </div>
                 <div class="menu-card-body">
-                    <h3 class="edit-text" data-id="${uniqueId}_title">${title}</h3>
-                    <div class="price edit-text" data-id="${uniqueId}_price">${price}</div>
-                    <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20${encodeURIComponent(title)}" target="_blank" class="whatsapp-order-btn"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
+                    <h3 class="edit-text" data-id="${escapeAttribute(uniqueId)}_title">${safeTitle}</h3>
+                    <div class="price edit-text" data-id="${escapeAttribute(uniqueId)}_price">${safePrice}</div>
+                    <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20${encodeURIComponent(title)}" target="_blank" class="whatsapp-order-btn">
+                        <i class="fab fa-whatsapp"></i> Order on WhatsApp
+                    </a>
                 </div>
             `;
+
             menuGridContainer.appendChild(card);
+
+            if (addToData) {
+                siteData.menus.push({ id: uniqueId, img: imgSrc, title, price });
+            }
+
             if (isAdminLoggedIn) enableEditingMode();
         }
 
-        addMoreGalleryBtn.onclick = function() { galleryImagePicker.click(); };
+        addMoreGalleryBtn.onclick = function() {
+            if (isAdminLoggedIn) galleryImagePicker.click();
+        };
 
         galleryImagePicker.onchange = function(event) {
             const file = event.target.files[0];
+
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    const imgSrc = e.target.result;
-                    const uniqueId = 'custom_gallery_' + Date.now();
-                    const savedGallery = JSON.parse(localStorage.getItem('custom_gallery') || '[]');
-                    savedGallery.push({ id: uniqueId, img: imgSrc });
-                    localStorage.setItem('custom_gallery', JSON.stringify(savedGallery));
-                    appendGalleryItem(imgSrc, uniqueId);
+
+                reader.onload = async function(e) {
+                    try {
+                        const imgSrc = e.target.result;
+                        const uniqueId = 'custom_gallery_' + Date.now();
+
+                        const blob = await dataURLToBlob(imgSrc);
+                        const url = await saveImageToFirebase(uniqueId, blob);
+                        if (!url) return;
+
+                        siteData.gallery.push({ id: uniqueId, img: url });
+                        await saveGallery();
+                        appendGalleryItem(url, uniqueId, false);
+                        alert("Gallery picture successfully added!");
+                    } catch (error) {
+                        console.error(error);
+                        alert("Gallery picture save nahi ho saki.");
+                    }
                 };
+
                 reader.readAsDataURL(file);
             }
+
             galleryImagePicker.value = '';
         };
 
-        function appendGalleryItem(imgSrc, uniqueId) {
+        function appendGalleryItem(imgSrc, uniqueId, addToData = true) {
+            if (document.querySelector(`.editable-img[data-id="${CSS.escape(uniqueId)}"]`)) return;
+
             const item = document.createElement('div');
             item.className = 'gallery-item';
-            item.innerHTML = `<div class="image-wrapper"><img src="${imgSrc}" alt="Gallery Item" class="editable-img" data-id="${uniqueId}"></div>`;
+
+            item.innerHTML = `
+                <div class="image-wrapper">
+                    <img src="${escapeAttribute(imgSrc)}" alt="Gallery Item" class="editable-img" data-id="${escapeAttribute(uniqueId)}">
+                </div>
+            `;
+
             galleryGridContainer.appendChild(item);
+
+            if (addToData) {
+                siteData.gallery.push({ id: uniqueId, img: imgSrc });
+            }
+
             if (isAdminLoggedIn) enableEditingMode();
+        }
+
+        function dataURLToBlob(dataURL) {
+            return fetch(dataURL).then(r => r.blob());
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? '').replace(/[&<>"']/g, char => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            }[char]));
+        }
+
+        function escapeAttribute(value) {
+            return String(value ?? '').replace(/["'<>`]/g, '');
         }
 
         function disableEditingMode() {
@@ -1592,6 +1870,7 @@
                 el.style.borderBottom = 'none';
                 el.oninput = null;
             });
+
             document.querySelectorAll('.editable-img').forEach(img => {
                 img.style.cursor = 'default';
                 img.style.border = 'none';
