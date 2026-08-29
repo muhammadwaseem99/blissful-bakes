@@ -1269,9 +1269,6 @@
         import {
             getFirestore, doc, getDoc, setDoc
         } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        import {
-            getStorage, ref, uploadBytes, getDownloadURL
-        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBPou6eASh5shC57D1CmOUZ_o2lf8EmTYQ",
@@ -1286,10 +1283,8 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const storage = getStorage(app);
 
-        // Analytics is optional; keep the site working even if Analytics is unavailable.
-        try { getAnalytics(app); } catch (e) { console.warn("Analytics unavailable:", e); }
+        try { getAnalytics(app); } catch (e) {}
 
         const modal = document.getElementById('adminModal');
         const btn = document.getElementById('adminLoginBtn');
@@ -1327,7 +1322,6 @@
 
         let activeImageElement = null;
         let isAdminLoggedIn = false;
-
         let currentScale = 1;
         let pointX = 0;
         let pointY = 0;
@@ -1335,8 +1329,10 @@
         let startX = 0;
         let startY = 0;
 
-        // All editable website data is stored in ONE Firestore document.
-        // This replaces the old browser-only localStorage system.
+        // Free Firebase setup:
+        // Text/menu/gallery metadata -> Firestore
+        // Images -> separate Firestore documents as compressed data URLs.
+        // This does NOT require Firebase Storage or a paid plan.
         const SITE_DOC = doc(db, "siteData", "main");
         let siteData = { texts: {}, images: {}, menus: [], gallery: [] };
         let saveTimers = {};
@@ -1353,16 +1349,35 @@
 
         function normalizeData(data) {
             return {
-                texts: data && data.texts ? data.texts : {},
-                images: data && data.images ? data.images : {},
-                menus: Array.isArray(data && data.menus) ? data.menus : [],
-                gallery: Array.isArray(data && data.gallery) ? data.gallery : []
+                texts: data?.texts || {},
+                images: data?.images || {},
+                menus: Array.isArray(data?.menus) ? data.menus : [],
+                gallery: Array.isArray(data?.gallery) ? data.gallery : []
             };
+        }
+
+        async function getImageValue(imageRef) {
+            if (!imageRef) return "";
+            // Backward compatibility with old data that stored a URL/data URL directly.
+            if (String(imageRef).startsWith("data:image/") ||
+                String(imageRef).startsWith("http://") ||
+                String(imageRef).startsWith("https://")) {
+                return imageRef;
+            }
+
+            try {
+                const snap = await getDoc(doc(db, "siteImages", String(imageRef)));
+                if (snap.exists()) return snap.data().dataUrl || "";
+            } catch (e) {
+                console.error("Image load failed:", e);
+            }
+            return "";
         }
 
         async function loadSiteData() {
             try {
                 const snap = await getDoc(SITE_DOC);
+
                 if (snap.exists()) {
                     siteData = normalizeData(snap.data());
 
@@ -1371,22 +1386,33 @@
                         if (el && typeof value === "string") el.innerText = value;
                     });
 
-                    Object.entries(siteData.images).forEach(([id, value]) => {
+                    // Load fixed/editable images.
+                    for (const [id, imageRef] of Object.entries(siteData.images)) {
                         const img = document.querySelector(`.editable-img[data-id="${CSS.escape(id)}"]`);
-                        if (img && value) img.src = value;
-                    });
+                        if (img) {
+                            const url = await getImageValue(imageRef);
+                            if (url) img.src = url;
+                        }
+                    }
 
-                    siteData.menus.forEach(item => {
-                        if (item && item.id) appendMenuCard(item.img, item.title, item.price, item.id, false);
-                    });
+                    // Load custom menu items.
+                    for (const item of siteData.menus) {
+                        if (!item?.id) continue;
+                        const url = await getImageValue(item.imgId || item.img);
+                        appendMenuCard(url, item.title || "Menu Item", item.price || "", item.id, false);
+                    }
 
-                    siteData.gallery.forEach(item => {
-                        if (item && item.id) appendGalleryItem(item.img, item.id, false);
-                    });
+                    // Load custom gallery items.
+                    for (const item of siteData.gallery) {
+                        if (!item?.id) continue;
+                        const url = await getImageValue(item.imgId || item.img);
+                        appendGalleryItem(url, item.id, false);
+                    }
+                } else {
+                    loadLegacyLocalStorage();
                 }
             } catch (error) {
                 console.error("Could not load Firestore data:", error);
-                // Old localStorage data is only used as a one-time fallback.
                 loadLegacyLocalStorage();
             }
         }
@@ -1449,6 +1475,7 @@
             }
 
             submitBtn.disabled = true;
+
             try {
                 await signInWithEmailAndPassword(auth, adminEmail, pass);
                 modal.style.display = 'none';
@@ -1481,40 +1508,99 @@
 
         function queueTextSave(id, value) {
             clearTimeout(saveTimers['text_' + id]);
+
             saveTimers['text_' + id] = setTimeout(async () => {
+                if (!auth.currentUser) return;
+
                 try {
                     siteData.texts[id] = value;
-                    await setDoc(SITE_DOC, { texts: { [id]: value } }, { merge: true });
+                    await setDoc(
+                        SITE_DOC,
+                        { texts: { [id]: value } },
+                        { merge: true }
+                    );
                     console.log("Text saved:", id);
                 } catch (error) {
                     console.error("Text save failed:", error);
-                    alert("Text save nahi ho saka. Firebase Firestore Rules check karein.");
+                    alert("Text save nahi ho saka. Firestore Rules check karein.");
                 }
             }, 500);
         }
 
-        async function saveImageToFirebase(id, blob) {
+        // Compress an image enough to fit safely inside Firestore's 1 MiB
+        // per-document limit. Images are stored in separate documents.
+        async function compressImageFile(file) {
+            const dataUrl = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+
+            return compressDataUrl(dataUrl);
+        }
+
+        async function compressDataUrl(dataUrl) {
+            const img = await new Promise((resolve, reject) => {
+                const image = new Image();
+                image.onload = () => resolve(image);
+                image.onerror = reject;
+                image.src = dataUrl;
+            });
+
+            const sizes = [600, 550, 500, 450, 400, 350];
+            const qualities = [0.78, 0.70, 0.62, 0.55, 0.48];
+
+            for (const maxSize of sizes) {
+                let width = img.naturalWidth;
+                let height = img.naturalHeight;
+                const scale = Math.min(1, maxSize / Math.max(width, height));
+                width = Math.max(1, Math.round(width * scale));
+                height = Math.max(1, Math.round(height * scale));
+
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, width, height);
+                ctx.drawImage(img, 0, 0, width, height);
+
+                for (const quality of qualities) {
+                    const result = canvas.toDataURL('image/jpeg', quality);
+                    // Keep a safety margin below Firestore's 1 MiB document limit.
+                    if (result.length <= 900000) return result;
+                }
+            }
+
+            throw new Error("Image is too large to store safely in Firestore.");
+        }
+
+        async function saveImageToFirestore(id, dataUrl) {
             if (!auth.currentUser) {
                 alert("Admin login required.");
                 return null;
             }
 
             try {
-                const safeId = String(id).replace(/[^a-zA-Z0-9_-]/g, '_');
-                const imageRef = ref(storage, `site-images/${safeId}-${Date.now()}.jpg`);
-                const snapshot = await uploadBytes(imageRef, blob, {
-                    contentType: 'image/jpeg',
-                    cacheControl: 'public,max-age=31536000'
+                await setDoc(doc(db, "siteImages", String(id)), {
+                    dataUrl: dataUrl,
+                    updatedAt: new Date().toISOString()
                 });
-                const url = await getDownloadURL(snapshot.ref);
 
-                siteData.images[id] = url;
-                await setDoc(SITE_DOC, { images: { [id]: url } }, { merge: true });
+                siteData.images[id] = String(id);
 
-                return url;
+                await setDoc(
+                    SITE_DOC,
+                    { images: { [id]: String(id) } },
+                    { merge: true }
+                );
+
+                return dataUrl;
             } catch (error) {
-                console.error("Image upload/save failed:", error);
-                alert("Image save nahi hui. Firebase Storage enable aur Rules check karein.");
+                console.error("Image save failed:", error);
+                alert("Image save nahi hui. Firestore Rules check karein.");
                 return null;
             }
         }
@@ -1570,29 +1656,35 @@
             });
         }
 
-        fileInput.onchange = function(event) {
+        fileInput.onchange = async function(event) {
             const file = event.target.files[0];
 
-            if (file && activeImageElement) {
-                if (!file.type.startsWith('image/')) {
-                    alert("Sirf image file select karein.");
-                    fileInput.value = '';
-                    return;
-                }
+            if (!file || !activeImageElement) {
+                fileInput.value = '';
+                return;
+            }
 
-                const reader = new FileReader();
+            if (!file.type.startsWith('image/')) {
+                alert("Sirf image file select karein.");
+                fileInput.value = '';
+                return;
+            }
 
-                reader.onload = function(e) {
-                    modalImagePreview.src = e.target.result;
-                    zoomPanModal.style.display = 'flex';
-                    currentScale = 1;
-                    pointX = 0;
-                    pointY = 0;
-                    zoomRangeInput.value = 1;
-                    updateImageTransform();
-                };
+            try {
+                const compressed = await compressDataUrl(
+                    await compressImageFile(file)
+                );
 
-                reader.readAsDataURL(file);
+                modalImagePreview.src = compressed;
+                zoomPanModal.style.display = 'flex';
+                currentScale = 1;
+                pointX = 0;
+                pointY = 0;
+                zoomRangeInput.value = 1;
+                updateImageTransform();
+            } catch (error) {
+                console.error(error);
+                alert("Image process nahi ho saki.");
             }
 
             fileInput.value = '';
@@ -1643,63 +1735,56 @@
             isDragging = false;
         };
 
-        saveZoomBtn.onclick = function() {
+        saveZoomBtn.onclick = async function() {
             if (!activeImageElement || !modalImagePreview.src) return;
 
             saveZoomBtn.disabled = true;
             saveZoomBtn.textContent = "Saving...";
 
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            const img = new Image();
+            try {
+                const img = await new Promise((resolve, reject) => {
+                    const image = new Image();
+                    image.onload = () => resolve(image);
+                    image.onerror = reject;
+                    image.src = modalImagePreview.src;
+                });
 
-            img.onload = async function() {
-                try {
-                    canvas.width = 600;
-                    canvas.height = 600;
+                const canvas = document.createElement('canvas');
+                canvas.width = 500;
+                canvas.height = 500;
 
-                    ctx.fillStyle = '#ffffff';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                    ctx.save();
-                    ctx.translate(
-                        canvas.width / 2 + pointX,
-                        canvas.height / 2 + pointY
-                    );
-                    ctx.scale(currentScale, currentScale);
-                    ctx.drawImage(img, -img.width / 2, -img.height / 2);
-                    ctx.restore();
+                ctx.save();
+                ctx.translate(
+                    canvas.width / 2 + pointX,
+                    canvas.height / 2 + pointY
+                );
+                ctx.scale(currentScale, currentScale);
+                ctx.drawImage(img, -img.width / 2, -img.height / 2);
+                ctx.restore();
 
-                    const blob = await new Promise(resolve =>
-                        canvas.toBlob(resolve, 'image/jpeg', 0.88)
-                    );
+                let finalDataUrl = await compressDataUrl(
+                    canvas.toDataURL('image/jpeg', 0.75)
+                );
 
-                    if (!blob) throw new Error("Could not create image blob.");
+                const id = activeImageElement.getAttribute('data-id');
+                const url = await saveImageToFirestore(id, finalDataUrl);
 
-                    const id = activeImageElement.getAttribute('data-id');
-                    const url = await saveImageToFirebase(id, blob);
-
-                    if (url) {
-                        activeImageElement.src = url;
-                        alert("Image successfully saved!");
-                    }
-                } catch (error) {
-                    console.error(error);
-                    alert("Image save nahi ho saki.");
-                } finally {
-                    zoomPanModal.style.display = 'none';
-                    saveZoomBtn.disabled = false;
-                    saveZoomBtn.textContent = "Save";
+                if (url) {
+                    activeImageElement.src = url;
+                    alert("Image successfully saved!");
                 }
-            };
-
-            img.onerror = function() {
-                alert("Image process nahi ho saki.");
+            } catch (error) {
+                console.error(error);
+                alert("Image save nahi ho saki.");
+            } finally {
+                zoomPanModal.style.display = 'none';
                 saveZoomBtn.disabled = false;
                 saveZoomBtn.textContent = "Save";
-            };
-
-            img.src = modalImagePreview.src;
+            }
         };
 
         cancelZoomBtn.onclick = function() {
@@ -1710,45 +1795,44 @@
             if (isAdminLoggedIn) menuImagePicker.click();
         };
 
-        menuImagePicker.onchange = function(event) {
+        menuImagePicker.onchange = async function(event) {
             const file = event.target.files[0];
 
-            if (file) {
-                const reader = new FileReader();
+            if (!file) {
+                menuImagePicker.value = '';
+                return;
+            }
 
-                reader.onload = async function(e) {
-                    const imgSrc = e.target.result;
-                    const title = prompt("Enter Menu Item Title:", "New Item");
-                    if (!title) return;
+            try {
+                const imgSrc = await compressImageFile(file);
+                const title = prompt("Enter Menu Item Title:", "New Item");
+                if (!title) return;
 
-                    const price = prompt("Enter Price:", "Rs. 2,000");
-                    if (!price) return;
+                const price = prompt("Enter Price:", "Rs. 2,000");
+                if (!price) return;
 
-                    const uniqueId = 'custom_menu_' + Date.now();
+                const uniqueId = 'custom_menu_' + Date.now();
 
-                    try {
-                        const blob = await dataURLToBlob(imgSrc);
-                        const url = await saveImageToFirebase(uniqueId, blob);
-                        if (!url) return;
+                await setDoc(doc(db, "siteImages", uniqueId), {
+                    dataUrl: imgSrc,
+                    updatedAt: new Date().toISOString()
+                });
 
-                        const item = {
-                            id: uniqueId,
-                            img: url,
-                            title: title,
-                            price: price
-                        };
-
-                        siteData.menus.push(item);
-                        await saveMenus();
-                        appendMenuCard(url, title, price, uniqueId, false);
-                        alert("Menu item successfully added!");
-                    } catch (error) {
-                        console.error(error);
-                        alert("Menu item save nahi ho saka.");
-                    }
+                const item = {
+                    id: uniqueId,
+                    imgId: uniqueId,
+                    title: title,
+                    price: price
                 };
 
-                reader.readAsDataURL(file);
+                siteData.menus.push(item);
+                await saveMenus();
+
+                appendMenuCard(imgSrc, title, price, uniqueId, false);
+                alert("Menu item successfully added!");
+            } catch (error) {
+                console.error(error);
+                alert("Menu item save nahi ho saka. Image choti size mein try karein.");
             }
 
             menuImagePicker.value = '';
@@ -1765,7 +1849,7 @@
 
             card.innerHTML = `
                 <div class="image-wrapper">
-                    <img src="${escapeAttribute(imgSrc)}" alt="${safeTitle}" class="editable-img" data-id="${escapeAttribute(uniqueId)}">
+                    <img src="${escapeAttribute(imgSrc || '')}" alt="${safeTitle}" class="editable-img" data-id="${escapeAttribute(uniqueId)}">
                 </div>
                 <div class="menu-card-body">
                     <h3 class="edit-text" data-id="${escapeAttribute(uniqueId)}_title">${safeTitle}</h3>
@@ -1779,7 +1863,12 @@
             menuGridContainer.appendChild(card);
 
             if (addToData) {
-                siteData.menus.push({ id: uniqueId, img: imgSrc, title, price });
+                siteData.menus.push({
+                    id: uniqueId,
+                    imgId: uniqueId,
+                    title,
+                    price
+                });
             }
 
             if (isAdminLoggedIn) enableEditingMode();
@@ -1789,32 +1878,35 @@
             if (isAdminLoggedIn) galleryImagePicker.click();
         };
 
-        galleryImagePicker.onchange = function(event) {
+        galleryImagePicker.onchange = async function(event) {
             const file = event.target.files[0];
 
-            if (file) {
-                const reader = new FileReader();
+            if (!file) {
+                galleryImagePicker.value = '';
+                return;
+            }
 
-                reader.onload = async function(e) {
-                    try {
-                        const imgSrc = e.target.result;
-                        const uniqueId = 'custom_gallery_' + Date.now();
+            try {
+                const imgSrc = await compressImageFile(file);
+                const uniqueId = 'custom_gallery_' + Date.now();
 
-                        const blob = await dataURLToBlob(imgSrc);
-                        const url = await saveImageToFirebase(uniqueId, blob);
-                        if (!url) return;
+                await setDoc(doc(db, "siteImages", uniqueId), {
+                    dataUrl: imgSrc,
+                    updatedAt: new Date().toISOString()
+                });
 
-                        siteData.gallery.push({ id: uniqueId, img: url });
-                        await saveGallery();
-                        appendGalleryItem(url, uniqueId, false);
-                        alert("Gallery picture successfully added!");
-                    } catch (error) {
-                        console.error(error);
-                        alert("Gallery picture save nahi ho saki.");
-                    }
-                };
+                siteData.gallery.push({
+                    id: uniqueId,
+                    imgId: uniqueId
+                });
 
-                reader.readAsDataURL(file);
+                await saveGallery();
+                appendGalleryItem(imgSrc, uniqueId, false);
+
+                alert("Gallery picture successfully added!");
+            } catch (error) {
+                console.error(error);
+                alert("Gallery picture save nahi ho saki. Image choti size mein try karein.");
             }
 
             galleryImagePicker.value = '';
@@ -1828,21 +1920,20 @@
 
             item.innerHTML = `
                 <div class="image-wrapper">
-                    <img src="${escapeAttribute(imgSrc)}" alt="Gallery Item" class="editable-img" data-id="${escapeAttribute(uniqueId)}">
+                    <img src="${escapeAttribute(imgSrc || '')}" alt="Gallery Item" class="editable-img" data-id="${escapeAttribute(uniqueId)}">
                 </div>
             `;
 
             galleryGridContainer.appendChild(item);
 
             if (addToData) {
-                siteData.gallery.push({ id: uniqueId, img: imgSrc });
+                siteData.gallery.push({
+                    id: uniqueId,
+                    imgId: uniqueId
+                });
             }
 
             if (isAdminLoggedIn) enableEditingMode();
-        }
-
-        function dataURLToBlob(dataURL) {
-            return fetch(dataURL).then(r => r.blob());
         }
 
         function escapeHtml(value) {
