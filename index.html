@@ -4,7 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blissful Bakes | Delight in Every Bite</title>
+    <link rel="icon" type="image/png" href="logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Yahan se WhatsApp Preview (Open Graph) ke tags shuru hote hain -->
+<meta property="og:title" content="Blissful Bakes | Delight in Every Bite">
+<meta property="og:description" content="Indulge in handcrafted cakes, cupcakes, brownies, and desserts made with love.">
+<meta property="og:image" content="https://blissfulbakes.great-site.net/logo.png">
+<meta property="og:url" content="https://blissfulbakes.great-site.net/">
+<meta property="og:type" content="website">
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap');
@@ -31,6 +38,11 @@
             box-sizing: border-box;
             scroll-behavior: smooth;
         }
+        /* Yeh line ensure karegi ke click hone par item header ke peechay na chupe */
+.menu-card, 
+.section-title {
+    scroll-margin-top: 100px; /* Header ke size ke mutabiq isay kam ya zyada kar sakte hain */
+}
 
         body, html {
             background-color: var(--bg-color);
@@ -418,15 +430,6 @@
             padding: 0 5%;
         }
 
-        .specialty-card {
-            background: var(--light-card-bg);
-            border: 1px solid var(--light-border);
-            padding: 20px 10px;
-            text-align: center;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(212, 131, 139, 0.08);
-        }
-
         .specialty-card i {
             font-size: 2rem;
             color: var(--brand-pink);
@@ -449,26 +452,34 @@
 
         .menu-card {
             background: var(--light-card-bg);
-            border: 1px solid var(--light-border);
+            border: 5px solid var(--light-border);
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 6px 20px rgba(212, 131, 139, 0.08);
         }
 
-        .menu-card .image-wrapper {
-            width: 100%;
-            height: 210px;
-            display: block;
-        }
+/* Container ko aspect ratio denge taake PC aur mobile par size balanced rahe */
+.menu-card .image-wrapper {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Aap isay 1/1 (square) ya 16/9 bhi kar sakte hain apni pasand ke mutabiq */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fafafa; /* Frame mein khali jagah ke liye halka background color */
+    overflow: hidden;
+    border-radius: 8px; /* Agar corners round rakhne hon */
+}
 
+/* Picture ko frame ke andar mukammal fit karne ke liye */
         .menu-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+            width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important; /* Is se image zoom ya cut nahi hogi, normal show hogi */
+    background-color: #ffffff; /* Agar background white dikhana ho */
+}
 
         .menu-card-body {
-            padding: 18px;
+            padding: 10px;
             text-align: center;
         }
 
@@ -592,14 +603,92 @@
             margin-bottom: 0;
         }
 
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 15px;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 5%;
-        }
+        /* Gallery Grid: Shuru mein sirf 2 rows dikhane ke liye */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 5%;
+    max-height: 420px; /* Yeh 2 rows ki height limit set karta hai */
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+}
+
+/* Jab See More click ho ga toh saari rows khul jayengi */
+.gallery-grid.expanded {
+    max-height: 3000px; 
+}
+
+/* Gallery Images Hover Effect */
+.gallery-item img.editable-img {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.gallery-item img.editable-img:hover {
+    transform: scale(1.04);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* See More Button Styling */
+.see-more-btn-container {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.see-more-btn {
+    background: transparent;
+    border: 2px solid var(--brand-pink, #ff6b81);
+    color: var(--brand-pink, #ff6b81);
+    padding: 10px 25px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.see-more-btn:hover {
+    background: var(--brand-pink, #ff6b81);
+    color: #fff;
+}
+
+/* Lightbox Modal for Full Image View */
+#imageLightboxModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 4000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+#imageLightboxModal img {
+    max-width: 90%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 10px;
+    border: 2px solid var(--gold, #d4af37);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+}
+
+#closeLightboxBtn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #fff;
+    font-size: 2.5rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
 
         .gallery-item {
             width: 100%;
@@ -959,6 +1048,61 @@
             pointer-events: none;
             transition: transform 0.05s ease-out;
         }
+        /* WhatsApp Buttons Hover & Tap Effect */
+.whatsapp-btn-header, 
+.whatsapp-order-btn, 
+.phone-num {
+    transition: all 0.3s ease-in-out !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.whatsapp-btn-header:hover, 
+.whatsapp-btn-header:active,
+.whatsapp-order-btn:hover, 
+.whatsapp-order-btn:active,
+.phone-num:hover,
+.phone-num:active {
+    transform: translateY(-3px); /* Button ko upar uthane ke liye */
+    box-shadow: 0 6px 15px rgba(37, 211, 102, 0.4); /* Pyaara sa glow effect */
+}
+
+/* Header WhatsApp Button Specific Color Change on Hover */
+.whatsapp-btn-header:hover {
+    background: #25D366 !important;
+    color: #ffffff !important;
+    border-color: #25D366 !important;
+}
+
+/* Menu Cards WhatsApp Button Specific Color Change on Hover */
+.whatsapp-order-btn:hover {
+    background: #18a01b !important;
+    color: #ffffff !important;
+}
+/* Specialties Icons Colorful & Clickable Effect */
+.specialty-card {
+    cursor: pointer !important;
+    transition: all 0.3s ease-in-out !important;
+}
+
+.specialty-card:hover {
+    transform: translateY(-10px) !important;
+   
+}
+/* Footer ke social icons aur links ke liye animation */
+
+.footer-social-icons a i {
+    display: inline-block !important;
+    transition: transform 0.1s ease, color 0.1s ease !important;
+}
+
+/* Jab mouse icon par aaye ga toh woh hil kar upar ho ga */
+.footer-social-icons a:hover, 
+.footer-social-icons a:hover i {
+    transform: translateY(-5px) scale(1) !important;
+}
+
     </style>
 </head>
 <body>
@@ -1028,7 +1172,7 @@
             <h2 class="edit-text" data-id="hero-h2">Welcome to</h2>
             <h1 class="edit-text" data-id="hero-h1">BLISSFUL BAKES</h1>
             <div class="tagline">
-                <i class="fas fa-heart"></i> <span class="edit-text" data-id="hero-tagline">Delight in Every Bite</span> <i class="fas fa-heart"></i>
+                <i ></i> <span class="edit-text" data-id="hero-tagline">Delight in Every Bite</span> <i ></i>
             </div>
             <div class="custom-divider-line">
                 <i class="fas fa-birthday-cake" style="font-size: 0.8rem;"></i>
@@ -1038,7 +1182,7 @@
                 ORDER NOW ON WHATSAPP <i class="fab fa-whatsapp"></i>
             </a>
         </div>
-                <img src="011.png" alt="Delicious Cake" class="hero-main-cake editable-img" style="width: 470px; height: auto; position: relative; top: 80px; left: 70px;">
+                <img src="011.png" alt="Delicious Cake" class="hero-main-cake" style="width: 470px; height: auto; position: relative; top: 80px; left: 70px;">
             </div>
         </div>
         <div class="home-bottom-transition">
@@ -1048,71 +1192,84 @@
             </svg>
         </div>
     </section>
-
     <div class="light-theme-section">
         <div class="section-title">
-            <h2 class="edit-text" data-id="spec-title">OUR SPECIALTIES</h2>
-            <div class="fancy-divider"><i class="fas fa-heart" style="font-size: 0.7rem;"></i></div>
+            <h2 class="edit-text">OUR SPECIALTIES</h2>
+            <div class="fancy-divider"><i  style="font-size: 0.7rem;"></i></div>
+       <div class="specialties-grid">
+            <a href="#cake-item" class="specialty-card" style="text-decoration: none; display: block;">
+                <img src="specialties/cake.png" alt="Cakes" style="width: 145px; height: 145px; object-fit: contain; margin-bottom: 12px; display: block; margin-left: auto; margin-right: auto;">
+            </a>
+            
+            <!-- Cupcakes Link -->
+            <a href="#cupcake-item" class="specialty-card" style="text-decoration: none; display: block;">
+                <img src="specialties/cupcake.png" alt="Cupcakes" style="width: 145px; height: 145px; object-fit: contain; margin-bottom: 12px; display: block; margin-left: auto; margin-right: auto;">
+            </a>
+            
+            <!-- Brownies Link -> Menu ke Brownie item par jaye ga -->
+            <a href="#brownie-item" class="specialty-card" style="text-decoration: none; display: block;">
+                <img src="specialties/brownie.png" alt="Brownies" style="width: 145px; height: 145px; object-fit: contain; margin-bottom: 12px; display: block; margin-left: auto; margin-right: auto;">
+            </a>
+            
+            <!-- Desserts Link -->
+            <a href="#Starbucks Cake Pops-item" style="text-decoration: none; display: block;">
+                <img src="specialties/dessert.png" alt="Desserts" style="width: 145px; height: 145px; object-fit: contain; margin-bottom: 12px; display: block; margin-left: auto; margin-right: auto;">
+            </a>
         </div>
-        <div class="specialties-grid">
-            <div class="specialty-card"><i class="fas fa-birthday-cake"></i><h3 class="edit-text" data-id="spec-1">CAKES</h3></div>
-            <div class="specialty-card"><i class="fas fa-cookie"></i><h3 class="edit-text" data-id="spec-2">CUPCAKES</h3></div>
-            <div class="specialty-card"><i class="fas fa-cube"></i><h3 class="edit-text" data-id="spec-3">BROWNIES</h3></div>
-            <div class="specialty-card"><i class="fas fa-utensils"></i><h3 class="edit-text" data-id="spec-4">DESSERTS</h3></div>
-        </div>
+    </div>
 
-        <div class="section-title" id="menu">
-            <h2 class="edit-text" data-id="menu-main-title">OUR MENU</h2>
-            <div class="fancy-divider"><i class="fas fa-heart" style="font-size: 0.7rem;"></i></div>
-        </div>
-
+    <!-- 2. Our Menu Main Section -->
+    <div class="section-title" id="menu">
+        <h2 class="edit-text" data-id="menu-main-title">OUR MENU</h2>
+        <div class="fancy-divider"><i class="fas fa-heart" style="font-size: 0.7rem;"></i></div>
+    </div>
         <div class="menu-grid" id="menuGridContainer">
-            <div class="menu-card">
-                <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=500&q=80" alt="Chocolate Cake" class="editable-img" data-id="menu-img-1"></div>
+            <div class="menu-card" id="cake-item">
+                <div class="image-wrapper"><img src="menu/chocolate.jpg" alt="Chocolate Cake" class=".menu-card img" data-id="menu-img-1"></div>
                 <div class="menu-card-body">
                     <h3 class="edit-text" data-id="menu-title-1">Chocolate Cake</h3>
-                    <div class="price edit-text" data-id="menu-price-1">Rs. 2,500</div>
+                    <div class="price edit-text" data-id="menu-price-1">Rs. 1,700</div>
                     <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Chocolate%20Cake" target="_blank" class="whatsapp-order-btn"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
                 </div>
             </div>
-            <div class="menu-card">
-                <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?auto=format&fit=crop&w=500&q=80" alt="Red Velvet Cake" class="editable-img" data-id="menu-img-2"></div>
+            <div class="menu-card" id="tiramisu-item">
+                <div class="image-wrapper"><img src="menu/tmilk.jpg" alt="Three Milk Cake" class="editable-img" data-id="menu-img-2"></div>
                 <div class="menu-card-body">
-                    <h3 class="edit-text" data-id="menu-title-2">Red Velvet Cake</h3>
+                    <h3 class="edit-text" data-id="menu-title-2">Three Milk Cake</h3>   
                     <div class="price edit-text" data-id="menu-price-2">Rs. 2,800</div>
-                    <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Red%20Velvet%20Cake" target="_blank" class="whatsapp-order-btn"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
+                    <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Three%20Milk%20Cake" target="_blank" class="whatsapp-order-btn"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
                 </div>
             </div>
-            <div class="menu-card">
-                <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?auto=format&fit=crop&w=500&q=80" alt="Chocolate Cupcake" class="editable-img" data-id="menu-img-3"></div>
+            <div class="menu-card" id="cupcake-item">
+                <div class="image-wrapper"><img src="menu/cupcakes.jpg" alt="Vanilla Cupcake" class="editable-img" data-id="menu-img-3"></div>
                 <div class="menu-card-body">
-                    <h3 class="edit-text" data-id="menu-title-3">Chocolate Cupcake</h3>
+                    <h3 class="edit-text" data-id="menu-title-3">Vanilla Cupcake</h3>
                     <div class="price edit-text" data-id="menu-price-3">Rs. 250</div>
-                    <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Chocolate%20Cupcake" target="_blank" class="whatsapp-order-btn"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
-                </div>
-            </div>
-            <div class="menu-card">
-                <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?auto=format&fit=crop&w=500&q=80" alt="Vanilla Cupcake" class="editable-img" data-id="menu-img-4"></div>
-                <div class="menu-card-body">
-                    <h3 class="edit-text" data-id="menu-title-4">Vanilla Cupcake</h3>
-                    <div class="price edit-text" data-id="menu-price-4">Rs. 250</div>
                     <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Vanilla%20Cupcake" target="_blank" class="whatsapp-order-btn"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
                 </div>
             </div>
-            <div class="menu-card">
-                <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=500&q=80" alt="Fudgy Brownie" class="editable-img" data-id="menu-img-5"></div>
+            <div class="menu-card" id="Starbucks Cake Pops-item">
+                <div class="image-wrapper"><img src="menu/starbucks.jpg" alt="Starbucks Cake Pops" data-id="menu-img-4"></div>
                 <div class="menu-card-body">
-                    <h3 class="edit-text" data-id="menu-title-5">Fudgy Brownie</h3>
-                    <div class="price edit-text" data-id="menu-price-5">Rs. 350</div>
-                    <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Fudgy%20Brownie" target="_blank" class="whatsapp-order-btn"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
+                    <h3 class="edit-text" data-id="menu-title-4">Starbucks Cake Pops</h3>
+                    <div class="price edit-text" data-id="menu-price-4">Rs. 250</div>
+                    <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Starbucks%20Cake%20Pops" target="_blank" class="whatsapp-order-btn"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
                 </div>
             </div>
-            <div class="menu-card">
-                <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=500&q=80" alt="Chocolate Truffles" class="editable-img" data-id="menu-img-6"></div>
+            <div class="menu-card" id="Chocolate-Balls-item">
+                <div class="image-wrapper"><img src="menu/balls.jpg" alt="Chocolate Cake Balls" data-id="menu-img-5"></div>
                 <div class="menu-card-body">
-                    <h3 class="edit-text" data-id="menu-title-6">Chocolate Truffles</h3>
+                    <h3 class="edit-text" data-id="menu-title-5">Chocolate Cake Balls</h3>
+                    <div class="price edit-text" data-id="menu-price-5">Rs. 350</div>
+                    <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Chocolate%20Cake%20Balls" target="_blank" class="whatsapp-order-btn"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
+                </div>
+            </div>
+            <div class="menu-card" id="brownie-item">
+                <div class="image-wrapper"><img src="menu/brownie.jpg" alt="Brownies" class="editable-img" data-id="menu-img-6"></div>
+                <div class="menu-card-body">
+                    <h3 class="edit-text" data-id="menu-title-6">Brownies</h3>
                     <div class="price edit-text" data-id="menu-price-6">Rs. 500 (Box)</div>
-                    <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Chocolate%20Truffles" target="_blank" class="whatsapp-order-btn"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
+                    <a href="https://wa.me/923714079790?text=I%20want%20to%20order%20Brownies" target="_blank" class="whatsapp-order-btn"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
                 </div>
             </div>
         </div>
@@ -1123,7 +1280,7 @@
 
         <section id="about">
             <div class="about-image">
-                <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=500&q=80" alt="About Blissful Bakes" class="editable-img" data-id="about-img"></div>
+                <div class="image-wrapper"><img src="menu/chocolate.jpg" alt="About Blissful Bakes" data-id="about-img"></div>
             </div>
             <div class="about-content">
                 <h2 class="edit-text" data-id="about-h2">Baked with Passion, Made for Happiness</h2>
@@ -1149,19 +1306,25 @@
             </div>
         </section>
 
-        <div class="section-title" id="gallery">
-            <h2 class="edit-text" data-id="gal-title">GALLERY</h2>
-            <div class="fancy-divider"><i class="fas fa-heart" style="font-size: 0.7rem;"></i></div>
-        </div>
+        <!-- Gallery Section -->
+<div class="section-title" id="gallery">
+    <h2 class="edit-text" data-id="gallery-main-title">GALLERY</h2>
+    <div class="fancy-divider"><i class="fas fa-heart" style="font-size: 0.7rem;"></i></div>
+</div>
 
-        <div class="gallery-grid" id="galleryGridContainer">
-            <div class="gallery-item"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=400&q=80" alt="Gallery 1" class="editable-img" data-id="gal-img-1"></div></div>
-            <div class="gallery-item"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?auto=format&fit=crop&w=400&q=80" alt="Gallery 2" class="editable-img" data-id="gal-img-2"></div></div>
-            <div class="gallery-item"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?auto=format&fit=crop&w=400&q=80" alt="Gallery 3" class="editable-img" data-id="gal-img-3"></div></div>
-            <div class="gallery-item"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?auto=format&fit=crop&w=400&q=80" alt="Gallery 4" class="editable-img" data-id="gal-img-4"></div></div>
-            <div class="gallery-item"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=400&q=80" alt="Gallery 5" class="editable-img" data-id="gal-img-5"></div></div>
-            <div class="gallery-item"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=400&q=80" alt="Gallery 6" class="editable-img" data-id="gal-img-6"></div></div>
-        </div>
+<div class="gallery-grid" id="galleryGridContainer"> 
+</div>
+
+<!-- See More Pictures Button -->
+<div class="see-more-btn-container">
+    <button class="see-more-btn" id="seeMoreBtn"><i class="fas fa-chevron-down"></i> See More Pictures</button>
+</div>
+
+<!-- Lightbox Popup Modal (File ke bilkul end mein body se pehle rakhein) -->
+<div id="imageLightboxModal">
+    <button id="closeLightboxBtn">&times;</button>
+    <img id="lightboxImage" src="" alt="Enlarged View">
+</div>
 
         <div class="admin-add-btn-container" id="addGalleryBtnContainer">
             <button class="admin-add-btn" id="addMoreGalleryBtn"><i class="fas fa-plus-circle"></i> Add More Picture</button>
@@ -1204,10 +1367,10 @@
                 <i class="fas fa-share-alt main-icon"></i>
                 <h4 class="edit-text" data-id="footer-h-2">FOLLOW US</h4>
                 <div class="footer-social-icons">
-                    <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-                    <a href="#" target="_blank"><i class="fab fa-tiktok"></i></a>
-                    <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.facebook.com/share/1caLEPcmEq/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/blissfulbake2?obrf=ZXFsNDVyZmlkOGps" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.tiktok.com/@blissful.bakes84" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://youtube.com/@blissfulkitchen-r8e?si=Qy56CN0lp1Iz8IDD" target="_blank"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
             <div class="footer-col">
@@ -1422,7 +1585,7 @@
                 if (value !== null) el.innerText = value;
             });
 
-            document.querySelectorAll('.editable-img').forEach(img => {
+            document.querySelectorAll('.editable-img, .menu-card img').forEach(img => {
                 const id = img.getAttribute('data-id');
                 const value = id ? localStorage.getItem('img_' + id) : null;
                 if (value) img.src = value;
@@ -1538,41 +1701,43 @@
             return compressDataUrl(dataUrl);
         }
 
-        async function compressDataUrl(dataUrl) {
-            const img = await new Promise((resolve, reject) => {
-                const image = new Image();
-                image.onload = () => resolve(image);
-                image.onerror = reject;
-                image.src = dataUrl;
-            });
+       async function compressDataUrl(dataUrl) {
+    const img = await new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = reject;
+        image.src = dataUrl;
+    });
 
-            const sizes = [600, 550, 500, 450, 400, 350];
-            const qualities = [0.78, 0.70, 0.62, 0.55, 0.48];
+    // Yahan sizes aur qualities ko behtar kar dein taake quality low na ho
+    const sizes = [1200, 1000, 800, 700];
+    const qualities = [0.90, 0.85, 0.80];
 
-            for (const maxSize of sizes) {
-                let width = img.naturalWidth;
-                let height = img.naturalHeight;
-                const scale = Math.min(1, maxSize / Math.max(width, height));
-                width = Math.max(1, Math.round(width * scale));
-                height = Math.max(1, Math.round(height * scale));
+    for (const maxSize of sizes) {
+        let width = img.naturalWidth;
+        let height = img.naturalHeight;
+        const scale = Math.min(1, maxSize / Math.max(width, height));
+        width = Math.max(1, Math.round(width * scale));
+        height = Math.max(1, Math.round(height * scale));
 
-                const canvas = document.createElement('canvas');
-                canvas.width = width;
-                canvas.height = height;
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
 
-                const ctx = canvas.getContext('2d');
-                ctx.fillStyle = '#ffffff';
-                ctx.fillRect(0, 0, width, height);
-                ctx.drawImage(img, 0, 0, width, height);
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, width, height);
+        ctx.drawImage(img, 0, 0, width, height);
 
-                for (const quality of qualities) {
-                    const result = canvas.toDataURL('image/jpeg', quality);
-                    // Keep a safety margin below Firestore's 1 MiB document limit.
-                    if (result.length <= 900000) return result;
-                }
-            }
+        for (const quality of qualities) {
+            const result = canvas.toDataURL('image/jpeg', quality);
+            // Limit ko thoda barha kar 980 KB tak kar sakte hain
+            if (result.length <= 980000) return result;
+        }
+    }
 
-            throw new Error("Image is too large to store safely in Firestore.");
+    throw new Error("Image is too large to store safely in Firestore.");
+
         }
 
         async function saveImageToFirestore(id, dataUrl) {
@@ -1641,7 +1806,7 @@
         }
 
         function bindImageClickEvents() {
-            document.querySelectorAll('.editable-img').forEach(img => {
+            document.querySelectorAll('.editable-img, .menu-card img').forEach(img => {
                 img.style.cursor = 'pointer';
                 img.style.border = '3px dashed #D4AF37';
 
@@ -1752,20 +1917,22 @@
                 canvas.height = 500;
 
                 const ctx = canvas.getContext('2d');
-                ctx.fillStyle = '#ffffff';
+                ctx.fillStyle = '#ffffff'; // White background agar image choti ho
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+                // Image ko automatically fit (contain) karne ke liye base scale calculate karna
+                const hRatio = canvas.width / img.width;
+                const vRatio = canvas.height / img.height;
+                const baseScale = Math.min(hRatio, vRatio);
+
                 ctx.save();
-                ctx.translate(
-                    canvas.width / 2 + pointX,
-                    canvas.height / 2 + pointY
-                );
-                ctx.scale(currentScale, currentScale);
+                ctx.translate(canvas.width / 2 + pointX, canvas.height / 2 + pointY);
+                ctx.scale(baseScale * currentScale, baseScale * currentScale);
                 ctx.drawImage(img, -img.width / 2, -img.height / 2);
                 ctx.restore();
 
                 let finalDataUrl = await compressDataUrl(
-                    canvas.toDataURL('image/jpeg', 0.75)
+                    canvas.toDataURL('image/jpeg', 0.85)
                 );
 
                 const id = activeImageElement.getAttribute('data-id');
@@ -1784,6 +1951,7 @@
                 saveZoomBtn.textContent = "Save";
             }
         };
+        
 
         cancelZoomBtn.onclick = function() {
             zoomPanModal.style.display = 'none';
@@ -1960,12 +2128,98 @@
                 el.oninput = null;
             });
 
-            document.querySelectorAll('.editable-img').forEach(img => {
+            document.querySelectorAll('.editable-img, .menu-card img').forEach(img => {
                 img.style.cursor = 'default';
                 img.style.border = 'none';
                 img.onclick = null;
             });
         }
+        // DOM fully load hone ke baad code execute ho ga
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // 1. See More Pictures Toggle Logic
+    const seeMoreBtn = document.getElementById('seeMoreBtn');
+    const galleryGridContainer = document.getElementById('galleryGridContainer');
+
+    if (seeMoreBtn && galleryGridContainer) {
+        seeMoreBtn.onclick = function() {
+            galleryGridContainer.classList.toggle('expanded');
+            if (galleryGridContainer.classList.contains('expanded')) {
+                seeMoreBtn.innerHTML = '<i class="fas fa-chevron-up"></i> Show Less';
+            } else {
+                seeMoreBtn.innerHTML = '<i class="fas fa-chevron-down"></i> See More Pictures';
+                document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
+            }
+        };
+    }
+
+    // 2. Image Lightbox (Click to Enlarge) Logic
+    const lightboxModal = document.getElementById('imageLightboxModal');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const closeLightboxBtn = document.getElementById('closeLightboxBtn');
+
+    if (lightboxModal && lightboxImage) {
+        document.addEventListener('click', function(e) {
+            // Check karein ke click ki gayi image par 'editable-img' class hai
+            if (e.target.classList.contains('editable-img')) {
+                
+                // Agar aapke project mein admin login variable ka naam mukhtalif hai, 
+                // toh yeh check conflict khatam karne ke liye hum direct image enlarge kar rahe hain
+                // (Lekin agar aap chahte hain ke admin mode mein click par modal na khule, 
+                // toh apke code mein jo admin check ka variable ho, woh yahan use hoga).
+                
+                // Filhal yeh direct open kare ga taake test ho sakay:
+                e.preventDefault();
+                lightboxImage.src = e.target.src;
+                lightboxModal.style.display = 'flex';
+            }
+        });
+
+        if (closeLightboxBtn) {
+            closeLightboxBtn.onclick = function() {
+                lightboxModal.style.display = 'none';
+            };
+        }
+
+        lightboxModal.onclick = function(e) {
+            if (e.target === lightboxModal) {
+                lightboxModal.style.display = 'none';
+            }
+        };
+    }
+});
+document.addEventListener('click', function(event) {
+    // Check karein ke click wali cheez .menu-card ke andar koi image hai ya nahi
+    if (event.target.matches('.menu-card img') || event.target.closest('.menu-card') && event.target.tagName === 'IMG') {
+        const clickedImg = event.target;
+        
+        // Agar aapke paas pehle se lightbox ka koi function hai (misal ke tor par openLightbox), toh usay yahan call kar dein:
+        if (typeof openLightbox === 'function') {
+            openLightbox(clickedImg);
+        }
+    }
+});
+ 
+// Naya code jo editable-img aur menu ki saari images dono par chalega
+document.querySelectorAll('.editable-img, .menu-card img').forEach(img => 
+{
+    img.addEventListener('click', function(e) {
+        // Agar admin mode mein hain, toh image edit karne ka modal kholna hai
+        if (isAdminLoggedIn) {
+            activeImageElement = img;
+            fileInput.click();
+        } else {
+            // Agar admin mode nahi hai, toh lightbox kholna hai
+            const lightboxModal = document.getElementById('imageLightboxModal');
+            const lightboxImage = document.getElementById('lightboxImage');
+            if (lightboxModal && lightboxImage) {
+                lightboxImage.src = img.src;
+                lightboxModal.style.display = 'flex';
+            }
+        }
+    });
+});
+        
     </script>
 </body>
 </html>
